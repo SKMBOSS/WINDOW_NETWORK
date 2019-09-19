@@ -130,8 +130,7 @@ int main(int argc, char *argv[])
 			inet_ntoa(clientaddr.sin_addr), ntohs(clientaddr.sin_port));
 
 		//스레드생성1
-		/*hThread = CreateThread(NULL, 0, ProcessClient,
-			(LPVOID)client_sock, 0, NULL);
+		/*hThread = CreateThread(NULL, 0, ProcessClient,(LPVOID)client_sock, 0, NULL);
 		if (hThread == NULL) { closesocket(client_sock); }
 		else { CloseHandle(hThread); }*/
 
