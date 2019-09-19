@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "03_UDPServer", "03_UDPServe
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "04_NonBlockTCPServer", "04_NonBlockTCPServer\04_NonBlockTCPServer.vcxproj", "{DACF6D41-AF82-4D6A-A843-B9BCF15A2E32}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "05_AsyncSelectTCPServer", "05_AsyncSelectTCPServer\05_AsyncSelectTCPServer.vcxproj", "{56F69BC4-62FF-4BEF-8B60-6E063A5DE5EA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -61,6 +63,14 @@ Global
 		{DACF6D41-AF82-4D6A-A843-B9BCF15A2E32}.Release|x64.Build.0 = Release|x64
 		{DACF6D41-AF82-4D6A-A843-B9BCF15A2E32}.Release|x86.ActiveCfg = Release|Win32
 		{DACF6D41-AF82-4D6A-A843-B9BCF15A2E32}.Release|x86.Build.0 = Release|Win32
+		{56F69BC4-62FF-4BEF-8B60-6E063A5DE5EA}.Debug|x64.ActiveCfg = Debug|x64
+		{56F69BC4-62FF-4BEF-8B60-6E063A5DE5EA}.Debug|x64.Build.0 = Debug|x64
+		{56F69BC4-62FF-4BEF-8B60-6E063A5DE5EA}.Debug|x86.ActiveCfg = Debug|Win32
+		{56F69BC4-62FF-4BEF-8B60-6E063A5DE5EA}.Debug|x86.Build.0 = Debug|Win32
+		{56F69BC4-62FF-4BEF-8B60-6E063A5DE5EA}.Release|x64.ActiveCfg = Release|x64
+		{56F69BC4-62FF-4BEF-8B60-6E063A5DE5EA}.Release|x64.Build.0 = Release|x64
+		{56F69BC4-62FF-4BEF-8B60-6E063A5DE5EA}.Release|x86.ActiveCfg = Release|Win32
+		{56F69BC4-62FF-4BEF-8B60-6E063A5DE5EA}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
