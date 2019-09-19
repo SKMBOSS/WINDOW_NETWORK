@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.757
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "Client\Client.vcxproj", "{A74368D1-4E6F-4EBA-BE82-9609E9009E88}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "00_Client", "Client\Client.vcxproj", "{A74368D1-4E6F-4EBA-BE82-9609E9009E88}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "03_UDPClient", "03_UDPClient\03_UDPClient.vcxproj", "{ECAD6390-3BD2-45C6-88B7-8AC2DF7891FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,14 @@ Global
 		{A74368D1-4E6F-4EBA-BE82-9609E9009E88}.Release|x64.Build.0 = Release|x64
 		{A74368D1-4E6F-4EBA-BE82-9609E9009E88}.Release|x86.ActiveCfg = Release|Win32
 		{A74368D1-4E6F-4EBA-BE82-9609E9009E88}.Release|x86.Build.0 = Release|Win32
+		{ECAD6390-3BD2-45C6-88B7-8AC2DF7891FE}.Debug|x64.ActiveCfg = Debug|x64
+		{ECAD6390-3BD2-45C6-88B7-8AC2DF7891FE}.Debug|x64.Build.0 = Debug|x64
+		{ECAD6390-3BD2-45C6-88B7-8AC2DF7891FE}.Debug|x86.ActiveCfg = Debug|Win32
+		{ECAD6390-3BD2-45C6-88B7-8AC2DF7891FE}.Debug|x86.Build.0 = Debug|Win32
+		{ECAD6390-3BD2-45C6-88B7-8AC2DF7891FE}.Release|x64.ActiveCfg = Release|x64
+		{ECAD6390-3BD2-45C6-88B7-8AC2DF7891FE}.Release|x64.Build.0 = Release|x64
+		{ECAD6390-3BD2-45C6-88B7-8AC2DF7891FE}.Release|x86.ActiveCfg = Release|Win32
+		{ECAD6390-3BD2-45C6-88B7-8AC2DF7891FE}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
