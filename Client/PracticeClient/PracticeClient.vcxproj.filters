@@ -48,6 +48,9 @@
     <ClCompile Include="ChessGameMain.cpp">
       <Filter>FrameWork</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BitMap.h">
@@ -70,6 +73,12 @@
     </ClInclude>
     <ClInclude Include="ChessGame.h">
       <Filter>FrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\PACKET_HEADER.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkManager.h">
+      <Filter>Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

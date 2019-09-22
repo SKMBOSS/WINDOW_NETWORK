@@ -143,15 +143,18 @@
     <ClCompile Include="ChessGame.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="ChessGameMain.cpp" />
+    <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Common\PACKET_HEADER.h" />
     <ClInclude Include="BitMap.h" />
     <ClInclude Include="ChessGame.h" />
     <ClInclude Include="Macro.h" />
     <ClInclude Include="MainGame.h" />
+    <ClInclude Include="NetworkManager.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
