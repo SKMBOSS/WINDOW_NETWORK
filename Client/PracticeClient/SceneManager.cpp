@@ -35,14 +35,15 @@ void SceneManager::ChangeScene(SCENE_STATE state)
 
 	GetCurrentScene()->Release();
 	currentSceneState = state;
-	GetCurrentScene()->Init();
+	GetCurrentScene()->Init(m_hWnd);
 }
 
-void SceneManager::Init()
+void SceneManager::Init(HWND hWnd)
 {
+	m_hWnd = hWnd;
 	InitSceneContainer();
 	currentSceneState = SCENE_STATE::MAINGAME;
-	GetCurrentScene()->Init();
+	GetCurrentScene()->Init(hWnd);
 }
 
 void SceneManager::Update(float fElapseTime)
@@ -65,4 +66,9 @@ void SceneManager::Release()
 	}
 	sceneContainer.clear();
 	SAFE_DELETE(m_sThis);
+}
+
+void SceneManager::ProcessPacket(char* szBuf, int len)
+{
+	GetCurrentScene()->ProcessPacket(szBuf, len);
 }

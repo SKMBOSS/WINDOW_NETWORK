@@ -7,16 +7,19 @@ class ChessGame
 {
 private:
 	HWND		m_hWnd;
+	chrono::system_clock::time_point m_LastTime;
+	float		m_fElapseTime;//경과시간
+
 	HDC			m_hMemDC;
 	HBITMAP		m_hBitmap;
 	HBITMAP		m_hOld;
-	chrono::system_clock::time_point m_LastTime;
-	float		m_fElapseTime;//경과시간
+
 public:
-	void Init(HWND hWnd);
+	void Init(HWND hWnd, SOCKET sock);
 	void Update();
 	void Render();
 	void Release();
+	void ProcessPacket(char* szBuf, int len);
 public:
 	ChessGame();
 	~ChessGame();

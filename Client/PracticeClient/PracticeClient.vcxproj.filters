@@ -25,6 +25,9 @@
     <Filter Include="FrameWork">
       <UniqueIdentifier>{f455cd8d-591e-4c61-b099-25c625269f43}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ChessBoard">
+      <UniqueIdentifier>{7cb1f858-0afd-454c-80e5-e4cbac44e7f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BitMap.cpp">
@@ -48,6 +51,18 @@
     <ClCompile Include="ChessGameMain.cpp">
       <Filter>FrameWork</Filter>
     </ClCompile>
+    <ClCompile Include="UserInfo.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>ChessBoard</Filter>
+    </ClCompile>
+    <ClCompile Include="ChessBoard.cpp">
+      <Filter>ChessBoard</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BitMap.h">
@@ -70,6 +85,18 @@
     </ClInclude>
     <ClInclude Include="ChessGame.h">
       <Filter>FrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInfo.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>ChessBoard</Filter>
+    </ClInclude>
+    <ClInclude Include="ChessBoard.h">
+      <Filter>ChessBoard</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

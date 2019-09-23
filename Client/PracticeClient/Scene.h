@@ -4,10 +4,11 @@
 class Scene
 {
 public:
-	virtual void Init() = 0;
+	virtual void Init(HWND hWnd) = 0;
 	virtual void Update(float fElapseTime) = 0;
 	virtual void Render() = 0;
 	virtual void Release() = 0;
+	virtual void ProcessPacket(char* szBuf, int len) = 0;
 public:
 	Scene();
 	~Scene();

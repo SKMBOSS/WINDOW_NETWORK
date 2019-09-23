@@ -1,17 +1,17 @@
 #pragma comment(lib, "ws2_32")
 #pragma comment(lib, "msimg32")
-#include <WinSock2.h>
+
 #include <windows.h>
-#include <map>
-#include "..\..\Common\PACKET_HEADER.h"
 #include "ChessGame.h"
 using namespace std;
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 void ProcessSocketMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-void ProcessPacket(char* szBuf, int len);
+
 HINSTANCE g_hInst;
-char g_szClassName[256] = "Hello World!!";
+HWND hWnd;
+LPCTSTR lpszClass = TEXT("ChessGame");
+ChessGame g_ChessGame;
 
 #define BUFSIZE 512
 #define WM_SOCKET (WM_USER+1)
@@ -20,7 +20,6 @@ SOCKET g_sock;
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdParam, int nCmdShow)
 {
-	HWND hWnd;
 	MSG Message;
 	WNDCLASS WndClass;
 	g_hInst = hInstance;
@@ -32,13 +31,16 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 	WndClass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
 	WndClass.hInstance = hInstance;
 	WndClass.lpfnWndProc = WndProc;
-	WndClass.lpszClassName = g_szClassName;
+	WndClass.lpszClassName = lpszClass;
 	WndClass.lpszMenuName = NULL;
-	WndClass.style = CS_HREDRAW | CS_VREDRAW;
+	WndClass.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
 	RegisterClass(&WndClass);
 
-	hWnd = CreateWindow(g_szClassName, g_szClassName, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
-		CW_USEDEFAULT, CW_USEDEFAULT, NULL, (HMENU)NULL, hInstance, NULL);
+	RECT rt = { 0,0,800,800 };
+	AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
+
+	hWnd = CreateWindow(lpszClass, lpszClass, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, CW_USEDEFAULT, CW_USEDEFAULT,
+		rt.right - rt.left, rt.bottom - rt.top, NULL, (HMENU)NULL, hInstance, NULL);
 	ShowWindow(hWnd, nCmdShow);
 
 	WSADATA wsa;
@@ -70,97 +72,44 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 		return -1;
 	}
 
-	while (GetMessage(&Message, NULL, 0, 0))
-	{
-		TranslateMessage(&Message);
-		DispatchMessage(&Message);
-	}
+	g_ChessGame.Init(hWnd,g_sock);
 
+	while (true)
+	{
+		/// 메시지큐에 메시지가 있으면 메시지 처리
+		if (PeekMessage(&Message, NULL, 0U, 0U, PM_REMOVE))
+		{
+			if (Message.message == WM_QUIT)
+				break;
+
+			TranslateMessage(&Message);
+			DispatchMessage(&Message);
+		}
+		else
+		{
+			g_ChessGame.Update();
+			g_ChessGame.Render();
+		}
+	}
+	g_ChessGame.Release();
 	closesocket(g_sock);
 	WSACleanup();
 
 	return (int)Message.wParam;
 }
 
-class Player
-{
-public:
-	int x;
-	int y;
-};
-
-map<int, Player*> g_mapPlayer;
-int g_iIndex = 0;
-
-void SendPos()
-{
-	PACKET_SEND_POS packet;
-	packet.header.wIndex = PACKET_INDEX_SEND_POS;
-	packet.header.wLen = sizeof(packet);
-	packet.data.iIndex = g_iIndex;
-	packet.data.wX = g_mapPlayer[g_iIndex]->x;
-	packet.data.wY = g_mapPlayer[g_iIndex]->y;
-	send(g_sock, (const char*)&packet, sizeof(packet), 0);
-	send(g_sock, (const char*)&packet, sizeof(packet), 0);
-}
-
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
-	HDC hdc;
-	PAINTSTRUCT ps;
-
 	switch (iMessage)
 	{
-	case WM_CREATE:
-		return 0;
 	case WM_SOCKET:
 		ProcessSocketMessage(hWnd, iMessage, wParam, lParam);
-		InvalidateRect(hWnd, NULL, true);
-		return 0;
-	case WM_KEYDOWN:
-		switch (wParam)
-		{
-		case VK_LEFT:
-			g_mapPlayer[g_iIndex]->x -= 8;
-			SendPos();
-			break;
-		case VK_RIGHT:
-			g_mapPlayer[g_iIndex]->x += 8;
-			SendPos();
-			break;
-		case VK_UP:
-			g_mapPlayer[g_iIndex]->y -= 8;
-			SendPos();
-			break;
-		case VK_DOWN:
-			g_mapPlayer[g_iIndex]->y += 8;
-			SendPos();
-			break;
-		}
-
-		InvalidateRect(hWnd, NULL, true);
-		return 0;
-	case WM_PAINT:
-		hdc = BeginPaint(hWnd, &ps);
-		for (auto iter = g_mapPlayer.begin(); iter != g_mapPlayer.end(); iter++)
-		{
-			char szPrint[128];
-			wsprintf(szPrint, "%d", iter->first);
-			TextOut(hdc, iter->second->x, iter->second->y, szPrint, strlen(szPrint));
-
-		}
-		EndPaint(hWnd, &ps);
+		//InvalidateRect(hWnd, NULL, true);
 		return 0;
 	case WM_DESTROY:
-		for (auto iter = g_mapPlayer.begin(); iter != g_mapPlayer.end(); iter++)
-		{
-			delete iter->second;
-		}
-		g_mapPlayer.clear();
 		PostQuitMessage(0);
 		return 0;
 	}
-
 	return(DefWindowProc(hWnd, iMessage, wParam, lParam));
 }
 
@@ -170,7 +119,6 @@ void ProcessSocketMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	SOCKADDR_IN clientaddr;
 	int addrlen = 0;
 	int retval = 0;
-
 
 	if (WSAGETSELECTERROR(lParam))
 	{
@@ -193,60 +141,11 @@ void ProcessSocketMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				//cout << "err on recv!!" << endl;
 			}
 		}
-
-		ProcessPacket(szBuf, retval);
+		g_ChessGame.ProcessPacket(szBuf, retval);
 	}
 	break;
 	case FD_CLOSE:
 		closesocket(wParam);
 		break;
-	}
-}
-
-void ProcessPacket(char* szBuf, int len)
-{
-	PACKET_HEADER header;
-
-	memcpy(&header, szBuf, sizeof(header));
-
-	switch (header.wIndex)
-	{
-	case PACKET_INDEX_LOGIN_RET:
-	{
-		PACKET_LOGIN_RET packet;
-		memcpy(&packet, szBuf, header.wLen);
-
-		g_iIndex = packet.iIndex;
-	}
-	break;
-	case PACKET_INDEX_USER_DATA:
-	{
-		PACKET_USER_DATA packet;
-		memcpy(&packet, szBuf, header.wLen);
-
-		for (auto iter = g_mapPlayer.begin(); iter != g_mapPlayer.end(); iter++)
-		{
-			delete iter->second;
-		}
-		g_mapPlayer.clear();
-
-		for (int i = 0; i < packet.wCount; i++)
-		{
-			Player* pNew = new Player();
-			pNew->x = packet.data[i].wX;
-			pNew->y = packet.data[i].wY;
-			g_mapPlayer.insert(make_pair(packet.data[i].iIndex, pNew));
-		}
-	}
-	break;
-	case PACKET_INDEX_SEND_POS:
-	{
-		PACKET_SEND_POS packet;
-		memcpy(&packet, szBuf, header.wLen);
-
-		g_mapPlayer[packet.data.iIndex]->x = packet.data.wX;
-		g_mapPlayer[packet.data.iIndex]->y = packet.data.wY;
-	}
-	break;
 	}
 }

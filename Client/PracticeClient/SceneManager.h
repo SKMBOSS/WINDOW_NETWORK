@@ -28,10 +28,11 @@ public:
 private:
 	void InitSceneContainer();
 public:
-	void Init();
+	void Init(HWND hWnd);
 	void Update(float fElapseTime);
 	void Render();
 	void Release();
+	void ProcessPacket(char* szBuf, int len);
 private:
 	SceneManager();
 public:

@@ -157,8 +157,8 @@ void ProcessSocketMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		USER_INFO* pInfo = new USER_INFO();
 		pInfo->index = g_iIndex++;
 		pInfo->len = 0;
-		pInfo->x = rand() % 600;
-		pInfo->y = rand() % 400;
+		pInfo->x = -1;
+		pInfo->y = -1;
 		g_mapUser.insert(make_pair(client_sock, pInfo));
 
 		PACKET_LOGIN_RET packet;
