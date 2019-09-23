@@ -5,22 +5,22 @@
 #include <map>
 #include "..\..\Common\PACKET_HEADER.h"
 #include "ChessGame.h"
-#include "NetworkManager.h"
 using namespace std;
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 void ProcessSocketMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 void ProcessPacket(char* szBuf, int len);
 HINSTANCE g_hInst;
-HWND hWnd;
-char g_szClassName[256] = "ChessGame";
-ChessGame g_ChessGame;
+char g_szClassName[256] = "Hello World!!";
 
 #define BUFSIZE 512
 #define WM_SOCKET (WM_USER+1)
 
+SOCKET g_sock;
+
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdParam, int nCmdShow)
 {
+	HWND hWnd;
 	MSG Message;
 	WNDCLASS WndClass;
 	g_hInst = hInstance;
@@ -45,9 +45,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
 		return -1;
 
-	NetworkManager::GetInstance()->SetSocket(socket(AF_INET, SOCK_STREAM, 0));
-	//NetworkManager::GetInstance()->GetSocket() = socket(AF_INET, SOCK_STREAM, 0);
-	if (NetworkManager::GetInstance()->GetSocket() == INVALID_SOCKET)
+	g_sock = socket(AF_INET, SOCK_STREAM, 0);
+	if (g_sock == INVALID_SOCKET)
 	{
 		//cout << "err on socket" << endl;
 		return -1;
@@ -58,40 +57,18 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 	serveraddr.sin_family = AF_INET;
 	serveraddr.sin_port = htons(9000);
 	serveraddr.sin_addr.s_addr = inet_addr("127.0.0.1");
-	int retval = connect(NetworkManager::GetInstance()->GetSocket(), (sockaddr*)&serveraddr, sizeof(serveraddr));
+	int retval = connect(g_sock, (sockaddr*)&serveraddr, sizeof(serveraddr));
 	if (retval == SOCKET_ERROR)
 	{
 		//cout << "err on connect" << endl;
 		return -1;
 	}
 
-	retval = WSAAsyncSelect(NetworkManager::GetInstance()->GetSocket(), hWnd, WM_SOCKET, FD_READ | FD_CLOSE);
+	retval = WSAAsyncSelect(g_sock, hWnd, WM_SOCKET, FD_READ | FD_CLOSE);
 	if (retval == SOCKET_ERROR)
 	{
 		return -1;
 	}
-
-	/*
-
-	g_ChessGame.Init(hWnd);
-
-	while (true)
-	{
-		/// 메시지큐에 메시지가 있으면 메시지 처리
-		if (PeekMessage(&Message, NULL, 0U, 0U, PM_REMOVE))
-		{
-			if (Message.message == WM_QUIT)
-				break;
-
-			TranslateMessage(&Message);
-			DispatchMessage(&Message);
-		}
-		else
-		{
-			g_ChessGame.Update();
-			g_ChessGame.Render();
-		}
-	}*/
 
 	while (GetMessage(&Message, NULL, 0, 0))
 	{
@@ -99,14 +76,33 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 		DispatchMessage(&Message);
 	}
 
-	g_ChessGame.Release();
-	NetworkManager::GetInstance()->GetSocket();
-	NetworkManager::GetInstance()->Release();
+	closesocket(g_sock);
 	WSACleanup();
 
 	return (int)Message.wParam;
 }
 
+class Player
+{
+public:
+	int x;
+	int y;
+};
+
+map<int, Player*> g_mapPlayer;
+int g_iIndex = 0;
+
+void SendPos()
+{
+	PACKET_SEND_POS packet;
+	packet.header.wIndex = PACKET_INDEX_SEND_POS;
+	packet.header.wLen = sizeof(packet);
+	packet.data.iIndex = g_iIndex;
+	packet.data.wX = g_mapPlayer[g_iIndex]->x;
+	packet.data.wY = g_mapPlayer[g_iIndex]->y;
+	send(g_sock, (const char*)&packet, sizeof(packet), 0);
+	send(g_sock, (const char*)&packet, sizeof(packet), 0);
+}
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
