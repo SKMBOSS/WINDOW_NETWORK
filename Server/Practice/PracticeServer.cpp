@@ -15,10 +15,9 @@ public:
 	int index;
 	char szBuf[BUFSIZE];
 	int len;
-	int x;
-	int y;
 	bool myTurn;
 };
+
 
 int g_iIndex = 0;
 map<SOCKET, USER_INFO*> g_mapUser;
@@ -158,8 +157,6 @@ void ProcessSocketMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		USER_INFO* pInfo = new USER_INFO();
 		pInfo->index = g_iIndex++;
 		pInfo->len = 0;
-		pInfo->x = -1;
-		pInfo->y = -1;
 		if (pInfo->index % 2 == 0)
 			pInfo->myTurn = true;
 		else
@@ -182,8 +179,6 @@ void ProcessSocketMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++, i++)
 		{
 			user_packet.data[i].iIndex = iter->second->index;
-			user_packet.data[i].wX = iter->second->x;
-			user_packet.data[i].wY = iter->second->y;
 			user_packet.data[i].turn = iter->second->myTurn;
 		}
 
@@ -251,19 +246,22 @@ bool ProcessPacket(SOCKET sock, USER_INFO* pUser, char* szBuf, int& len)
 
 	switch (header.wIndex)
 	{
-	case PACKET_INDEX_SEND_POS:
+	case PACKET_INDEX_SEND_TURN_END:
 	{
-		PACKET_SEND_POS packet;
+		PACKET_SEND_TURNEND packet;
 		memcpy(&packet, szBuf, header.wLen);
-
-		g_mapUser[sock]->x = packet.data.wX;
-		g_mapUser[sock]->y = packet.data.wY;
 
 		for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++)
 		{
 			//if (iter->first == sock)
 				//continue;
+			if (iter->second->myTurn == true)
+				iter->second->myTurn = false;
+			else
+				iter->second->myTurn = true;
 
+			packet.data.iIndex = iter->second->index;
+			packet.data.turn = iter->second->myTurn;
 			send(iter->first, (const char*)&packet, header.wLen, 0);
 		}
 	}

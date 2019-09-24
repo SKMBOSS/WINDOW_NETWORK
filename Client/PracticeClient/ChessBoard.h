@@ -9,7 +9,8 @@ class ChessBoard
 private:
 	vector<Tile*> m_vecTile;
 	Tile*		  m_pSelectedTile;
-	bool		  m_bTurnEnd;
+	int			  m_iBeforeMovePos;
+	int			  m_iAfterMovePos;
 public:
 	void Init();
 	void Render();
@@ -23,7 +24,8 @@ public:
 	void MoveChessPiece(int x, int y);
 public:
 	void ProcessPacket(char* szBuf, int len);
-	void SendTurnEnd();
+	void SendTurnEnd(int before, int after);
+	void UpdateBoard(int before, int after);
 
 public:
 	ChessBoard();

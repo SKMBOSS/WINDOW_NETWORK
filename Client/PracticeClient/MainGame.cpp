@@ -33,23 +33,10 @@ void MainGame::Update(float fElapseTime)
 
 		if (PtInRect(&rc, pt))
 		{
-			USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->x = pt.x;
-			USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->y = pt.y;
-			SendPos();	
+			if (USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->turn)
+				m_chessBoard->Update(pt.x, pt.y);
 		}
 	}
-}
-
-void MainGame::SendPos()
-{
-	PACKET_SEND_POS packet;
-	packet.header.wIndex = PACKET_INDEX_SEND_POS;
-	packet.header.wLen = sizeof(packet);
-	packet.data.iIndex = USER_INFO->m_userIndex;
-	packet.data.wX = USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->x;
-	packet.data.wY = USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->y;
-	send(USER_INFO->m_socket, (const char*)&packet, sizeof(packet), 0);
-	send(USER_INFO->m_socket, (const char*)&packet, sizeof(packet), 0);
 }
 
 void MainGame::Render()
@@ -68,17 +55,17 @@ void MainGame::ProcessPacket(char* szBuf, int len)
 	m_chessBoard->ProcessPacket(szBuf, len);
 
 	PACKET_HEADER header;
-
 	memcpy(&header, szBuf, sizeof(header));
 
 	switch (header.wIndex)
 	{
-	case PACKET_INDEX_SEND_POS:
+	case PACKET_INDEX_SEND_TURN_END:
 	{
-		PACKET_SEND_POS packet;
+		PACKET_SEND_TURNEND packet;
 		memcpy(&packet, szBuf, header.wLen);
 
-		m_chessBoard->Update(packet.data.wX, packet.data.wY);
+		USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->turn = packet.data.turn;
+		m_chessBoard->UpdateBoard(packet.beforePos, packet.afterPos);
 	}
 	break;
 	}

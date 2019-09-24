@@ -15,7 +15,6 @@ public:
 	SOCKET				m_socket;
 	map<int, Player*>	m_mapPlayer;
 	int					m_userIndex = 0;
-	bool				m_turn = false;
 public:
 	void Release();
 private:

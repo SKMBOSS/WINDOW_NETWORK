@@ -17,8 +17,6 @@ public:
 	virtual void Render();
 	virtual void Release();
 	virtual void ProcessPacket(char* szBuf, int len);
-
-	void SendPos();
 public:
 	MainGame();
 	~MainGame();

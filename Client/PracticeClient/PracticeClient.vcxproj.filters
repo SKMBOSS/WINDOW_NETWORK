@@ -98,5 +98,8 @@
     <ClInclude Include="ChessBoard.h">
       <Filter>ChessBoard</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Common\PACKET_HEADER.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

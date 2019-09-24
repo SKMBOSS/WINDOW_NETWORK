@@ -15,8 +15,6 @@ ChessBoard::~ChessBoard()
 
 void ChessBoard::Init()
 {
-	m_bTurnEnd = false;
-
 	for (int i = 0; i < 8 * 8; i++)
 	{
 		Tile* tile = new Tile();
@@ -52,11 +50,6 @@ void ChessBoard::Release()
 	m_vecTile.clear();
 }
 
-void ChessBoard::ProcessPacket(char* szBuf, int len)
-{
-//
-}
-
 int ChessBoard::GetSelectedTile(int x, int y)
 {
 	for (auto iter = m_vecTile.begin(); iter != m_vecTile.end(); iter++)
@@ -81,7 +74,8 @@ void ChessBoard::ShowMoveableTile(int tileNumber)
 			m_vecTile.at(tileNumber + 16)->SetIsSelected();
 	}
 	//m_bMove = true;
-	m_pSelectedTile = m_vecTile.at(tileNumber);
+	//m_pSelectedTile = m_vecTile.at(tileNumber);
+	m_iBeforeMovePos = tileNumber;
 }
 
 void ChessBoard::SelectOtherTile(int x, int y)
@@ -110,28 +104,36 @@ void ChessBoard::MoveChessPiece(int x, int y)
 {
 	if (m_vecTile.at(GetSelectedTile(x, y))->GetIsSelected())
 	{
-		m_vecTile.at(GetSelectedTile(x, y))->SetTileState(m_pSelectedTile->GetTileState());
-		m_pSelectedTile->SetTileState(BLANK);
-
+		//m_vecTile.at(GetSelectedTile(x, y))->SetTileState(m_pSelectedTile->GetTileState());
+		//m_pSelectedTile->SetTileState(BLANK);
+		m_iAfterMovePos = GetSelectedTile(x, y);
 		for (auto iter = m_vecTile.begin(); iter != m_vecTile.end(); iter++)
 		{
 			if ((*iter)->GetIsSelected())
 				(*iter)->SetIsNoSelected();
 		}
-		m_bTurnEnd = true;
+		SendTurnEnd(m_iBeforeMovePos, m_iAfterMovePos);
 	}
 }
 
-void ChessBoard::SendTurnEnd()
+void ChessBoard::SendTurnEnd(int before, int after)
 {
-	PACKET_SEND_POS packet;
-	packet.header.wIndex = PACKET_INDEX_SEND_POS;
+	PACKET_SEND_TURNEND packet;
+	packet.header.wIndex = PACKET_INDEX_SEND_TURN_END;
 	packet.header.wLen = sizeof(packet);
-	packet.data.iIndex = USER_INFO->m_userIndex;
-	packet.data.wX = USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->x;
-	packet.data.wY = USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->y;
+	//Èì
+	packet.data.iIndex = -1;
+	packet.data.turn = false;
+	packet.beforePos = before;
+	packet.afterPos = after;
+	
 	send(USER_INFO->m_socket, (const char*)&packet, sizeof(packet), 0);
-	send(USER_INFO->m_socket, (const char*)&packet, sizeof(packet), 0);
+}
+
+void ChessBoard::UpdateBoard(int before, int after)
+{
+	m_vecTile.at(after)->SetTileState(m_vecTile.at(before)->GetTileState());
+	m_vecTile.at(before)->SetTileState(BLANK);
 }
 
 void ChessBoard::ProcessPacket(char* szBuf, int len)
