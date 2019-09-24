@@ -10,6 +10,7 @@ class MainGame :
 private:
 	HWND		m_hWnd;
 	ChessBoard* m_chessBoard;
+	int			m_currentPlayer;
 public:
 	virtual void Init(HWND hWnd);
 	virtual void Update(float fElapseTime);

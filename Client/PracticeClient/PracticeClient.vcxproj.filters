@@ -22,11 +22,11 @@
     <Filter Include="Scene">
       <UniqueIdentifier>{dab7cd57-5fbb-477b-88b2-7e4a5dbd4273}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FrameWork">
-      <UniqueIdentifier>{f455cd8d-591e-4c61-b099-25c625269f43}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ChessBoard">
       <UniqueIdentifier>{7cb1f858-0afd-454c-80e5-e4cbac44e7f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork">
+      <UniqueIdentifier>{f455cd8d-591e-4c61-b099-25c625269f43}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

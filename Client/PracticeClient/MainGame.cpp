@@ -35,13 +35,8 @@ void MainGame::Update(float fElapseTime)
 		{
 			USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->x = pt.x;
 			USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->y = pt.y;
-			SendPos();
+			SendPos();	
 		}
-	}
-
-	for (auto iter = USER_INFO->m_mapPlayer.begin(); iter != USER_INFO->m_mapPlayer.end(); iter++)
-	{
-		m_chessBoard->Update(iter->second->x, iter->second->y);
 	}
 }
 
@@ -70,6 +65,8 @@ void MainGame::Release()
 
 void MainGame::ProcessPacket(char* szBuf, int len)
 {
+	m_chessBoard->ProcessPacket(szBuf, len);
+
 	PACKET_HEADER header;
 
 	memcpy(&header, szBuf, sizeof(header));
@@ -81,8 +78,7 @@ void MainGame::ProcessPacket(char* szBuf, int len)
 		PACKET_SEND_POS packet;
 		memcpy(&packet, szBuf, header.wLen);
 
-		USER_INFO->m_mapPlayer[packet.data.iIndex]->x = packet.data.wX;
-		USER_INFO->m_mapPlayer[packet.data.iIndex]->y = packet.data.wY;
+		m_chessBoard->Update(packet.data.wX, packet.data.wY);
 	}
 	break;
 	}
