@@ -20,6 +20,7 @@ struct USER_DATA
 	int iIndex;
 	WORD wX;
 	WORD wY;
+	bool turn;
 };
 
 struct PACKET_LOGIN_RET
@@ -36,6 +37,12 @@ struct PACKET_USER_DATA
 };
 
 struct PACKET_SEND_POS
+{
+	PACKET_HEADER header;
+	USER_DATA data;
+};
+
+struct PACKET_SEND_TURNEND
 {
 	PACKET_HEADER header;
 	USER_DATA data;

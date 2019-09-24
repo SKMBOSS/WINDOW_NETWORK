@@ -1,6 +1,9 @@
 #include "ChessBoard.h"
 #include "Macro.h"
 #include "Tile.h"
+#include "UserInfo.h"
+#include "Player.h"
+#include "..\..\Common\PACKET_HEADER.h"
 
 ChessBoard::ChessBoard()
 {
@@ -33,7 +36,7 @@ void ChessBoard::Render()
 
 void ChessBoard::Update(int x, int y)
 {
-	if (!m_bTurnEnd)
+	if (USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->turn)
 	{
 		SelectOtherTile(x, y);
 		MoveChessPiece(x, y);
@@ -117,4 +120,21 @@ void ChessBoard::MoveChessPiece(int x, int y)
 		}
 		m_bTurnEnd = true;
 	}
+}
+
+void ChessBoard::SendTurnEnd()
+{
+	PACKET_SEND_POS packet;
+	packet.header.wIndex = PACKET_INDEX_SEND_POS;
+	packet.header.wLen = sizeof(packet);
+	packet.data.iIndex = USER_INFO->m_userIndex;
+	packet.data.wX = USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->x;
+	packet.data.wY = USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->y;
+	send(USER_INFO->m_socket, (const char*)&packet, sizeof(packet), 0);
+	send(USER_INFO->m_socket, (const char*)&packet, sizeof(packet), 0);
+}
+
+void ChessBoard::ProcessPacket(char* szBuf, int len)
+{
+	//
 }

@@ -96,6 +96,7 @@ void ChessGame::ProcessPacket(char * szBuf, int len)
 
 			pNew->x = packet.data[i].wX;
 			pNew->y = packet.data[i].wY;
+			pNew->turn = packet.data[i].turn;
 			USER_INFO->m_mapPlayer.insert(make_pair(packet.data[i].iIndex, pNew));
 		}
 	}

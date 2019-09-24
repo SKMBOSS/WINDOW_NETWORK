@@ -15,13 +15,15 @@ public:
 	void Render();
 	void Update(int x, int y);
 	void Release();
-	void ProcessPacket(char* szBuf, int len);
 public:
 	int GetSelectedTile(int x, int y);
 	void ShowMoveableTile(int tileNumber);
 	void SelectOtherTile(int x, int y);
 	bool IsHavingChessPiece(int x, int y);
 	void MoveChessPiece(int x, int y);
+public:
+	void ProcessPacket(char* szBuf, int len);
+	void SendTurnEnd();
 
 public:
 	ChessBoard();

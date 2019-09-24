@@ -17,6 +17,7 @@ public:
 	int len;
 	int x;
 	int y;
+	bool myTurn;
 };
 
 int g_iIndex = 0;
@@ -159,6 +160,10 @@ void ProcessSocketMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		pInfo->len = 0;
 		pInfo->x = -1;
 		pInfo->y = -1;
+		if (pInfo->index % 2 == 0)
+			pInfo->myTurn = true;
+		else
+			pInfo->myTurn = false;
 		g_mapUser.insert(make_pair(client_sock, pInfo));
 
 		PACKET_LOGIN_RET packet;
@@ -179,6 +184,7 @@ void ProcessSocketMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			user_packet.data[i].iIndex = iter->second->index;
 			user_packet.data[i].wX = iter->second->x;
 			user_packet.data[i].wY = iter->second->y;
+			user_packet.data[i].turn = iter->second->myTurn;
 		}
 
 		for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++, i++)
