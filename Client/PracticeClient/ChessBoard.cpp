@@ -62,8 +62,6 @@ int ChessBoard::GetSelectedTile(int x, int y)
 	return -1;
 }
 
-
-
 void ChessBoard::SelectOtherTile(int x, int y)
 {
 	if (IsHavingChessPiece(x, y))
@@ -148,10 +146,7 @@ void ChessBoard::ShowMoveableTile(int tileNumber)
 
 	if (selectedTileState == W_PAWN)
 	{
-		if (tileNumber + 8 < 64)
-			m_vecTile.at(tileNumber + 8)->SetIsSelected();
-		if (tileNumber + 16 < 64)
-			m_vecTile.at(tileNumber + 16)->SetIsSelected();
+		ShowMoveableWhitePawn(tileNumber);
 	}
 
 	else if (selectedTileState == W_BISHOP)
@@ -176,10 +171,7 @@ void ChessBoard::ShowMoveableTile(int tileNumber)
 
 	else if (selectedTileState == B_PAWN)
 	{
-		if (tileNumber - 8 >= 0)
-			m_vecTile.at(tileNumber - 8)->SetIsSelected();
-		if (tileNumber - 16 >= 0)
-			m_vecTile.at(tileNumber - 16)->SetIsSelected();
+		ShowMoveableBlackPawn(tileNumber);
 	}
 
 	else if (selectedTileState == B_BISHOP)
@@ -200,6 +192,134 @@ void ChessBoard::ShowMoveableTile(int tileNumber)
 	else if (selectedTileState == B_QUEEN)
 	{
 		ShowMoveableBlackQueen(tileNumber);
+	}
+}
+
+void ChessBoard::ShowMoveableWhitePawn(int tileNumber)
+{
+	int checkRangeUpDown = tileNumber / 8;
+	int checkRangeLeftRight = tileNumber % 8;
+
+	if (checkRangeUpDown == 1)
+	{
+		int rightCross = tileNumber + 9;
+		if (checkRangeLeftRight <= 6)
+		{
+			TILE_STATE checkState = m_vecTile.at(rightCross)->GetTileState();
+			if (checkState == B_PAWN || checkState == B_KNIGHT || checkState == B_BISHOP ||
+				checkState == B_ROOK || checkState == B_QUEEN || checkState == B_KING)
+				m_vecTile.at(rightCross)->SetIsSelected();
+		}
+		int leftCross = tileNumber + 7;
+		if (checkRangeLeftRight >= 1)
+		{
+			TILE_STATE checkState = m_vecTile.at(leftCross)->GetTileState();
+			if (checkState == B_PAWN || checkState == B_KNIGHT || checkState == B_BISHOP ||
+				checkState == B_ROOK || checkState == B_QUEEN || checkState == B_KING)
+				m_vecTile.at(leftCross)->SetIsSelected();
+		}
+
+		int oneStep = tileNumber + 8;
+		TILE_STATE checkState = m_vecTile.at(oneStep)->GetTileState();
+		if (checkState == BLANK)
+			m_vecTile.at(oneStep)->SetIsSelected();
+		else
+			return;
+
+		int twoStep = tileNumber + 16;
+		checkState = m_vecTile.at(twoStep)->GetTileState();
+		if (checkState == BLANK)
+			m_vecTile.at(twoStep)->SetIsSelected();
+	}
+	else
+	{
+		int oneStep = tileNumber + 8;
+		if (checkRangeUpDown <= 6)
+		{
+			TILE_STATE checkState = m_vecTile.at(oneStep)->GetTileState();
+			if (checkState == BLANK)
+				m_vecTile.at(oneStep)->SetIsSelected();
+		}
+		int rightCross = tileNumber + 9;
+		if (checkRangeLeftRight <= 6)
+		{
+			TILE_STATE checkState = m_vecTile.at(rightCross)->GetTileState();
+			if (checkState == B_PAWN || checkState == B_KNIGHT || checkState == B_BISHOP ||
+				checkState == B_ROOK || checkState == B_QUEEN || checkState == B_KING)
+				m_vecTile.at(rightCross)->SetIsSelected();
+		}
+		int leftCross = tileNumber + 7;
+		if (checkRangeLeftRight >= 1)
+		{
+			TILE_STATE checkState = m_vecTile.at(leftCross)->GetTileState();
+			if (checkState == B_PAWN || checkState == B_KNIGHT || checkState == B_BISHOP ||
+				checkState == B_ROOK || checkState == B_QUEEN || checkState == B_KING)
+				m_vecTile.at(leftCross)->SetIsSelected();
+		}
+	}
+}
+
+void ChessBoard::ShowMoveableBlackPawn(int tileNumber)
+{
+	int checkRangeUpDown = tileNumber / 8;
+	int checkRangeLeftRight = tileNumber % 8;
+
+	if (checkRangeUpDown == 6)
+	{
+		int rightCross = tileNumber -7;
+		if (checkRangeLeftRight <= 6)
+		{
+			TILE_STATE checkState = m_vecTile.at(rightCross)->GetTileState();
+			if (checkState == W_PAWN || checkState == W_KNIGHT || checkState == W_BISHOP ||
+				checkState == W_ROOK || checkState == W_QUEEN || checkState == W_KING)
+				m_vecTile.at(rightCross)->SetIsSelected();
+		}
+		int leftCross = tileNumber - 9;
+		if (checkRangeLeftRight >= 1)
+		{
+			TILE_STATE checkState = m_vecTile.at(leftCross)->GetTileState();
+			if (checkState == W_PAWN || checkState == W_KNIGHT || checkState == W_BISHOP ||
+				checkState == W_ROOK || checkState == W_QUEEN || checkState == W_KING)
+				m_vecTile.at(leftCross)->SetIsSelected();
+		}
+
+		int oneStep = tileNumber - 8;
+		TILE_STATE checkState = m_vecTile.at(oneStep)->GetTileState();
+		if (checkState == BLANK)
+			m_vecTile.at(oneStep)->SetIsSelected();
+		else
+			return;
+
+		int twoStep = tileNumber - 16;
+		checkState = m_vecTile.at(twoStep)->GetTileState();
+		if (checkState == BLANK)
+			m_vecTile.at(twoStep)->SetIsSelected();
+	}
+	else
+	{
+		int oneStep = tileNumber - 8;
+		if (checkRangeUpDown >= 1)
+		{
+			TILE_STATE checkState = m_vecTile.at(oneStep)->GetTileState();
+			if (checkState == BLANK)
+				m_vecTile.at(oneStep)->SetIsSelected();
+		}
+		int rightCross = tileNumber - 7;
+		if (checkRangeLeftRight <= 6)
+		{
+			TILE_STATE checkState = m_vecTile.at(rightCross)->GetTileState();
+			if (checkState == W_PAWN || checkState == W_KNIGHT || checkState == W_BISHOP ||
+				checkState == W_ROOK || checkState == W_QUEEN || checkState == W_KING)
+				m_vecTile.at(rightCross)->SetIsSelected();
+		}
+		int leftCross = tileNumber - 9;
+		if (checkRangeLeftRight >= 1)
+		{
+			TILE_STATE checkState = m_vecTile.at(leftCross)->GetTileState();
+			if (checkState == W_PAWN || checkState == W_KNIGHT || checkState == W_BISHOP ||
+				checkState == W_ROOK || checkState == W_QUEEN || checkState == W_KING)
+				m_vecTile.at(leftCross)->SetIsSelected();
+		}
 	}
 }
 
@@ -374,166 +494,6 @@ void ChessBoard::ShowMoveableBlackKnight(int tileNumber)
 				checkState == W_ROOK || checkState == W_QUEEN || checkState == W_KING)
 				m_vecTile.at(leftDown)->SetIsSelected();
 		}
-	}
-}
-
-void ChessBoard::ShowMoveableWhiteRook(int tileNumber)
-{
-	int up = tileNumber;
-	while (true)
-	{
-		up -= 8;
-		if (up < 0)
-			break;
-		TILE_STATE checkState = m_vecTile.at(up)->GetTileState();
-		if (checkState == BLANK)
-			m_vecTile.at(up)->SetIsSelected();
-		else if (checkState == B_PAWN || checkState == B_KNIGHT || checkState == B_BISHOP ||
-			checkState == B_ROOK || checkState == B_QUEEN || checkState == B_KING)
-		{
-			m_vecTile.at(up)->SetIsSelected();
-			break;
-		}
-		else
-			break;
-	}
-
-	int down = tileNumber;
-	while (true)
-	{
-		down += 8;
-		if (down > 63)
-			break;
-		TILE_STATE checkState = m_vecTile.at(down)->GetTileState();
-		if (checkState == BLANK)
-			m_vecTile.at(down)->SetIsSelected();
-		else if (checkState == B_PAWN || checkState == B_KNIGHT || checkState == B_BISHOP ||
-			checkState == B_ROOK || checkState == B_QUEEN || checkState == B_KING)
-		{
-			m_vecTile.at(down)->SetIsSelected();
-			break;
-		}
-		else
-			break;
-	}
-
-	int leftRightRange = tileNumber / 8;
-	int left = tileNumber;
-	while (true)
-	{
-		left -= 1;
-		if (leftRightRange != left / 8 || left < 0)
-			break;
-		TILE_STATE checkState = m_vecTile.at(left)->GetTileState();
-		if (checkState == BLANK)
-			m_vecTile.at(left)->SetIsSelected();
-		else if (checkState == B_PAWN || checkState == B_KNIGHT || checkState == B_BISHOP ||
-			checkState == B_ROOK || checkState == B_QUEEN || checkState == B_KING)
-		{
-			m_vecTile.at(left)->SetIsSelected();
-			break;
-		}
-		else
-			break;
-	}
-
-	int right = tileNumber;
-	while (true)
-	{
-		right += 1;
-		if (leftRightRange != right / 8)
-			break;
-		TILE_STATE checkState = m_vecTile.at(right)->GetTileState();
-		if (checkState == BLANK)
-			m_vecTile.at(right)->SetIsSelected();
-		else if (checkState == B_PAWN || checkState == B_KNIGHT || checkState == B_BISHOP ||
-			checkState == B_ROOK || checkState == B_QUEEN || checkState == B_KING)
-		{
-			m_vecTile.at(right)->SetIsSelected();
-			break;
-		}
-		else
-			break;
-	}
-}
-
-void ChessBoard::ShowMoveableBlackRook(int tileNumber)
-{
-	int up = tileNumber;
-	while (true)
-	{
-		up -= 8;
-		if (up < 0)
-			break;
-		TILE_STATE checkState = m_vecTile.at(up)->GetTileState();
-		if (checkState == BLANK)
-			m_vecTile.at(up)->SetIsSelected();
-		else if (checkState == W_PAWN || checkState == W_KNIGHT || checkState == W_BISHOP ||
-			checkState == W_ROOK || checkState == W_QUEEN || checkState == W_KING)
-		{
-			m_vecTile.at(up)->SetIsSelected();
-			break;
-		}
-		else
-			break;
-	}
-
-	int down = tileNumber;
-	while (true)
-	{
-		down += 8;
-		if (down > 63)
-			break;
-		TILE_STATE checkState = m_vecTile.at(down)->GetTileState();
-		if (checkState == BLANK)
-			m_vecTile.at(down)->SetIsSelected();
-		else if (checkState == W_PAWN || checkState == W_KNIGHT || checkState == W_BISHOP ||
-			checkState == W_ROOK || checkState == W_QUEEN || checkState == W_KING)
-		{
-			m_vecTile.at(down)->SetIsSelected();
-			break;
-		}
-		else
-			break;
-	}
-
-	int leftRightRange = tileNumber / 8;
-	int left = tileNumber;
-	while (true)
-	{
-		left -= 1;
-		if (leftRightRange != left / 8 || left < 0)
-			break;
-		TILE_STATE checkState = m_vecTile.at(left)->GetTileState();
-		if (checkState == BLANK)
-			m_vecTile.at(left)->SetIsSelected();
-		else if (checkState == W_PAWN || checkState == W_KNIGHT || checkState == W_BISHOP ||
-			checkState == W_ROOK || checkState == W_QUEEN || checkState == W_KING)
-		{
-			m_vecTile.at(left)->SetIsSelected();
-			break;
-		}
-		else
-			break;
-	}
-
-	int right = tileNumber;
-	while (true)
-	{
-		right += 1;
-		if (leftRightRange != right / 8)
-			break;
-		TILE_STATE checkState = m_vecTile.at(right)->GetTileState();
-		if (checkState == BLANK)
-			m_vecTile.at(right)->SetIsSelected();
-		else if (checkState == W_PAWN || checkState == W_KNIGHT || checkState == W_BISHOP ||
-			checkState == W_ROOK || checkState == W_QUEEN || checkState == W_KING)
-		{
-			m_vecTile.at(right)->SetIsSelected();
-			break;
-		}
-		else
-			break;
 	}
 }
 
@@ -751,11 +711,172 @@ void ChessBoard::ShowMoveableBlackBishop(int tileNumber)
 	}
 }
 
+void ChessBoard::ShowMoveableWhiteRook(int tileNumber)
+{
+	int up = tileNumber;
+	while (true)
+	{
+		up -= 8;
+		if (up < 0)
+			break;
+		TILE_STATE checkState = m_vecTile.at(up)->GetTileState();
+		if (checkState == BLANK)
+			m_vecTile.at(up)->SetIsSelected();
+		else if (checkState == B_PAWN || checkState == B_KNIGHT || checkState == B_BISHOP ||
+			checkState == B_ROOK || checkState == B_QUEEN || checkState == B_KING)
+		{
+			m_vecTile.at(up)->SetIsSelected();
+			break;
+		}
+		else
+			break;
+	}
+
+	int down = tileNumber;
+	while (true)
+	{
+		down += 8;
+		if (down > 63)
+			break;
+		TILE_STATE checkState = m_vecTile.at(down)->GetTileState();
+		if (checkState == BLANK)
+			m_vecTile.at(down)->SetIsSelected();
+		else if (checkState == B_PAWN || checkState == B_KNIGHT || checkState == B_BISHOP ||
+			checkState == B_ROOK || checkState == B_QUEEN || checkState == B_KING)
+		{
+			m_vecTile.at(down)->SetIsSelected();
+			break;
+		}
+		else
+			break;
+	}
+
+	int leftRightRange = tileNumber / 8;
+	int left = tileNumber;
+	while (true)
+	{
+		left -= 1;
+		if (leftRightRange != left / 8 || left < 0)
+			break;
+		TILE_STATE checkState = m_vecTile.at(left)->GetTileState();
+		if (checkState == BLANK)
+			m_vecTile.at(left)->SetIsSelected();
+		else if (checkState == B_PAWN || checkState == B_KNIGHT || checkState == B_BISHOP ||
+			checkState == B_ROOK || checkState == B_QUEEN || checkState == B_KING)
+		{
+			m_vecTile.at(left)->SetIsSelected();
+			break;
+		}
+		else
+			break;
+	}
+
+	int right = tileNumber;
+	while (true)
+	{
+		right += 1;
+		if (leftRightRange != right / 8)
+			break;
+		TILE_STATE checkState = m_vecTile.at(right)->GetTileState();
+		if (checkState == BLANK)
+			m_vecTile.at(right)->SetIsSelected();
+		else if (checkState == B_PAWN || checkState == B_KNIGHT || checkState == B_BISHOP ||
+			checkState == B_ROOK || checkState == B_QUEEN || checkState == B_KING)
+		{
+			m_vecTile.at(right)->SetIsSelected();
+			break;
+		}
+		else
+			break;
+	}
+}
+
+void ChessBoard::ShowMoveableBlackRook(int tileNumber)
+{
+	int up = tileNumber;
+	while (true)
+	{
+		up -= 8;
+		if (up < 0)
+			break;
+		TILE_STATE checkState = m_vecTile.at(up)->GetTileState();
+		if (checkState == BLANK)
+			m_vecTile.at(up)->SetIsSelected();
+		else if (checkState == W_PAWN || checkState == W_KNIGHT || checkState == W_BISHOP ||
+			checkState == W_ROOK || checkState == W_QUEEN || checkState == W_KING)
+		{
+			m_vecTile.at(up)->SetIsSelected();
+			break;
+		}
+		else
+			break;
+	}
+
+	int down = tileNumber;
+	while (true)
+	{
+		down += 8;
+		if (down > 63)
+			break;
+		TILE_STATE checkState = m_vecTile.at(down)->GetTileState();
+		if (checkState == BLANK)
+			m_vecTile.at(down)->SetIsSelected();
+		else if (checkState == W_PAWN || checkState == W_KNIGHT || checkState == W_BISHOP ||
+			checkState == W_ROOK || checkState == W_QUEEN || checkState == W_KING)
+		{
+			m_vecTile.at(down)->SetIsSelected();
+			break;
+		}
+		else
+			break;
+	}
+
+	int leftRightRange = tileNumber / 8;
+	int left = tileNumber;
+	while (true)
+	{
+		left -= 1;
+		if (leftRightRange != left / 8 || left < 0)
+			break;
+		TILE_STATE checkState = m_vecTile.at(left)->GetTileState();
+		if (checkState == BLANK)
+			m_vecTile.at(left)->SetIsSelected();
+		else if (checkState == W_PAWN || checkState == W_KNIGHT || checkState == W_BISHOP ||
+			checkState == W_ROOK || checkState == W_QUEEN || checkState == W_KING)
+		{
+			m_vecTile.at(left)->SetIsSelected();
+			break;
+		}
+		else
+			break;
+	}
+
+	int right = tileNumber;
+	while (true)
+	{
+		right += 1;
+		if (leftRightRange != right / 8)
+			break;
+		TILE_STATE checkState = m_vecTile.at(right)->GetTileState();
+		if (checkState == BLANK)
+			m_vecTile.at(right)->SetIsSelected();
+		else if (checkState == W_PAWN || checkState == W_KNIGHT || checkState == W_BISHOP ||
+			checkState == W_ROOK || checkState == W_QUEEN || checkState == W_KING)
+		{
+			m_vecTile.at(right)->SetIsSelected();
+			break;
+		}
+		else
+			break;
+	}
+}
+
 void ChessBoard::ShowMoveableWhiteQueen(int tileNumber)
 {
 	ShowMoveableWhiteBishop(tileNumber);
 	ShowMoveableWhiteRook(tileNumber);
 }
+
 void ChessBoard::ShowMoveableBlackQueen(int tileNumber)
 {
 	ShowMoveableBlackBishop(tileNumber);

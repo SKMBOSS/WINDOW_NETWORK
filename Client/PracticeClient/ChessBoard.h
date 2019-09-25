@@ -23,12 +23,19 @@ public:
 	void MoveChessPiece(int x, int y);
 public:
 	void ShowMoveableTile(int tileNumber);
+
+	void ShowMoveableWhitePawn(int tileNumber);
+	void ShowMoveableBlackPawn(int tileNumber);
+
 	void ShowMoveableWhiteKnight(int tileNumber);
 	void ShowMoveableBlackKnight(int tileNumber);
-	void ShowMoveableWhiteRook(int tileNumber);
-	void ShowMoveableBlackRook(int tileNumber);
+
 	void ShowMoveableWhiteBishop(int tileNumber);
 	void ShowMoveableBlackBishop(int tileNumber);
+
+	void ShowMoveableWhiteRook(int tileNumber);
+	void ShowMoveableBlackRook(int tileNumber);
+
 	void ShowMoveableWhiteQueen(int tileNumber);
 	void ShowMoveableBlackQueen(int tileNumber);
 
