@@ -71,7 +71,6 @@ void Tile::InitTileInfo()
 			m_pTileBitMap = ResourceManager::GetInstance()->GetBitMap(RES_BOARD_WHITE);
 	}
 
-
 	m_pos.x = ((m_iThisNumber % 8) * m_pTileBitMap->GetSize().cx);
 	m_pos.y = ((m_iThisNumber / 8) * m_pTileBitMap->GetSize().cy);
 

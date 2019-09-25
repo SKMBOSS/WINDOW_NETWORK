@@ -18,10 +18,20 @@ public:
 	void Release();
 public:
 	int GetSelectedTile(int x, int y);
-	void ShowMoveableTile(int tileNumber);
 	void SelectOtherTile(int x, int y);
 	bool IsHavingChessPiece(int x, int y);
 	void MoveChessPiece(int x, int y);
+public:
+	void ShowMoveableTile(int tileNumber);
+	void ShowMoveableWhiteKnight(int tileNumber);
+	void ShowMoveableBlackKnight(int tileNumber);
+	void ShowMoveableWhiteRook(int tileNumber);
+	void ShowMoveableBlackRook(int tileNumber);
+	void ShowMoveableWhiteBishop(int tileNumber);
+	void ShowMoveableBlackBishop(int tileNumber);
+	void ShowMoveableWhiteQueen(int tileNumber);
+	void ShowMoveableBlackQueen(int tileNumber);
+
 public:
 	void ProcessPacket(char* szBuf, int len);
 	void SendTurnEnd(int before, int after);
