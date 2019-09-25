@@ -39,6 +39,9 @@ public:
 	void ShowMoveableWhiteQueen(int tileNumber);
 	void ShowMoveableBlackQueen(int tileNumber);
 
+	void ShowMoveableWhiteKing(int tileNumber);
+	void ShowMoveableBlackKing(int tileNumber);
+
 public:
 	void ProcessPacket(char* szBuf, int len);
 	void SendTurnEnd(int before, int after);
