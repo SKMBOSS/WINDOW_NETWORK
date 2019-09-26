@@ -66,6 +66,9 @@
     <ClCompile Include="Chat.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Lobby.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BitMap.h">
@@ -105,6 +108,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Chat.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Lobby.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

@@ -58,7 +58,6 @@ void ChessGame::Release()
 	for (auto iter = USER_INFO->m_mapPlayer.begin(); iter != USER_INFO->m_mapPlayer.end(); iter++)
 	{
 		delete iter->second;
-
 	}
 	USER_INFO->m_mapPlayer.clear();
 }
@@ -95,6 +94,8 @@ void ChessGame::ProcessPacket(char * szBuf, int len)
 		{
 			Player* pNew = new Player();
 
+			pNew->index = packet.data[i].iIndex;
+			pNew->roomNumber = packet.data[i].roomNumber;
 			pNew->turn = packet.data[i].turn;
 			USER_INFO->m_mapPlayer.insert(make_pair(packet.data[i].iIndex, pNew));
 		}

@@ -3,6 +3,7 @@
 #include "ResourceManager.h"
 #include "..\..\Common\PACKET_HEADER.h"
 #include "UserInfo.h"
+#include "Player.h"
 
 Chat::Chat()
 {
@@ -74,6 +75,7 @@ void Chat::SendChatMsg(char* msg, int len)
 
 	packet.len = len;
 	packet.iIndex = USER_INFO->m_userIndex;
+	packet.roomNumber = USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->roomNumber;
 
 	send(USER_INFO->m_socket, (const char*)&packet, sizeof(packet), 0);
 }

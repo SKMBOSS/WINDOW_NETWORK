@@ -143,6 +143,7 @@
     <ClCompile Include="Chat.cpp" />
     <ClCompile Include="ChessBoard.cpp" />
     <ClCompile Include="ChessGame.cpp" />
+    <ClCompile Include="Lobby.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="ChessGameMain.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="Chat.h" />
     <ClInclude Include="ChessBoard.h" />
     <ClInclude Include="ChessGame.h" />
+    <ClInclude Include="Lobby.h" />
     <ClInclude Include="Macro.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="Player.h" />

@@ -121,6 +121,7 @@ void ChessBoard::SendTurnEnd(int before, int after)
 	//Èì
 	packet.data.iIndex = -1;
 	packet.data.turn = false;
+	packet.data.roomNumber = USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->roomNumber;
 	packet.beforePos = before;
 	packet.afterPos = after;
 

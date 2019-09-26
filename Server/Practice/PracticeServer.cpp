@@ -16,6 +16,7 @@ public:
 	char szBuf[BUFSIZE];
 	int len;
 	bool myTurn;
+	int roomNumber;
 };
 
 
@@ -157,6 +158,8 @@ void ProcessSocketMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		USER_INFO* pInfo = new USER_INFO();
 		pInfo->index = g_iIndex++;
 		pInfo->len = 0;
+		//룸넘버
+		pInfo->roomNumber = pInfo->index / 2;
 		if (pInfo->index % 2 == 0)
 			pInfo->myTurn = true;
 		else
@@ -179,6 +182,7 @@ void ProcessSocketMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++, i++)
 		{
 			user_packet.data[i].iIndex = iter->second->index;
+			user_packet.data[i].roomNumber= iter->second->roomNumber;
 			user_packet.data[i].turn = iter->second->myTurn;
 		}
 
@@ -221,7 +225,12 @@ void ProcessSocketMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 	break;
 	case FD_CLOSE:
+		
+		cout << g_mapUser[wParam]->index<< "번 GUEST 나감" << endl;
+		g_mapUser.erase(wParam);
 		closesocket(wParam);
+		
+
 		break;
 	}
 }
@@ -251,18 +260,24 @@ bool ProcessPacket(SOCKET sock, USER_INFO* pUser, char* szBuf, int& len)
 		PACKET_SEND_TURNEND packet;
 		memcpy(&packet, szBuf, header.wLen);
 
+		cout << packet.data.roomNumber << "번 방에서 이동요청" << endl;
+
 		for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++)
 		{
 			//if (iter->first == sock)
 				//continue;
-			if (iter->second->myTurn == true)
-				iter->second->myTurn = false;
-			else
-				iter->second->myTurn = true;
+			if (iter->second->roomNumber == packet.data.roomNumber)
+			{
+				if (iter->second->myTurn == true)
+					iter->second->myTurn = false;
+				else
+					iter->second->myTurn = true;
 
-			packet.data.iIndex = iter->second->index;
-			packet.data.turn = iter->second->myTurn;
-			send(iter->first, (const char*)&packet, header.wLen, 0);
+				packet.data.iIndex = iter->second->index;
+				packet.data.turn = iter->second->myTurn;
+				send(iter->first, (const char*)&packet, header.wLen, 0);
+				cout << packet.data.roomNumber << "번 방에 이동승인" << endl;
+			}
 		}
 	}
 	break;
@@ -274,6 +289,7 @@ bool ProcessPacket(SOCKET sock, USER_INFO* pUser, char* szBuf, int& len)
 
 		for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++)
 		{
+			if (iter->second->roomNumber == packet.roomNumber)
 			send(iter->first, (const char*)&packet, header.wLen, 0);
 		}
 	}

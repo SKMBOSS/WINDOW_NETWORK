@@ -19,6 +19,7 @@ struct PACKET_HEADER
 struct USER_DATA
 {
 	int iIndex;
+	int roomNumber;
 	bool turn;
 };
 
@@ -49,6 +50,7 @@ struct PACKET_SEND_CHAT
 	char szBuf[128];
 	int len;
 	int iIndex;
+	int roomNumber;
 };
 
 
