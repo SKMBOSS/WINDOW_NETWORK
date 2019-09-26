@@ -63,6 +63,9 @@
     <ClCompile Include="ChessBoard.cpp">
       <Filter>ChessBoard</Filter>
     </ClCompile>
+    <ClCompile Include="Chat.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BitMap.h">
@@ -99,6 +102,9 @@
       <Filter>ChessBoard</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\PACKET_HEADER.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Chat.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

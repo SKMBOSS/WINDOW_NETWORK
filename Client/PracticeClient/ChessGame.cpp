@@ -14,16 +14,17 @@ ChessGame::~ChessGame()
 {
 }
 
-void ChessGame::Init(HWND hWnd, SOCKET sock)
+void ChessGame::Init(HWND hWnd, HINSTANCE hInst,SOCKET sock)
 {
 	USER_INFO->m_socket = sock;
 	m_hWnd = hWnd;
+	m_hInst = hInst;
 	HDC hdc = GetDC(hWnd);
 	m_hMemDC = CreateCompatibleDC(hdc);
-	m_hBitmap = CreateCompatibleBitmap(hdc, 800, 800);
+	m_hBitmap = CreateCompatibleBitmap(hdc, 800, 900);
 	m_hOld = (HBITMAP)SelectObject(m_hMemDC, m_hBitmap);
 	ResourceManager::GetInstance()->Init(m_hMemDC);
-	SceneManager::GetInstance()->Init(hWnd);
+	SceneManager::GetInstance()->Init(hWnd, hInst);
 	ReleaseDC(hWnd, hdc);
 
 }
@@ -41,7 +42,7 @@ void ChessGame::Render()
 {
 	HDC hdc = GetDC(m_hWnd);
 	SceneManager::GetInstance()->Render();
-	BitBlt(hdc, 0, 0, 800, 800, m_hMemDC, 0, 0, SRCCOPY);
+	BitBlt(hdc, 0, 0, 800, 900, m_hMemDC, 0, 0, SRCCOPY);
 	ReleaseDC(m_hWnd, hdc);
 }
 

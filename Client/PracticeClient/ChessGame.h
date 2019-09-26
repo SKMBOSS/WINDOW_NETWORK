@@ -7,6 +7,7 @@ class ChessGame
 {
 private:
 	HWND		m_hWnd;
+	HINSTANCE   m_hInst;
 	chrono::system_clock::time_point m_LastTime;
 	float		m_fElapseTime;//경과시간
 
@@ -15,7 +16,7 @@ private:
 	HBITMAP		m_hOld;
 
 public:
-	void Init(HWND hWnd, SOCKET sock);
+	void Init(HWND hWnd, HINSTANCE hInst ,SOCKET sock);
 	void Update();
 	void Render();
 	void Release();

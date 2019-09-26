@@ -36,7 +36,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 	WndClass.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
 	RegisterClass(&WndClass);
 
-	RECT rt = { 0,0,800,800 };
+	RECT rt = { 0,0,800,900 };
 	AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
 
 	hWnd = CreateWindow(lpszClass, lpszClass, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, CW_USEDEFAULT, CW_USEDEFAULT,
@@ -72,7 +72,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 		return -1;
 	}
 
-	g_ChessGame.Init(hWnd,g_sock);
+	g_ChessGame.Init(hWnd,g_hInst,g_sock);
 
 	while (true)
 	{
@@ -87,7 +87,13 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 		}
 		else
 		{
-			g_ChessGame.Update();
+			HWND hForeWindow;
+			hForeWindow = GetForegroundWindow();
+
+			if (hForeWindow == hWnd) 
+			{
+				g_ChessGame.Update();
+			}
 			g_ChessGame.Render();
 		}
 	}

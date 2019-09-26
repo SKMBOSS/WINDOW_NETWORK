@@ -1,6 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include <string>
+#include <string>
 using namespace std;
 
 class BitMap
@@ -20,7 +21,7 @@ public:
 	void Init(HDC hdc, string path);
 	void Render(int x, int y);
 	void RenderCheck(int x, int y);
-	void RenderRECT(RECT rt);
+	void RenderText(int x, int y, string text);
 	//드로우추가하자
 	void Release();
 public:

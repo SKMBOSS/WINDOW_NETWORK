@@ -6,6 +6,7 @@
 #include "BitMap.h"
 #include "ResourceManager.h"
 #include "ChessBoard.h"
+#include "Chat.h"
 
 MainGame::MainGame()
 {
@@ -15,15 +16,21 @@ MainGame::~MainGame()
 {
 }
 
-void MainGame::Init(HWND hWnd)
+void MainGame::Init(HWND hWnd, HINSTANCE hInst)
 {
 	m_hWnd = hWnd;
+	m_hInst = hInst;
 	m_chessBoard = new ChessBoard();
+	m_chat = new Chat();
+
 	m_chessBoard->Init();
+	m_chat->Init(hWnd, hInst);
 }
 
 void MainGame::Update(float fElapseTime)
 {
+	m_chat->Update();
+
 	if (GetKeyState(VK_LBUTTON) & 0x8000)
 	{
 		POINT pt;
@@ -42,6 +49,7 @@ void MainGame::Update(float fElapseTime)
 void MainGame::Render()
 {
 	m_chessBoard->Render();
+	m_chat->Render();
 }
 
 void MainGame::Release()
@@ -53,6 +61,7 @@ void MainGame::Release()
 void MainGame::ProcessPacket(char* szBuf, int len)
 {
 	m_chessBoard->ProcessPacket(szBuf, len);
+	m_chat->ProcessPacket(szBuf, len);
 
 	PACKET_HEADER header;
 	memcpy(&header, szBuf, sizeof(header));

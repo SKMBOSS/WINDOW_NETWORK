@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BitMap.cpp" />
+    <ClCompile Include="Chat.cpp" />
     <ClCompile Include="ChessBoard.cpp" />
     <ClCompile Include="ChessGame.cpp" />
     <ClCompile Include="MainGame.cpp" />
@@ -154,6 +155,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\Common\PACKET_HEADER.h" />
     <ClInclude Include="BitMap.h" />
+    <ClInclude Include="Chat.h" />
     <ClInclude Include="ChessBoard.h" />
     <ClInclude Include="ChessGame.h" />
     <ClInclude Include="Macro.h" />

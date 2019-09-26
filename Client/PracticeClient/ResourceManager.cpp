@@ -41,6 +41,7 @@ void ResourceManager::InitResPath()
 
 	string basePath = "resource\\";
 	string chess = basePath + "chess\\";
+	string chat = basePath + "chat\\";
 
 	//보드
 	resPath.push_back(chess + "block00.bmp");
@@ -60,6 +61,8 @@ void ResourceManager::InitResPath()
 	resPath.push_back(chess + "block_b_03.bmp");
 	resPath.push_back(chess + "block_b_04.bmp");
 	resPath.push_back(chess + "block_b_05.bmp");
+	//텍스트용
+	resPath.push_back(chat + "text_window.bmp");
 }
 
 void ResourceManager::InitBitMap(HDC hdc)

@@ -18,6 +18,7 @@ private:
 private:
 	HDC		m_hMemDC;
 	HWND	m_hWnd;
+	HINSTANCE m_hInst;
 public:
 	static SceneManager* GetInstance();
 	inline Scene* GetCurrentScene()
@@ -28,7 +29,7 @@ public:
 private:
 	void InitSceneContainer();
 public:
-	void Init(HWND hWnd);
+	void Init(HWND hWnd, HINSTANCE hInst);
 	void Update(float fElapseTime);
 	void Render();
 	void Release();

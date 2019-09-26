@@ -35,15 +35,16 @@ void SceneManager::ChangeScene(SCENE_STATE state)
 
 	GetCurrentScene()->Release();
 	currentSceneState = state;
-	GetCurrentScene()->Init(m_hWnd);
+	GetCurrentScene()->Init(m_hWnd, m_hInst);
 }
 
-void SceneManager::Init(HWND hWnd)
+void SceneManager::Init(HWND hWnd, HINSTANCE hInst)
 {
 	m_hWnd = hWnd;
+	m_hInst = hInst;
 	InitSceneContainer();
 	currentSceneState = SCENE_STATE::MAINGAME;
-	GetCurrentScene()->Init(hWnd);
+	GetCurrentScene()->Init(hWnd, hInst);
 }
 
 void SceneManager::Update(float fElapseTime)

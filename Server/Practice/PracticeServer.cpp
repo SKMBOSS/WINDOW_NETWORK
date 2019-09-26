@@ -266,6 +266,18 @@ bool ProcessPacket(SOCKET sock, USER_INFO* pUser, char* szBuf, int& len)
 		}
 	}
 	break;
+
+	case PACKET_INDEX_SEND_CHAT:
+	{
+		PACKET_SEND_CHAT packet;
+		memcpy(&packet, szBuf, header.wLen);
+
+		for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++)
+		{
+			send(iter->first, (const char*)&packet, header.wLen, 0);
+		}
+	}
+	break;
 	}
 
 	memcpy(&pUser->szBuf, &pUser->szBuf[header.wLen], pUser->len - header.wLen);

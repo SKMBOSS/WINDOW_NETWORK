@@ -35,9 +35,11 @@ void BitMap::RenderCheck(int x, int y)
 	TextOut(m_hDC, x, y, szBuf, lstrlen(szBuf));
 }
 
-void BitMap::RenderRECT(RECT rt)
+void BitMap::RenderText(int x, int y, string text)
 {
-	Rectangle(m_hDC, rt.left + 20, rt.top + 20, rt.right + 20, rt.bottom + 20);
+	/*TCHAR szBuf[128];
+	wsprintf(szBuf, TEXT("x :%d \n y :%d"), x, y);*/
+	TextOut(m_hDC, x, y, text.c_str(), text.length());
 }
 
 void BitMap::Release()
