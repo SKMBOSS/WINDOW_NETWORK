@@ -28,6 +28,12 @@
     <Filter Include="FrameWork">
       <UniqueIdentifier>{f455cd8d-591e-4c61-b099-25c625269f43}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Chat">
+      <UniqueIdentifier>{845cad5b-f6a3-4801-a19e-e0ecc9362675}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Room">
+      <UniqueIdentifier>{dff382c0-2383-4478-9e0b-8c9956d909bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BitMap.cpp">
@@ -64,10 +70,16 @@
       <Filter>ChessBoard</Filter>
     </ClCompile>
     <ClCompile Include="Chat.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Chat</Filter>
     </ClCompile>
     <ClCompile Include="Lobby.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Room.cpp">
+      <Filter>Room</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomChat.cpp">
+      <Filter>Chat</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -108,10 +120,16 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Chat.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Chat</Filter>
     </ClInclude>
     <ClInclude Include="Lobby.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Room.h">
+      <Filter>Room</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomChat.h">
+      <Filter>Chat</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -7,7 +7,9 @@ enum PACKET_INDEX
 	PACKET_INDEX_LOGIN_RET = 1,
 	PACKET_INDEX_USER_DATA,
 	PACKET_INDEX_SEND_TURN_END,
-	PACKET_INDEX_SEND_CHAT
+	PACKET_INDEX_SEND_CHAT,
+	PACKET_INDEX_SEND_CAHNGE_ROOM,
+	PACKET_INDEX_SEND_UPDATE_ROOM
 };
 
 struct PACKET_HEADER
@@ -51,6 +53,19 @@ struct PACKET_SEND_CHAT
 	int len;
 	int iIndex;
 	int roomNumber;
+};
+
+struct PACKET_SEND_CAHNGE_ROOM
+{
+	PACKET_HEADER header;
+	int index;
+	int roomNumber;
+};
+
+struct PACKET_SEND_UPDATE_ROOM
+{
+	PACKET_HEADER header;
+	int userNumCount[16];
 };
 
 

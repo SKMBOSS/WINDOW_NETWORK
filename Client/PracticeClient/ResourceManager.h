@@ -26,6 +26,7 @@ enum RES_TYPE
 	RES_BLACK_KING,
 	//end
 	RES_NULL,
+	RES_LOBBY_CHAT,
 	RES_TYPE_END
 };
 

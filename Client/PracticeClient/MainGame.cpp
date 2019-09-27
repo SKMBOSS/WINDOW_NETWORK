@@ -56,6 +56,8 @@ void MainGame::Release()
 {
 	SAFE_RELEASE(m_chessBoard);
 	SAFE_DELETE(m_chessBoard);
+
+	SAFE_DELETE(m_chat);
 }
 
 void MainGame::ProcessPacket(char* szBuf, int len)

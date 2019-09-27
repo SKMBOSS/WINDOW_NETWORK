@@ -1,6 +1,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "MainGame.h"
+#include "Lobby.h"
 #include "Macro.h"
 using namespace std;
 
@@ -25,6 +26,7 @@ SceneManager* SceneManager::GetInstance()
 
 void SceneManager::InitSceneContainer()
 {
+	sceneContainer.insert(make_pair(SCENE_STATE::LOBBY, new Lobby));
 	sceneContainer.insert(make_pair(SCENE_STATE::MAINGAME, new MainGame));
 }
 
@@ -43,7 +45,7 @@ void SceneManager::Init(HWND hWnd, HINSTANCE hInst)
 	m_hWnd = hWnd;
 	m_hInst = hInst;
 	InitSceneContainer();
-	currentSceneState = SCENE_STATE::MAINGAME;
+	currentSceneState = SCENE_STATE::LOBBY;
 	GetCurrentScene()->Init(hWnd, hInst);
 }
 

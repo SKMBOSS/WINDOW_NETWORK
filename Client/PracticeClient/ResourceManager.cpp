@@ -63,6 +63,7 @@ void ResourceManager::InitResPath()
 	resPath.push_back(chess + "block_b_05.bmp");
 	//텍스트용
 	resPath.push_back(chat + "text_window.bmp");
+	resPath.push_back(chat + "text_window_lobby.bmp");
 }
 
 void ResourceManager::InitBitMap(HDC hdc)

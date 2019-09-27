@@ -19,9 +19,17 @@ public:
 	int roomNumber;
 };
 
+class ROOM_INFO
+{
+public:
+	int userNumCount;
+};
+
 
 int g_iIndex = 0;
 map<SOCKET, USER_INFO*> g_mapUser;
+ROOM_INFO g_arrRoom[16];
+
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 void ProcessSocketMessage(HWND, UINT, WPARAM, LPARAM);
@@ -31,6 +39,13 @@ void err_display(const char* szMsg);
 
 int main(int argc, char* argv[])
 {
+	//이러면 안되요
+	for (int i = 0; i < 16; i++)
+	{
+		g_arrRoom[i].userNumCount = 0;
+	}
+	//알고있어요
+
 	int retval;
 
 	WNDCLASS WndClass;
@@ -159,7 +174,8 @@ void ProcessSocketMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		pInfo->index = g_iIndex++;
 		pInfo->len = 0;
 		//룸넘버
-		pInfo->roomNumber = pInfo->index / 2;
+		/*pInfo->roomNumber = pInfo->index / 2;*/
+		pInfo->roomNumber = -1;  // -1 : 로비
 		if (pInfo->index % 2 == 0)
 			pInfo->myTurn = true;
 		else
@@ -180,7 +196,7 @@ void ProcessSocketMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		user_packet.wCount = g_mapUser.size();
 		int i = 0;
 		for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++, i++)
-		{
+		{	
 			user_packet.data[i].iIndex = iter->second->index;
 			user_packet.data[i].roomNumber= iter->second->roomNumber;
 			user_packet.data[i].turn = iter->second->myTurn;
@@ -291,6 +307,45 @@ bool ProcessPacket(SOCKET sock, USER_INFO* pUser, char* szBuf, int& len)
 		{
 			if (iter->second->roomNumber == packet.roomNumber)
 			send(iter->first, (const char*)&packet, header.wLen, 0);
+		}
+	}
+	break;
+	case PACKET_INDEX_SEND_CAHNGE_ROOM:
+	{
+		PACKET_SEND_CAHNGE_ROOM packet;
+		memcpy(&packet, szBuf, header.wLen);
+
+		g_mapUser[sock]->roomNumber = packet.roomNumber;
+		//test
+		g_arrRoom[packet.roomNumber].userNumCount++;
+		//test
+		cout << g_mapUser[sock]->index << "번 GUEST가 " << packet.roomNumber << "방 클릭함" << endl;
+
+		for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++)
+		{
+			send(iter->first, (const char*)&packet, header.wLen, 0);
+		}
+	}
+	break;
+	case PACKET_INDEX_SEND_UPDATE_ROOM:
+	{
+		PACKET_SEND_UPDATE_ROOM packet;
+		memcpy(&packet, szBuf, header.wLen);
+
+		for (int i = 0; i < 16; i++)
+			packet.userNumCount[i] = g_arrRoom[i].userNumCount;
+
+		for (int i = 0; i < 16; i++)
+		{
+			cout << "[" << g_arrRoom[i].userNumCount << "] ";
+			if (i == 7 || i == 15)
+				cout << endl;
+		}
+
+		for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++)
+		{
+			if (iter->second->roomNumber == -1)
+				send(iter->first, (const char*)&packet, header.wLen, 0);
 		}
 	}
 	break;
