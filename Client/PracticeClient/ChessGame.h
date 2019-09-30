@@ -16,7 +16,7 @@ private:
 	HBITMAP		m_hOld;
 
 	int			myLen;
-	char		packetBuf[256];
+	char		packetBuf[512];
 
 public:
 	void Init(HWND hWnd, HINSTANCE hInst ,SOCKET sock);

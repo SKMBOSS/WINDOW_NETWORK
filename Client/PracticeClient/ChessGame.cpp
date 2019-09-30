@@ -26,6 +26,7 @@ void ChessGame::Init(HWND hWnd, HINSTANCE hInst,SOCKET sock)
 	ResourceManager::GetInstance()->Init(m_hMemDC);
 	SceneManager::GetInstance()->Init(hWnd, hInst);
 	ReleaseDC(hWnd, hdc);
+	myLen = 0;
 
 }
 
@@ -82,7 +83,6 @@ void ChessGame::ProcessPacketBuf()
 
 	PACKET_HEADER header;
 	memcpy(&header, packetBuf, sizeof(header));
-
 
 	if (myLen < header.wLen)
 	{

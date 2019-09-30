@@ -53,11 +53,12 @@ struct PACKET_SEND_TURNEND
 struct PACKET_SEND_CHAT
 {
 	PACKET_HEADER header;
-	char szBuf[128];
-	int len;
+	
 	int iIndex;
 	int roomNumber;
 	int color;
+	int len;
+	char szBuf[128];
 };
 
 struct PACKET_SEND_CAHNGE_ROOM

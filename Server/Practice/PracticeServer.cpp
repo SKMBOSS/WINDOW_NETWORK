@@ -274,7 +274,7 @@ bool ProcessPacket(SOCKET sock, USER_INFO* pUser, char* szBuf, int& len)
 	case PACKET_INDEX_SEND_TURN_END:
 	{
 		PACKET_SEND_TURNEND packet;
-		memcpy(&packet, szBuf, header.wLen);
+		memcpy(&packet, pUser->szBuf, header.wLen);
 
 		cout << packet.data.roomNumber << "번 방에서 이동요청" << endl;
 
@@ -301,7 +301,7 @@ bool ProcessPacket(SOCKET sock, USER_INFO* pUser, char* szBuf, int& len)
 	case PACKET_INDEX_SEND_CHAT:
 	{
 		PACKET_SEND_CHAT packet;
-		memcpy(&packet, szBuf, header.wLen);
+		memcpy(&packet, pUser->szBuf, header.wLen);
 
 		for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++)
 		{
@@ -313,7 +313,7 @@ bool ProcessPacket(SOCKET sock, USER_INFO* pUser, char* szBuf, int& len)
 	case PACKET_INDEX_SEND_CAHNGE_ROOM:
 	{
 		PACKET_SEND_CAHNGE_ROOM packet;
-		memcpy(&packet, szBuf, header.wLen);
+		memcpy(&packet, pUser->szBuf, header.wLen);
 
 		g_mapUser[sock]->roomNumber = packet.roomNumber;
 		//test
@@ -330,7 +330,11 @@ bool ProcessPacket(SOCKET sock, USER_INFO* pUser, char* szBuf, int& len)
 	case PACKET_INDEX_SEND_UPDATE_ROOM:
 	{
 		PACKET_SEND_UPDATE_ROOM packet;
-		memcpy(&packet, szBuf, header.wLen);
+		memcpy(&packet, pUser->szBuf, header.wLen);
+
+		cout << endl;
+		cout << "PACKET_SEND_UPDATE_ROOM : " << header.wLen;
+		cout << endl;
 
 		for (int i = 0; i < 16; i++)
 			packet.userNumCount[i] = g_arrRoom[i].userNumCount;
@@ -356,7 +360,7 @@ bool ProcessPacket(SOCKET sock, USER_INFO* pUser, char* szBuf, int& len)
 	case PACKET_INDEX_SEND_TURN_INIT:
 	{
 		PACKET_SEND_TURN_INIT packet;
-		memcpy(&packet, szBuf, header.wLen);
+		memcpy(&packet, pUser->szBuf, header.wLen);
 
 		if (g_arrRoom[g_mapUser[sock]->roomNumber].userNumCount == 1)
 		{
@@ -372,14 +376,15 @@ bool ProcessPacket(SOCKET sock, USER_INFO* pUser, char* szBuf, int& len)
 			
 		packet.data.turn = g_mapUser[sock]->myTurn;
 		send(sock, (const char*)&packet, header.wLen, 0);
-		
+
+		cout << "PACKET_INDEX_SEND_TURN_INIT" << endl;
 	}
 	break;
 
 	case PACKET_INDEX_SEND_READY:
 	{
 		PACKET_SEND_READY packet;
-		memcpy(&packet, szBuf, header.wLen);
+		memcpy(&packet, pUser->szBuf, header.wLen);
 
 		for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++)
 		{
@@ -394,7 +399,7 @@ bool ProcessPacket(SOCKET sock, USER_INFO* pUser, char* szBuf, int& len)
 	case PACKET_INDEX_SEND_GAME_END:
 	{
 		PACKET_SEND_GAME_END packet;
-		memcpy(&packet, szBuf, header.wLen);
+		memcpy(&packet, pUser->szBuf, header.wLen);
 
 		g_arrRoom[g_mapUser[sock]->roomNumber].userNumCount--;
 		g_mapUser[sock]->roomNumber = 99;
