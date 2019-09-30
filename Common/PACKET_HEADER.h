@@ -11,7 +11,8 @@ enum PACKET_INDEX
 	PACKET_INDEX_SEND_CAHNGE_ROOM,
 	PACKET_INDEX_SEND_UPDATE_ROOM,
 	PACKET_INDEX_SEND_TURN_INIT,
-	PACKET_INDEX_SEND_READY
+	PACKET_INDEX_SEND_READY,
+	PACKET_INDEX_SEND_GAME_END
 };
 
 struct PACKET_HEADER
@@ -46,6 +47,7 @@ struct PACKET_SEND_TURNEND
 	USER_DATA data;
 	int beforePos;
 	int afterPos;
+	int deadChessPiece;
 };
 
 struct PACKET_SEND_CHAT
@@ -83,6 +85,11 @@ struct PACKET_SEND_READY
 	PACKET_HEADER header;
 	int roomNumber;
 	bool ready;
+};
+
+struct PACKET_SEND_GAME_END
+{
+	PACKET_HEADER header;
 };
 
 

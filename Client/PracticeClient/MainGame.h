@@ -15,7 +15,7 @@ private:
 	HINSTANCE   m_hInst;
 	ChessBoard* m_chessBoard;
 	Chat*		m_chat;
-	bool		m_bReady = false;
+	bool		m_bReady;
 public:
 	virtual void Init(HWND hWnd, HINSTANCE hInst);
 	virtual void Update(float fElapseTime);
@@ -25,6 +25,7 @@ public:
 public:
 	void SendTurn();
 	void SendReady();
+	void SendGameEnd();
 public:
 	MainGame();
 	~MainGame();

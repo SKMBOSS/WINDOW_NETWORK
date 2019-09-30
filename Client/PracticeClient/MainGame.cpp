@@ -7,6 +7,7 @@
 #include "ResourceManager.h"
 #include "ChessBoard.h"
 #include "Chat.h"
+#include "SceneManager.h"
 
 MainGame::MainGame()
 {
@@ -22,6 +23,7 @@ void MainGame::Init(HWND hWnd, HINSTANCE hInst)
 	m_hInst = hInst;
 	m_chessBoard = new ChessBoard();
 	m_chat = new Chat();
+	m_bReady = false;
 
 	m_chessBoard->Init();
 	m_chat->Init(hWnd, hInst);
@@ -82,6 +84,11 @@ void MainGame::ProcessPacket(char* szBuf, int len)
 
 		USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->turn = packet.data.turn;
 		m_chessBoard->UpdateBoard(packet.beforePos, packet.afterPos);
+
+		if (packet.deadChessPiece == 6 || packet.deadChessPiece == 12)
+		{
+			SendGameEnd();
+		}
 	}
 	break;
 
@@ -107,6 +114,16 @@ void MainGame::ProcessPacket(char* szBuf, int len)
 	}
 	break;
 
+	case PACKET_INDEX_SEND_GAME_END:
+	{
+		PACKET_SEND_GAME_END packet;
+		memcpy(&packet, szBuf, header.wLen);
+
+		USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->roomNumber = 99;
+		SceneManager::GetInstance()->ChangeScene(LOBBY);
+	}
+	break;
+
 	}
 }
 
@@ -129,6 +146,15 @@ void MainGame::SendReady()
 	packet.header.wLen = sizeof(packet);
 	
 	packet.roomNumber = USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->roomNumber;
+
+	send(USER_INFO->m_socket, (const char*)&packet, sizeof(packet), 0);
+}
+
+void MainGame::SendGameEnd()
+{
+	PACKET_SEND_GAME_END packet;
+	packet.header.wIndex = PACKET_INDEX_SEND_GAME_END;
+	packet.header.wLen = sizeof(packet);
 
 	send(USER_INFO->m_socket, (const char*)&packet, sizeof(packet), 0);
 }

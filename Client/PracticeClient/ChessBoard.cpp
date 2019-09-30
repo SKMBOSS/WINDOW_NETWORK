@@ -43,6 +43,7 @@ void ChessBoard::Update(int x, int y)
 
 void ChessBoard::Release()
 {
+
 	for (auto iter = m_vecTile.begin(); iter != m_vecTile.end(); iter++)
 	{
 		SAFE_DELETE(*iter);
@@ -124,6 +125,7 @@ void ChessBoard::SendTurnEnd(int before, int after)
 	packet.data.roomNumber = USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->roomNumber;
 	packet.beforePos = before;
 	packet.afterPos = after;
+	packet.deadChessPiece = m_vecTile.at(after)->GetTileState();
 
 	send(USER_INFO->m_socket, (const char*)&packet, sizeof(packet), 0);
 }
@@ -495,9 +497,16 @@ void ChessBoard::ShowMoveableWhiteBishop(int tileNumber)
 	int crossLeftUp = tileNumber;
 	while (true)
 	{
+		int checkRangeUpDown = crossLeftUp / 8;
+		int checkRangeLeftRight = crossLeftUp % 8;
 		crossLeftUp -= 9;
+
 		if (crossLeftUp < 0)
 			break;
+		if (checkRangeLeftRight >= 1 && checkRangeUpDown >= 1) {}
+		else
+			break;
+
 		TILE_STATE checkState = m_vecTile.at(crossLeftUp)->GetTileState();
 		if (crossLeftUp % 8 == 0 || crossLeftUp / 8 == 0)
 		{
@@ -517,13 +526,21 @@ void ChessBoard::ShowMoveableWhiteBishop(int tileNumber)
 		else
 			break;
 	}
-
+	
 	int crossRightDown = tileNumber;
 	while (true)
 	{
+		int checkRangeUpDown = crossRightDown / 8;
+		int checkRangeLeftRight = crossRightDown % 8;
 		crossRightDown += 9;
+
 		if (crossRightDown > 63)
 			break;
+
+		if (checkRangeLeftRight <= 6 && checkRangeUpDown <= 6) {}
+		else
+			break;
+
 		TILE_STATE checkState = m_vecTile.at(crossRightDown)->GetTileState();
 		if (crossRightDown % 8 == 7 || crossRightDown / 8 == 7)
 		{
@@ -547,9 +564,16 @@ void ChessBoard::ShowMoveableWhiteBishop(int tileNumber)
 	int crossRightUp = tileNumber;
 	while (true)
 	{
+		int checkRangeUpDown = crossRightUp / 8;
+		int checkRangeLeftRight = crossRightUp % 8;
 		crossRightUp -= 7;
+
 		if (crossRightUp < 0)
 			break;
+		if (checkRangeLeftRight <= 6 && checkRangeUpDown >= 1) {}
+		else
+			break;
+
 		TILE_STATE checkState = m_vecTile.at(crossRightUp)->GetTileState();
 		if (crossRightUp % 8 == 7 || crossRightUp / 8 == 0)
 		{
@@ -573,8 +597,15 @@ void ChessBoard::ShowMoveableWhiteBishop(int tileNumber)
 	int crossLeftDown = tileNumber;
 	while (true)
 	{
+		int checkRangeUpDown = crossLeftDown / 8;
+		int checkRangeLeftRight = crossLeftDown % 8;
 		crossLeftDown += 7;
+
 		if (crossLeftDown > 63)
+			break;
+
+		if (checkRangeLeftRight >= 1 && checkRangeUpDown <= 6) {}
+		else
 			break;
 		TILE_STATE checkState = m_vecTile.at(crossLeftDown)->GetTileState();
 		if (crossLeftDown % 8 == 0 || crossLeftDown / 8 == 7)
@@ -602,9 +633,16 @@ void ChessBoard::ShowMoveableBlackBishop(int tileNumber)
 	int crossLeftUp = tileNumber;
 	while (true)
 	{
+		int checkRangeUpDown = crossLeftUp / 8;
+		int checkRangeLeftRight = crossLeftUp % 8;
 		crossLeftUp -= 9;
+
 		if (crossLeftUp < 0)
 			break;
+		if (checkRangeLeftRight >= 1 && checkRangeUpDown >= 1) {}
+		else
+			break;
+
 		TILE_STATE checkState = m_vecTile.at(crossLeftUp)->GetTileState();
 		if (crossLeftUp % 8 == 0 || crossLeftUp / 8 == 0)
 		{
@@ -628,9 +666,17 @@ void ChessBoard::ShowMoveableBlackBishop(int tileNumber)
 	int crossRightDown = tileNumber;
 	while (true)
 	{
+		int checkRangeUpDown = crossRightDown / 8;
+		int checkRangeLeftRight = crossRightDown % 8;
 		crossRightDown += 9;
+
 		if (crossRightDown > 63)
 			break;
+
+		if (checkRangeLeftRight <= 6 && checkRangeUpDown <= 6) {}
+		else
+			break;
+
 		TILE_STATE checkState = m_vecTile.at(crossRightDown)->GetTileState();
 		if (crossRightDown % 8 == 7 || crossRightDown / 8 == 7)
 		{
@@ -654,9 +700,16 @@ void ChessBoard::ShowMoveableBlackBishop(int tileNumber)
 	int crossRightUp = tileNumber;
 	while (true)
 	{
+		int checkRangeUpDown = crossRightUp / 8;
+		int checkRangeLeftRight = crossRightUp % 8;
 		crossRightUp -= 7;
+
 		if (crossRightUp < 0)
 			break;
+		if (checkRangeLeftRight <= 6 && checkRangeUpDown >= 1) {}
+		else
+			break;
+
 		TILE_STATE checkState = m_vecTile.at(crossRightUp)->GetTileState();
 		if (crossRightUp % 8 == 7 || crossRightUp / 8 == 0)
 		{
@@ -680,8 +733,15 @@ void ChessBoard::ShowMoveableBlackBishop(int tileNumber)
 	int crossLeftDown = tileNumber;
 	while (true)
 	{
+		int checkRangeUpDown = crossLeftDown / 8;
+		int checkRangeLeftRight = crossLeftDown % 8;
 		crossLeftDown += 7;
+
 		if (crossLeftDown > 63)
+			break;
+
+		if (checkRangeLeftRight >= 1 && checkRangeUpDown <= 6) {}
+		else
 			break;
 		TILE_STATE checkState = m_vecTile.at(crossLeftDown)->GetTileState();
 		if (crossLeftDown % 8 == 0 || crossLeftDown / 8 == 7)

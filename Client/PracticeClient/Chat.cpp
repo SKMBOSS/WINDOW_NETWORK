@@ -108,7 +108,7 @@ void Chat::ProcessPacket(char* szBuf, int len)
 		{
 			if (USER_INFO->m_color == 0)
 				recvMsg += "WHITE : ";
-			else  if (USER_INFO->m_color == 0)
+			else  if (USER_INFO->m_color == 1)
 				recvMsg += "BALCK : ";
 		}
 			

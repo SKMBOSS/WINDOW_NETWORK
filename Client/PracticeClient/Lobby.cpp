@@ -36,7 +36,6 @@ void Lobby::Init(HWND hWnd, HINSTANCE hInst)
 		(*iter)->Init();
 	}
 	
-	
 	m_chat = new RoomChat();
 	m_chat->Init(hWnd, hInst);
 }
@@ -74,6 +73,7 @@ void Lobby::Render()
 		(*iter)->Render();
 
 	m_chat->Render();
+
 }
 
 void Lobby::Release()

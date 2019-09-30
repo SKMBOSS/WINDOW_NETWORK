@@ -44,6 +44,8 @@ void Room::Update(int x, int y)
 void Room::InitRoom()
 {
 	m_iThisNumber = m_sRoomNumber++;
+	if (m_sRoomNumber == 16)
+		m_sRoomNumber = 0;
 	m_eRoomState = WAIT;
 	m_userNumCount = 100;
 	m_pRoomBitMap = nullptr;

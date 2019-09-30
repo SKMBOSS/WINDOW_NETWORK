@@ -50,6 +50,8 @@ bool Tile::IsSelectedTile(int x, int y)
 void Tile::InitTileInfo()
 {
 	m_iThisNumber = m_sTileNumber++;
+	if (m_sTileNumber == 64)
+		m_sTileNumber = 0;
 	m_eTileState = BLANK;
 	m_pChessPieceBitMap = nullptr;
 

@@ -347,7 +347,6 @@ bool ProcessPacket(SOCKET sock, USER_INFO* pUser, char* szBuf, int& len)
 			if (iter->second->roomNumber == 99)
 			{
 				send(iter->first, (const char*)&packet, header.wLen, 0);
-				cout << "º¸³¿" << endl;
 			}
 				
 		}
@@ -359,13 +358,13 @@ bool ProcessPacket(SOCKET sock, USER_INFO* pUser, char* szBuf, int& len)
 		PACKET_SEND_TURN_INIT packet;
 		memcpy(&packet, szBuf, header.wLen);
 
-		if (g_arrRoom[packet.data.roomNumber].userNumCount == 1)
+		if (g_arrRoom[g_mapUser[sock]->roomNumber].userNumCount == 1)
 		{
 			g_mapUser[sock]->myTurn = true;
 			packet.color = 0; //BALCK;
 		}
 			
-		else if (g_arrRoom[packet.data.roomNumber].userNumCount == 2)
+		else if (g_arrRoom[g_mapUser[sock]->roomNumber].userNumCount == 2)
 		{
 			g_mapUser[sock]->myTurn = false;
 			packet.color = 1; //WHITE;
@@ -389,6 +388,18 @@ bool ProcessPacket(SOCKET sock, USER_INFO* pUser, char* szBuf, int& len)
 				send(iter->first, (const char*)&packet, header.wLen, 0);
 			}
 		}
+	}
+	break;
+
+	case PACKET_INDEX_SEND_GAME_END:
+	{
+		PACKET_SEND_GAME_END packet;
+		memcpy(&packet, szBuf, header.wLen);
+
+		g_arrRoom[g_mapUser[sock]->roomNumber].userNumCount--;
+		g_mapUser[sock]->roomNumber = 99;
+
+		send(sock, (const char*)&packet, header.wLen, 0);
 	}
 	break;
 	}
