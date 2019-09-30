@@ -28,16 +28,17 @@ void Lobby::Init(HWND hWnd, HINSTANCE hInst)
 		Room* room = new Room();
 		m_vecRoom.push_back(room);
 	}
+	
+	SendUpdaeRoom();
+
 	for (auto iter = m_vecRoom.begin(); iter != m_vecRoom.end(); iter++)
 	{
 		(*iter)->Init();
 	}
-
+	
+	
 	m_chat = new RoomChat();
 	m_chat->Init(hWnd, hInst);
-
-	SendUpdaeRoom();
-	Sleep(100);
 }
 void Lobby::Update(float fElapseTime)
 {
@@ -91,7 +92,7 @@ void Lobby::SendUpdaeRoom()
 	PACKET_SEND_UPDATE_ROOM packet;
 	packet.header.wIndex = PACKET_INDEX_SEND_UPDATE_ROOM;
 	packet.header.wLen = sizeof(packet);
-	
+
 	send(USER_INFO->m_socket, (const char*)&packet, sizeof(packet), 0);
 }
 

@@ -64,17 +64,39 @@ void ChessGame::Release()
 
 void ChessGame::ProcessPacket(char * szBuf, int len)
 {
-	SceneManager::GetInstance()->ProcessPacket(szBuf, len);
+	memcpy(&packetBuf[myLen], szBuf, len);
+	myLen += len;
+
+	ProcessPacketBuf();
+
+}
+
+void ChessGame::ProcessPacketBuf()
+{
+
+	//ÂªÀ½
+	if (myLen < sizeof(PACKET_HEADER))
+	{
+		return;
+	}
 
 	PACKET_HEADER header;
-	memcpy(&header, szBuf, sizeof(header));
+	memcpy(&header, packetBuf, sizeof(header));
+
+
+	if (myLen < header.wLen)
+	{
+		return;
+	}
+
+	SceneManager::GetInstance()->ProcessPacket(packetBuf, header.wLen);
 
 	switch (header.wIndex)
 	{
 	case PACKET_INDEX_LOGIN_RET:
 	{
 		PACKET_LOGIN_RET packet;
-		memcpy(&packet, szBuf, header.wLen);
+		memcpy(&packet, packetBuf, header.wLen);
 		USER_INFO->m_userIndex = packet.iIndex;
 	}
 	break;
@@ -83,7 +105,7 @@ void ChessGame::ProcessPacket(char * szBuf, int len)
 	{
 		PACKET_USER_DATA packet;
 
-		memcpy(&packet, szBuf, header.wLen);
+		memcpy(&packet, packetBuf, header.wLen);
 		for (auto iter = USER_INFO->m_mapPlayer.begin(); iter != USER_INFO->m_mapPlayer.end(); iter++)
 		{
 			delete iter->second;
@@ -102,4 +124,16 @@ void ChessGame::ProcessPacket(char * szBuf, int len)
 	}
 	break;
 	}
+
+	memcpy(&packetBuf, &packetBuf[header.wLen], myLen - header.wLen);
+	myLen -= header.wLen;
+
+
+	if (myLen >= sizeof(PACKET_HEADER))
+	{
+		ProcessPacketBuf();
+	}
+
 }
+
+

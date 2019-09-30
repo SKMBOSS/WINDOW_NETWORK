@@ -15,6 +15,8 @@ public:
 	SOCKET				m_socket;
 	map<int, Player*>	m_mapPlayer;
 	int					m_userIndex = 0;
+	int					m_color=100;
+
 public:
 	void Release();
 private:

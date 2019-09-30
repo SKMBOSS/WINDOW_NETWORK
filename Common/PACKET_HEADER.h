@@ -9,7 +9,9 @@ enum PACKET_INDEX
 	PACKET_INDEX_SEND_TURN_END,
 	PACKET_INDEX_SEND_CHAT,
 	PACKET_INDEX_SEND_CAHNGE_ROOM,
-	PACKET_INDEX_SEND_UPDATE_ROOM
+	PACKET_INDEX_SEND_UPDATE_ROOM,
+	PACKET_INDEX_SEND_TURN_INIT,
+	PACKET_INDEX_SEND_READY
 };
 
 struct PACKET_HEADER
@@ -53,6 +55,7 @@ struct PACKET_SEND_CHAT
 	int len;
 	int iIndex;
 	int roomNumber;
+	int color;
 };
 
 struct PACKET_SEND_CAHNGE_ROOM
@@ -66,6 +69,20 @@ struct PACKET_SEND_UPDATE_ROOM
 {
 	PACKET_HEADER header;
 	int userNumCount[16];
+};
+
+struct PACKET_SEND_TURN_INIT
+{
+	PACKET_HEADER header;
+	USER_DATA data;
+	int color;
+};
+
+struct PACKET_SEND_READY
+{
+	PACKET_HEADER header;
+	int roomNumber;
+	bool ready;
 };
 
 

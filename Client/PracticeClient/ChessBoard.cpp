@@ -79,7 +79,7 @@ bool ChessBoard::IsHavingChessPiece(int x, int y)
 {
 	TILE_STATE selectedTileState = m_vecTile.at(GetSelectedTile(x, y))->GetTileState();
 
-	if (USER_INFO->m_userIndex % 2 == 0) //BLACK
+	if (USER_INFO->m_color == 0) //BLACK
 	{
 		if (selectedTileState == B_PAWN || selectedTileState == B_KNIGHT ||
 			selectedTileState == B_BISHOP || selectedTileState == B_ROOK ||
@@ -88,7 +88,7 @@ bool ChessBoard::IsHavingChessPiece(int x, int y)
 		else
 			return false;
 	}
-	else //WHITE
+	else if(USER_INFO->m_color == 1)//WHITE
 	{
 		if (selectedTileState == W_PAWN || selectedTileState == W_KNIGHT ||
 			selectedTileState == W_BISHOP || selectedTileState == W_ROOK ||

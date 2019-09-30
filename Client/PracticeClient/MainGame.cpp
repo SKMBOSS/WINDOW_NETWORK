@@ -25,25 +25,30 @@ void MainGame::Init(HWND hWnd, HINSTANCE hInst)
 
 	m_chessBoard->Init();
 	m_chat->Init(hWnd, hInst);
+	SendTurn();
 }
 
 void MainGame::Update(float fElapseTime)
 {
 	m_chat->Update();
 
-	if (GetKeyState(VK_LBUTTON) & 0x8000)
+	if (m_bReady)
 	{
-		POINT pt;
-		RECT rc = { 0 , 0 , 800  , 800 };
-		GetCursorPos(&pt);
-		ScreenToClient(m_hWnd, &pt);
-
-		if (PtInRect(&rc, pt))
+		if (GetKeyState(VK_LBUTTON) & 0x8000)
 		{
-			if (USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->turn)
-				m_chessBoard->Update(pt.x, pt.y);
+			POINT pt;
+			RECT rc = { 0 , 0 , 800  , 800 };
+			GetCursorPos(&pt);
+			ScreenToClient(m_hWnd, &pt);
+
+			if (PtInRect(&rc, pt))
+			{
+				if (USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->turn)
+					m_chessBoard->Update(pt.x, pt.y);
+			}
 		}
 	}
+	
 }
 
 void MainGame::Render()
@@ -79,5 +84,51 @@ void MainGame::ProcessPacket(char* szBuf, int len)
 		m_chessBoard->UpdateBoard(packet.beforePos, packet.afterPos);
 	}
 	break;
+
+	case PACKET_INDEX_SEND_TURN_INIT:
+	{
+		PACKET_SEND_TURN_INIT packet;
+		memcpy(&packet, szBuf, header.wLen);
+
+		USER_INFO->m_color = packet.color;
+		USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->turn = packet.data.turn;
+
+		if (USER_INFO->m_color == 1)
+			SendReady();
 	}
+	break;
+
+	case PACKET_INDEX_SEND_READY:
+	{
+		PACKET_SEND_READY packet;
+		memcpy(&packet, szBuf, header.wLen);
+
+		m_bReady = true;
+	}
+	break;
+
+	}
+}
+
+void MainGame::SendTurn()
+{
+	PACKET_SEND_TURN_INIT packet;
+	packet.header.wIndex = PACKET_INDEX_SEND_TURN_INIT;
+	packet.header.wLen = sizeof(packet);
+	//Èì
+	packet.data.iIndex = USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->index;
+	packet.data.roomNumber = USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->roomNumber;
+
+	send(USER_INFO->m_socket, (const char*)&packet, sizeof(packet), 0);
+}
+
+void MainGame::SendReady()
+{
+	PACKET_SEND_READY packet;
+	packet.header.wIndex = PACKET_INDEX_SEND_READY;
+	packet.header.wLen = sizeof(packet);
+	
+	packet.roomNumber = USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->roomNumber;
+
+	send(USER_INFO->m_socket, (const char*)&packet, sizeof(packet), 0);
 }

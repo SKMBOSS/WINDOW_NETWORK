@@ -175,7 +175,7 @@ void ProcessSocketMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		pInfo->len = 0;
 		//·ë³Ñ¹ö
 		/*pInfo->roomNumber = pInfo->index / 2;*/
-		pInfo->roomNumber = -1;  // -1 : ·Îºñ
+		pInfo->roomNumber = 99;  // 99 : ·Îºñ
 		if (pInfo->index % 2 == 0)
 			pInfo->myTurn = true;
 		else
@@ -344,8 +344,50 @@ bool ProcessPacket(SOCKET sock, USER_INFO* pUser, char* szBuf, int& len)
 
 		for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++)
 		{
-			if (iter->second->roomNumber == -1)
+			if (iter->second->roomNumber == 99)
+			{
 				send(iter->first, (const char*)&packet, header.wLen, 0);
+				cout << "º¸³¿" << endl;
+			}
+				
+		}
+	}
+	break;
+
+	case PACKET_INDEX_SEND_TURN_INIT:
+	{
+		PACKET_SEND_TURN_INIT packet;
+		memcpy(&packet, szBuf, header.wLen);
+
+		if (g_arrRoom[packet.data.roomNumber].userNumCount == 1)
+		{
+			g_mapUser[sock]->myTurn = true;
+			packet.color = 0; //BALCK;
+		}
+			
+		else if (g_arrRoom[packet.data.roomNumber].userNumCount == 2)
+		{
+			g_mapUser[sock]->myTurn = false;
+			packet.color = 1; //WHITE;
+		}
+			
+		packet.data.turn = g_mapUser[sock]->myTurn;
+		send(sock, (const char*)&packet, header.wLen, 0);
+		
+	}
+	break;
+
+	case PACKET_INDEX_SEND_READY:
+	{
+		PACKET_SEND_READY packet;
+		memcpy(&packet, szBuf, header.wLen);
+
+		for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++)
+		{
+			if (iter->second->roomNumber == packet.roomNumber)
+			{
+				send(iter->first, (const char*)&packet, header.wLen, 0);
+			}
 		}
 	}
 	break;

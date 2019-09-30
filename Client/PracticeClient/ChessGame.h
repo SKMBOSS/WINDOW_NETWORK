@@ -15,12 +15,16 @@ private:
 	HBITMAP		m_hBitmap;
 	HBITMAP		m_hOld;
 
+	int			myLen;
+	char		packetBuf[256];
+
 public:
 	void Init(HWND hWnd, HINSTANCE hInst ,SOCKET sock);
 	void Update();
 	void Render();
 	void Release();
 	void ProcessPacket(char* szBuf, int len);
+	void ProcessPacketBuf();
 public:
 	ChessGame();
 	~ChessGame();

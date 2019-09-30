@@ -76,6 +76,7 @@ void Chat::SendChatMsg(char* msg, int len)
 	packet.len = len;
 	packet.iIndex = USER_INFO->m_userIndex;
 	packet.roomNumber = USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->roomNumber;
+	packet.color = USER_INFO->m_color;
 
 	send(USER_INFO->m_socket, (const char*)&packet, sizeof(packet), 0);
 }
@@ -95,10 +96,22 @@ void Chat::ProcessPacket(char* szBuf, int len)
 
 		string recvMsg;
 
-		if (packet.iIndex % 2 == 0)
-			recvMsg += "BLACK : ";
-		else 
-			recvMsg += "WHITE : ";
+		if (packet.color == USER_INFO->m_color)
+		{
+			if(USER_INFO->m_color == 0)
+				recvMsg += "BLACK : ";
+			else  if(USER_INFO->m_color == 1)
+				recvMsg += "WHITE : ";
+
+		}
+		else
+		{
+			if (USER_INFO->m_color == 0)
+				recvMsg += "WHITE : ";
+			else  if (USER_INFO->m_color == 0)
+				recvMsg += "BALCK : ";
+		}
+			
 
 		for (int i = 0; i < packet.len; i++)
 			recvMsg += packet.szBuf[i];

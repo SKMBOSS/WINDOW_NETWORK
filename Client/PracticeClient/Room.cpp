@@ -23,7 +23,17 @@ void Room::Init()
 void Room::Render()
 {
 	m_pRoomBitMap->Render(m_pos.x, m_pos.y);
-	m_pRoomBitMap->RenderText(m_pos.x, m_pos.y, to_string(m_userNumCount));
+
+	m_pRoomBitMap->RenderText(m_pos.x, m_pos.y, to_string(m_iThisNumber+1) + "¹ø ¹æ");
+
+	if(m_userNumCount==100)
+		m_pRoomBitMap->RenderText(m_pos.x+10, m_pos.y+25, "Wait Loding..");
+	else if (m_userNumCount == 0)
+		m_pRoomBitMap->RenderText(m_pos.x+5, m_pos.y+25, "(0/2) WAITING");
+	else if (m_userNumCount == 1)
+		m_pRoomBitMap->RenderText(m_pos.x + 5, m_pos.y + 25, "(1/2) WAITING");
+	else
+		m_pRoomBitMap->RenderText(m_pos.x + 5, m_pos.y + 25, "(2/2) PLAYING");
 }
 
 void Room::Update(int x, int y)
@@ -35,7 +45,7 @@ void Room::InitRoom()
 {
 	m_iThisNumber = m_sRoomNumber++;
 	m_eRoomState = WAIT;
-	m_userNumCount = 0;
+	m_userNumCount = 100;
 	m_pRoomBitMap = nullptr;
 
 	if ((m_iThisNumber >= 0 && m_iThisNumber < 8)
