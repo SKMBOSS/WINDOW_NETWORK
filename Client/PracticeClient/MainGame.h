@@ -29,7 +29,7 @@ public:
 	void SendTurn();
 	void SendReady();
 	void SendGameEnd();
-	void SendExit();
+	void SendUpdateUser();
 public:
 	MainGame();
 	~MainGame();

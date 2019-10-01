@@ -26,6 +26,7 @@ public:
 	virtual void ProcessPacket(char* szBuf, int len);
 public:
 	void SendUpdaeRoom();
+	void SendUpdateUser();
 
 public:
 	Lobby();

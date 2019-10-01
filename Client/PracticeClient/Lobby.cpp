@@ -103,6 +103,18 @@ void Lobby::SendUpdaeRoom()
 	send(USER_INFO->m_socket, (const char*)&packet, sizeof(packet), 0);
 }
 
+void Lobby::SendUpdateUser()
+{
+	//ÈÄ
+	PACKET_SEND_UPDATE_USER_VIEW packet;
+	packet.header.wIndex = PACKET_INDEX_SEND_UPDATE_USER_VIEW;
+	packet.header.wLen = sizeof(packet);
+	packet.index = USER_INFO->m_userIndex;
+	packet.roomNumber = USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->roomNumber;
+
+	send(USER_INFO->m_socket, (const char*)&packet, sizeof(packet), 0);
+}
+
 void Lobby::ProcessPacket(char* szBuf, int len)
 {
 	m_chat->ProcessPacket(szBuf, len);
@@ -120,8 +132,12 @@ void Lobby::ProcessPacket(char* szBuf, int len)
 
 		USER_INFO->m_mapPlayer[packet.index]->roomNumber = packet.roomNumber;
 
-		if(packet.index == USER_INFO->m_userIndex)
+		if (packet.index == USER_INFO->m_userIndex)
+		{
+			SendUpdateUser();
 			SceneManager::GetInstance()->ChangeScene(MAINGAME);
+		}
+			
 	}
 	break;
 	case PACKET_INDEX_SEND_UPDATE_ROOM:

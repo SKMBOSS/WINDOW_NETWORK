@@ -401,7 +401,6 @@ bool ProcessPacket(SOCKET sock, USER_INFO* pUser, char* szBuf, int& len)
 			{
 				send(iter->first, (const char*)&packet, header.wLen, 0);
 			}
-				
 		}
 	}
 	break;
@@ -454,6 +453,18 @@ bool ProcessPacket(SOCKET sock, USER_INFO* pUser, char* szBuf, int& len)
 		g_mapUser[sock]->roomNumber = 99;
 
 		send(sock, (const char*)&packet, header.wLen, 0);
+	}
+	break;
+
+	case PACKET_INDEX_SEND_UPDATE_USER_VIEW:
+	{
+		PACKET_SEND_UPDATE_USER_VIEW packet;
+		memcpy(&packet, pUser->szBuf, header.wLen);
+
+		for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++)
+		{
+			send(iter->first, (const char*)&packet, header.wLen, 0);
+		}
 	}
 	break;
 	}

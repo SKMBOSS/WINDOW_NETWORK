@@ -127,6 +127,7 @@ void MainGame::ProcessPacket(char* szBuf, int len)
 		memcpy(&packet, szBuf, header.wLen);
 
 		USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->roomNumber = 99;
+		SendUpdateUser();
 		SceneManager::GetInstance()->ChangeScene(LOBBY);
 	}
 	break;
@@ -171,6 +172,18 @@ void MainGame::SendGameEnd()
 	PACKET_SEND_GAME_END packet;
 	packet.header.wIndex = PACKET_INDEX_SEND_GAME_END;
 	packet.header.wLen = sizeof(packet);
+
+	send(USER_INFO->m_socket, (const char*)&packet, sizeof(packet), 0);
+}
+
+void MainGame::SendUpdateUser()
+{
+	//ÈÄ
+	PACKET_SEND_UPDATE_USER_VIEW packet;
+	packet.header.wIndex = PACKET_INDEX_SEND_UPDATE_USER_VIEW;
+	packet.header.wLen = sizeof(packet);
+	packet.index = USER_INFO->m_userIndex;
+	packet.roomNumber = USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->roomNumber;
 
 	send(USER_INFO->m_socket, (const char*)&packet, sizeof(packet), 0);
 }

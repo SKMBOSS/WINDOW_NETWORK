@@ -132,7 +132,17 @@ void ChessGame::ProcessPacketBuf()
 		USER_INFO->m_mapPlayer.erase(packet.index);
 	}
 	break;
+
+	case PACKET_INDEX_SEND_UPDATE_USER_VIEW:
+	{
+		PACKET_SEND_UPDATE_USER_VIEW packet;
+		memcpy(&packet, packetBuf, header.wLen);
+
+		USER_INFO->m_mapPlayer[packet.index]->roomNumber = packet.roomNumber;
 	}
+	break;
+	}
+
 
 	memcpy(&packetBuf, &packetBuf[header.wLen], myLen - header.wLen);
 	myLen -= header.wLen;
