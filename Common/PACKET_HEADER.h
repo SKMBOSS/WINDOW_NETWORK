@@ -41,7 +41,7 @@ struct PACKET_USER_DATA
 {
 	PACKET_HEADER header;
 	WORD wCount;
-	USER_DATA data[20];
+	USER_DATA data[40];
 };
 
 struct PACKET_SEND_TURNEND

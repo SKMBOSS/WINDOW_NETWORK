@@ -12,7 +12,7 @@ HINSTANCE g_hInst;
 HWND hWnd;
 LPCTSTR lpszClass = TEXT("ChessGame");
 
-#define BUFSIZE 512
+#define BUFSIZE 1024
 #define WM_SOCKET (WM_USER+1)
 
 SOCKET g_sock;

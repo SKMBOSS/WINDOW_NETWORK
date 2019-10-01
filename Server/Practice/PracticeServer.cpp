@@ -6,7 +6,7 @@
 #include "..\..\Common\PACKET_HEADER.h"
 using namespace std;
 
-#define BUFSIZE 512
+#define BUFSIZE 1024
 #define WM_SOCKET (WM_USER+1)
 
 class USER_INFO
@@ -36,8 +36,6 @@ void ProcessSocketMessage(HWND, UINT, WPARAM, LPARAM);
 bool ProcessPacket(SOCKET sock, USER_INFO* pUser, char* szBuf, int& len);
 void err_display(int errcode);
 void err_display(const char* szMsg);
-
-void SendRoomExit();
 
 int main(int argc, char* argv[])
 {

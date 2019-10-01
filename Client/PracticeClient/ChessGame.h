@@ -18,7 +18,7 @@ private:
 	HBITMAP		m_hOld;
 
 	int			myLen;
-	char		packetBuf[512];
+	char		packetBuf[1024];
 public:
 	static ChessGame* GetInstance();
 public:
