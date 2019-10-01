@@ -45,13 +45,46 @@ void ViewWindow::UpdateRoomView()
 void ViewWindow::Render()
 {
 	m_pViewWindow->Render(800, 0);
-	m_pViewWindow->RenderText(800, 0, "<접속자 목록>");
+	m_pViewWindow->RenderText(812, 0, "<접속자>");
 
 	int posY = 20;
 	for (auto iter = m_vecGuest.begin(); iter != m_vecGuest.end(); ++iter)
 	{
-		m_pViewWindow->RenderText(800, posY, (to_string)(*iter) + "번 GUEST");
+		if( (*iter) == USER_INFO->m_userIndex)
+			m_pViewWindow->RenderText(810, posY, (to_string)(*iter) + "번 ME");
+		else
+			m_pViewWindow->RenderText(810, posY, (to_string)(*iter) + "번 GUEST");
+
 		posY += 20;
 	}
-	
 }
+
+void ViewWindow::RenderGameRoomView()
+{
+	int roomNumber = USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->roomNumber;
+	m_pViewWindow->Render(800, 0);
+	m_pViewWindow->RenderText(812, 0, (to_string)(roomNumber+1)+"번 방");
+
+	int posY = 30;
+	for (auto iter = m_vecGuest.begin(); iter != m_vecGuest.end(); ++iter)
+	{
+		if (USER_INFO->m_color == 0)
+		{
+			if ((*iter) == USER_INFO->m_userIndex)
+				m_pViewWindow->RenderText(810, posY, (to_string)(*iter) + "번 BLACK");
+			else
+				m_pViewWindow->RenderText(810, posY, (to_string)(*iter) + "번 WHITE");
+		}
+		else
+		{
+			if ((*iter) == USER_INFO->m_userIndex)
+				m_pViewWindow->RenderText(810, posY, (to_string)(*iter) + "번 WHITE");
+			else
+				m_pViewWindow->RenderText(810, posY, (to_string)(*iter) + "번 BLACK");
+		}
+
+		posY += 20;
+	}
+}
+
+

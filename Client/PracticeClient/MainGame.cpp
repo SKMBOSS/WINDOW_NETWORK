@@ -62,7 +62,7 @@ void MainGame::Render()
 {
 	m_chessBoard->Render();
 	m_chat->Render();
-	m_pViewWindow->Render();
+	m_pViewWindow->RenderGameRoomView();
 }
 
 void MainGame::Release()

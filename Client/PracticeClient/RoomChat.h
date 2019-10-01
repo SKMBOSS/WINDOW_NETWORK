@@ -3,7 +3,7 @@
 #include <deque>
 #include <string>
 #define ID_EDIT 100
-#define MAX_RENDER_MSG 15
+#define MAX_RENDER_MSG 44
 using namespace std;
 
 class RoomChat

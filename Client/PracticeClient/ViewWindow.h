@@ -16,6 +16,7 @@ public:
 	void UpdateLobbyView();
 	void UpdateRoomView();
 	void Render();
+	void RenderGameRoomView();
 public:
 
 public:

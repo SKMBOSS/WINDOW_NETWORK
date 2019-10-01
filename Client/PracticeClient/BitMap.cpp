@@ -39,6 +39,7 @@ void BitMap::RenderText(int x, int y, string text)
 {
 	/*TCHAR szBuf[128];
 	wsprintf(szBuf, TEXT("x :%d \n y :%d"), x, y);*/
+	SetBkMode(m_hDC, TRANSPARENT);
 	TextOut(m_hDC, x, y, text.c_str(), text.length());
 }
 

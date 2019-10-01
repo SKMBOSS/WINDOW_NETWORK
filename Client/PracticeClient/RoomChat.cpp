@@ -93,7 +93,10 @@ void RoomChat::ProcessPacket(char* szBuf, int len)
 		memcpy(&packet, szBuf, header.wLen);
 
 		string recvMsg;
-		recvMsg += (to_string(packet.iIndex) + "¹ø GUEST : ");
+		if (packet.iIndex == USER_INFO->m_userIndex)
+			recvMsg += (to_string(packet.iIndex) + "¹ø       ME : ");
+		else
+			recvMsg += (to_string(packet.iIndex) + "¹ø GUEST : ");
 
 		for (int i = 0; i < packet.len; i++)
 			recvMsg += packet.szBuf[i];
