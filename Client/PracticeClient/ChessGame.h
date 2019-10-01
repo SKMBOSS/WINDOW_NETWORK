@@ -6,6 +6,8 @@ using namespace std;
 class ChessGame
 {
 private:
+	static ChessGame* m_sThis;
+private:
 	HWND		m_hWnd;
 	HINSTANCE   m_hInst;
 	chrono::system_clock::time_point m_LastTime;
@@ -17,7 +19,8 @@ private:
 
 	int			myLen;
 	char		packetBuf[512];
-
+public:
+	static ChessGame* GetInstance();
 public:
 	void Init(HWND hWnd, HINSTANCE hInst ,SOCKET sock);
 	void Update();
@@ -25,8 +28,9 @@ public:
 	void Release();
 	void ProcessPacket(char* szBuf, int len);
 	void ProcessPacketBuf();
-public:
+private:
 	ChessGame();
+public:
 	~ChessGame();
 };
 

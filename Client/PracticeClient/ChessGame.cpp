@@ -4,6 +4,9 @@
 #include "..\..\Common\PACKET_HEADER.h"
 #include "UserInfo.h"
 #include "Player.h"
+#include "Macro.h"
+
+ChessGame* ChessGame::m_sThis = nullptr;
 
 ChessGame::ChessGame()
 {
@@ -12,6 +15,15 @@ ChessGame::ChessGame()
 
 ChessGame::~ChessGame()
 {
+}
+
+ChessGame* ChessGame::GetInstance()
+{
+	if (m_sThis == nullptr)
+	{
+		m_sThis = new ChessGame;
+	}
+	return m_sThis;
 }
 
 void ChessGame::Init(HWND hWnd, HINSTANCE hInst,SOCKET sock)
@@ -49,6 +61,7 @@ void ChessGame::Render()
 
 void ChessGame::Release()
 {
+	USER_INFO->Release();
 	SceneManager::GetInstance()->Release();
 	ResourceManager::GetInstance()->Release();
 	
@@ -56,11 +69,7 @@ void ChessGame::Release()
 	DeleteObject(m_hBitmap);
 	DeleteDC(m_hMemDC);
 	
-	for (auto iter = USER_INFO->m_mapPlayer.begin(); iter != USER_INFO->m_mapPlayer.end(); iter++)
-	{
-		delete iter->second;
-	}
-	USER_INFO->m_mapPlayer.clear();
+	SAFE_DELETE(m_sThis);
 }
 
 void ChessGame::ProcessPacket(char * szBuf, int len)

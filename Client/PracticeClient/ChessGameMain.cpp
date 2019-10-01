@@ -11,7 +11,6 @@ void ProcessSocketMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 HINSTANCE g_hInst;
 HWND hWnd;
 LPCTSTR lpszClass = TEXT("ChessGame");
-ChessGame g_ChessGame;
 
 #define BUFSIZE 512
 #define WM_SOCKET (WM_USER+1)
@@ -72,7 +71,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 		return -1;
 	}
 
-	g_ChessGame.Init(hWnd,g_hInst,g_sock);
+	ChessGame::GetInstance()->Init(hWnd,g_hInst,g_sock);
 
 	while (true)
 	{
@@ -92,12 +91,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 
 			if (hForeWindow == hWnd) 
 			{
-				g_ChessGame.Update();
+				ChessGame::GetInstance()->Update();
 			}
-			g_ChessGame.Render();
+			ChessGame::GetInstance()->Render();
 		}
 	}
-	g_ChessGame.Release();
+	ChessGame::GetInstance()->Release();
 	closesocket(g_sock);
 	WSACleanup();
 
@@ -147,7 +146,7 @@ void ProcessSocketMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				//cout << "err on recv!!" << endl;
 			}
 		}
-		g_ChessGame.ProcessPacket(szBuf, retval);
+		ChessGame::GetInstance()->ProcessPacket(szBuf, retval);
 	}
 	break;
 	case FD_CLOSE:
