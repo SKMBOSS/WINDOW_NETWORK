@@ -34,6 +34,9 @@
     <Filter Include="Room">
       <UniqueIdentifier>{dff382c0-2383-4478-9e0b-8c9956d909bb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="View">
+      <UniqueIdentifier>{1f39d250-91e7-442e-82b8-18907348aa0d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BitMap.cpp">
@@ -80,6 +83,9 @@
     </ClCompile>
     <ClCompile Include="RoomChat.cpp">
       <Filter>Chat</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewWindow.cpp">
+      <Filter>View</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="RoomChat.h">
       <Filter>Chat</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewWindow.h">
+      <Filter>View</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

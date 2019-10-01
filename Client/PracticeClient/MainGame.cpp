@@ -8,6 +8,7 @@
 #include "ChessBoard.h"
 #include "Chat.h"
 #include "SceneManager.h"
+#include "ViewWindow.h"
 
 MainGame::MainGame()
 {
@@ -27,12 +28,17 @@ void MainGame::Init(HWND hWnd, HINSTANCE hInst)
 
 	m_chessBoard->Init();
 	m_chat->Init(hWnd, hInst);
+
+	m_pViewWindow = new ViewWindow;
+	m_pViewWindow->Init();
+
 	SendTurn();
 }
 
 void MainGame::Update(float fElapseTime)
 {
 	m_chat->Update();
+	m_pViewWindow->UpdateRoomView();
 
 	if (m_bReady)
 	{
@@ -50,13 +56,13 @@ void MainGame::Update(float fElapseTime)
 			}
 		}
 	}
-	
 }
 
 void MainGame::Render()
 {
 	m_chessBoard->Render();
 	m_chat->Render();
+	m_pViewWindow->Render();
 }
 
 void MainGame::Release()
@@ -65,6 +71,7 @@ void MainGame::Release()
 	SAFE_DELETE(m_chessBoard);
 
 	SAFE_DELETE(m_chat);
+	SAFE_DELETE(m_pViewWindow);
 }
 
 void MainGame::ProcessPacket(char* szBuf, int len)
@@ -121,6 +128,15 @@ void MainGame::ProcessPacket(char* szBuf, int len)
 
 		USER_INFO->m_mapPlayer[USER_INFO->m_userIndex]->roomNumber = 99;
 		SceneManager::GetInstance()->ChangeScene(LOBBY);
+	}
+	break;
+
+	case PACKET_INDEX_SEND_GAME_ROOM_EXIT:
+	{
+		PACKET_SEND_GAME_ROOM_EXIT packet;
+		memcpy(&packet, szBuf, header.wLen);
+
+		SendGameEnd();
 	}
 	break;
 

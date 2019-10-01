@@ -154,6 +154,7 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="UserInfo.cpp" />
+    <ClCompile Include="ViewWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Common\PACKET_HEADER.h" />
@@ -172,6 +173,7 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="UserInfo.h" />
+    <ClInclude Include="ViewWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

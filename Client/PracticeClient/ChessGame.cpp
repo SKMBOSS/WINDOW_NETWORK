@@ -21,7 +21,7 @@ void ChessGame::Init(HWND hWnd, HINSTANCE hInst,SOCKET sock)
 	m_hInst = hInst;
 	HDC hdc = GetDC(hWnd);
 	m_hMemDC = CreateCompatibleDC(hdc);
-	m_hBitmap = CreateCompatibleBitmap(hdc, 800, 900);
+	m_hBitmap = CreateCompatibleBitmap(hdc, 900, 900);
 	m_hOld = (HBITMAP)SelectObject(m_hMemDC, m_hBitmap);
 	ResourceManager::GetInstance()->Init(m_hMemDC);
 	SceneManager::GetInstance()->Init(hWnd, hInst);
@@ -43,7 +43,7 @@ void ChessGame::Render()
 {
 	HDC hdc = GetDC(m_hWnd);
 	SceneManager::GetInstance()->Render();
-	BitBlt(hdc, 0, 0, 800, 900, m_hMemDC, 0, 0, SRCCOPY);
+	BitBlt(hdc, 0, 0, 900, 900, m_hMemDC, 0, 0, SRCCOPY);
 	ReleaseDC(m_hWnd, hdc);
 }
 
@@ -121,6 +121,15 @@ void ChessGame::ProcessPacketBuf()
 			pNew->turn = packet.data[i].turn;
 			USER_INFO->m_mapPlayer.insert(make_pair(packet.data[i].iIndex, pNew));
 		}
+	}
+	break;
+
+	case PACKET_INDEX_SEND_DELETE_USER:
+	{
+		PACKET_SEND_DELETE_USER packet;
+		memcpy(&packet, packetBuf, header.wLen);
+
+		USER_INFO->m_mapPlayer.erase(packet.index);
 	}
 	break;
 	}

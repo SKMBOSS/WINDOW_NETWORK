@@ -7,6 +7,7 @@ using namespace std;
 
 class ChessBoard;
 class Chat;
+class ViewWindow;
 class MainGame :
 	public Scene
 {
@@ -16,6 +17,8 @@ private:
 	ChessBoard* m_chessBoard;
 	Chat*		m_chat;
 	bool		m_bReady;
+
+	ViewWindow* m_pViewWindow;
 public:
 	virtual void Init(HWND hWnd, HINSTANCE hInst);
 	virtual void Update(float fElapseTime);
@@ -26,6 +29,7 @@ public:
 	void SendTurn();
 	void SendReady();
 	void SendGameEnd();
+	void SendExit();
 public:
 	MainGame();
 	~MainGame();

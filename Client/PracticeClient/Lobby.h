@@ -5,6 +5,7 @@ using namespace std;
 
 class Room;
 class RoomChat;
+class ViewWindow;
 class Lobby :
 	public Scene
 {
@@ -15,6 +16,8 @@ private:
 	vector<Room*>	m_vecRoom;
 	RoomChat*		m_chat;
 	bool			m_bKeyFirst;
+
+	ViewWindow*		m_pViewWindow;
 public:
 	virtual void Init(HWND hWnd, HINSTANCE hInst);
 	virtual void Update(float fElapseTime);

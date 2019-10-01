@@ -37,6 +37,8 @@ bool ProcessPacket(SOCKET sock, USER_INFO* pUser, char* szBuf, int& len);
 void err_display(int errcode);
 void err_display(const char* szMsg);
 
+void SendRoomExit();
+
 int main(int argc, char* argv[])
 {
 	//이러면 안되요
@@ -243,10 +245,57 @@ void ProcessSocketMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case FD_CLOSE:
 		
 		cout << g_mapUser[wParam]->index<< "번 GUEST 나감" << endl;
+		int exitUserIndex = g_mapUser[wParam]->index;
+		int exitRoomNumber = g_mapUser[wParam]->roomNumber;
+		g_arrRoom[exitRoomNumber].userNumCount--;
 		g_mapUser.erase(wParam);
 		closesocket(wParam);
 		
+		if (exitRoomNumber != 99) // 게임방 강제종료 
+		{
+			PACKET_SEND_GAME_ROOM_EXIT packet;
+			packet.header.wIndex = PACKET_INDEX_SEND_GAME_ROOM_EXIT;
+			packet.header.wLen = sizeof(packet);
 
+			for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++)
+			{
+				if (iter->second->roomNumber == exitRoomNumber)
+				{
+					send(iter->first, (const char*)&packet, packet.header.wLen, 0);
+				}
+				else
+				{
+					PACKET_SEND_UPDATE_ROOM packet;
+					packet.header.wIndex = PACKET_INDEX_SEND_UPDATE_ROOM;
+					packet.header.wLen = sizeof(packet);
+					for (int i = 0; i < 16; i++)
+						packet.userNumCount[i] = g_arrRoom[i].userNumCount;
+					for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++)
+					{
+						if (iter->second->roomNumber == 99)
+						{
+							send(iter->first, (const char*)&packet, packet.header.wLen, 0);
+						}
+
+					}
+				}
+
+			}
+		}
+		PACKET_SEND_DELETE_USER packet;
+		packet.header.wIndex = PACKET_INDEX_SEND_DELETE_USER;
+		packet.header.wLen = sizeof(packet);
+
+		packet.index = exitUserIndex;
+		for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++)
+		{
+			send(iter->first, (const char*)&packet, packet.header.wLen, 0);
+		}
+
+		for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++)
+		{
+			cout << iter->second->index << "현재 접속 함" << endl;
+		}
 		break;
 	}
 }

@@ -64,6 +64,7 @@ void ResourceManager::InitResPath()
 	//텍스트용
 	resPath.push_back(chat + "text_window.bmp");
 	resPath.push_back(chat + "text_window_lobby.bmp");
+	resPath.push_back(chat + "view_window.bmp");
 }
 
 void ResourceManager::InitBitMap(HDC hdc)

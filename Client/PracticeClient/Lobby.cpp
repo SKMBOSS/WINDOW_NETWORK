@@ -6,6 +6,7 @@
 #include "UserInfo.h"
 #include "Player.h"
 #include "SceneManager.h"
+#include "ViewWindow.h"
 
 Lobby::Lobby()
 {
@@ -38,10 +39,14 @@ void Lobby::Init(HWND hWnd, HINSTANCE hInst)
 	
 	m_chat = new RoomChat();
 	m_chat->Init(hWnd, hInst);
+
+	m_pViewWindow = new ViewWindow;
+	m_pViewWindow->Init();
 }
 void Lobby::Update(float fElapseTime)
 {
 	m_chat->Update();
+	m_pViewWindow->UpdateLobbyView();
 
 	if (GetKeyState(VK_LBUTTON) & 0x8000)
 	{
@@ -73,6 +78,7 @@ void Lobby::Render()
 		(*iter)->Render();
 
 	m_chat->Render();
+	m_pViewWindow->Render();
 
 }
 
@@ -85,6 +91,7 @@ void Lobby::Release()
 	m_vecRoom.clear();
 
 	SAFE_DELETE(m_chat);
+	SAFE_DELETE(m_pViewWindow);
 }
 
 void Lobby::SendUpdaeRoom()

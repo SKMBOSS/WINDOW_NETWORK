@@ -27,6 +27,7 @@ enum RES_TYPE
 	//end
 	RES_NULL,
 	RES_LOBBY_CHAT,
+	RES_VIEW_WINDOW,
 	RES_TYPE_END
 };
 
