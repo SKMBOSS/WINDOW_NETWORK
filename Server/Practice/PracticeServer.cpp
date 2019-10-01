@@ -370,6 +370,13 @@ bool ProcessPacket(SOCKET sock, USER_INFO* pUser, char* szBuf, int& len)
 		//test
 		cout << g_mapUser[sock]->index << "번 GUEST가 " << packet.roomNumber << "방 클릭함" << endl;
 
+		for (int i = 0; i < 16; i++)
+		{
+			cout << "[" << g_arrRoom[i].userNumCount << "] ";
+			if (i == 7 || i == 15)
+				cout << endl;
+		}
+
 		for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++)
 		{
 			send(iter->first, (const char*)&packet, header.wLen, 0);
@@ -380,20 +387,9 @@ bool ProcessPacket(SOCKET sock, USER_INFO* pUser, char* szBuf, int& len)
 	{
 		PACKET_SEND_UPDATE_ROOM packet;
 		memcpy(&packet, pUser->szBuf, header.wLen);
-
-		cout << endl;
-		cout << "PACKET_SEND_UPDATE_ROOM : " << header.wLen;
-		cout << endl;
-
+	
 		for (int i = 0; i < 16; i++)
 			packet.userNumCount[i] = g_arrRoom[i].userNumCount;
-
-		for (int i = 0; i < 16; i++)
-		{
-			cout << "[" << g_arrRoom[i].userNumCount << "] ";
-			if (i == 7 || i == 15)
-				cout << endl;
-		}
 
 		for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++)
 		{
