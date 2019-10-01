@@ -16,6 +16,7 @@ LPCTSTR lpszClass = TEXT("ChessGame");
 #define WM_SOCKET (WM_USER+1)
 
 SOCKET g_sock;
+RECT rt = { 0,0,900,900 };
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdParam, int nCmdShow)
 {
@@ -35,7 +36,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 	WndClass.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
 	RegisterClass(&WndClass);
 
-	RECT rt = { 0,0,900,900 };
+	//RECT rt = { 0,0,900,900 };
 	AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
 
 	hWnd = CreateWindow(lpszClass, lpszClass, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, CW_USEDEFAULT, CW_USEDEFAULT,
@@ -57,7 +58,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 	ZeroMemory(&serveraddr, sizeof(serveraddr));
 	serveraddr.sin_family = AF_INET;
 	serveraddr.sin_port = htons(9000);
-	serveraddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+	serveraddr.sin_addr.s_addr = inet_addr("10.30.10.213");
 	int retval = connect(g_sock, (sockaddr*)&serveraddr, sizeof(serveraddr));
 	if (retval == SOCKET_ERROR)
 	{
@@ -110,6 +111,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	case WM_SOCKET:
 		ProcessSocketMessage(hWnd, iMessage, wParam, lParam);
 		//InvalidateRect(hWnd, NULL, true);
+		return 0;
+	case WM_GETMINMAXINFO:
+		((MINMAXINFO *)lParam)->ptMaxTrackSize.x = rt.right - rt.left;
+		((MINMAXINFO *)lParam)->ptMaxTrackSize.y = rt.bottom - rt.top;
+		((MINMAXINFO *)lParam)->ptMinTrackSize.x = rt.right - rt.left;
+		((MINMAXINFO *)lParam)->ptMinTrackSize.y = rt.bottom - rt.top;
 		return 0;
 	case WM_DESTROY:
 		PostQuitMessage(0);
