@@ -8,8 +8,6 @@
 #include "..\..\Common\TEST_HEADER.h"
 #include <thread>
 
-
-
 #define SERVERPORT 9000
 #define BUFSIZE    512
 
@@ -175,6 +173,7 @@ DWORD WINAPI WorkerThread(LPVOID arg)
 
 	while (1)
 	{
+		std::cout << std::this_thread::get_id() << std::endl;
 		//비동기 입출력 완료 기다리기
 		DWORD cbTransferred;
 		SOCKET client_sock;
@@ -203,72 +202,40 @@ DWORD WINAPI WorkerThread(LPVOID arg)
 			continue;
 		}
 
-		if (ptr->recvbytes == 0)
+		// 데이터 받기
+		ZeroMemory(&ptr->overlapped, sizeof(ptr->overlapped));
+		ptr->wsabuf.buf = ptr->buf;
+		ptr->wsabuf.len = BUFSIZE;
+
+		USER_INFO* pUser = g_mapUser[ptr];
+
+		while (true)
 		{
-			ptr->recvbytes = cbTransferred;
-			ptr->sendbytes = 0;
-		}
-		else
-		{
-			ptr->sendbytes += cbTransferred;
-		}
-
-		if (ptr->recvbytes > ptr->sendbytes)
-		{
-			// 데이터 보내기
-			ZeroMemory(&ptr->overlapped, sizeof(ptr->overlapped));
-			ptr->wsabuf.buf = ptr->buf + ptr->sendbytes;
-			ptr->wsabuf.len = ptr->recvbytes - ptr->sendbytes;
-
-			DWORD sendbytes;
-			retval = WSASend(ptr->sock, &ptr->wsabuf, 1,
-				&sendbytes, 0, &ptr->overlapped, NULL);
-			if (retval == SOCKET_ERROR) {
-				if (WSAGetLastError() != WSA_IO_PENDING) {
-					err_display("WSASend()");
-				}
-				continue;
-			}
-		}
-		else
-		{
-			ptr->recvbytes = 0;
-
-			// 데이터 받기
-			ZeroMemory(&ptr->overlapped, sizeof(ptr->overlapped));
-			ptr->wsabuf.buf = ptr->buf;
-			ptr->wsabuf.len = BUFSIZE;
-
-			USER_INFO* pUser = g_mapUser[ptr];
-
-			while (true)
+			if (!ProcessPacket(ptr, pUser, cbTransferred))
 			{
-				std::cout << std::this_thread::get_id() << std::endl;
-				if (!ProcessPacket(ptr, pUser, cbTransferred))
-				{
-					Sleep(100);
-					//SendMessage(hWnd, uMsg, wParam, lParam);
+				Sleep(100);
+				//SendMessage(hWnd, uMsg, wParam, lParam);
+				break;
+			}
+			else
+			{
+				if (pUser->len < sizeof(PACKET_HEADER))
 					break;
-				}
-				else
-				{
-					if (pUser->len < sizeof(PACKET_HEADER))
-						break;
-				}
-			}
-
-			DWORD recvbytes;
-			DWORD flags = 0;
-			retval = WSARecv(ptr->sock, &ptr->wsabuf, 1,
-				&recvbytes, &flags, &ptr->overlapped, NULL);
-			if (retval == SOCKET_ERROR)
-			{
-				if (WSAGetLastError() != WSA_IO_PENDING) {
-					err_display("WSARecv()");
-				}
-				continue;
 			}
 		}
+
+		DWORD recvbytes;
+		DWORD flags = 0;
+		retval = WSARecv(ptr->sock, &ptr->wsabuf, 1,
+			&recvbytes, &flags, &ptr->overlapped, NULL);
+		if (retval == SOCKET_ERROR)
+		{
+			if (WSAGetLastError() != WSA_IO_PENDING) {
+				err_display("WSARecv()");
+			}
+			continue;
+		}
+
 	}
 	return 0;
 }
