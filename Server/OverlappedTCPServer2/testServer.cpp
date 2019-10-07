@@ -6,7 +6,9 @@
 #include <iostream>
 #include <map>
 #include "..\..\Common\TEST_HEADER.h"
-using namespace std;
+#include <thread>
+
+
 
 #define SERVERPORT 9000
 #define BUFSIZE    512
@@ -33,7 +35,7 @@ public:
 };
 
 int g_iIndex = 0;
-map<SOCKETINFO*, USER_INFO*> g_mapUser;
+std::map<SOCKETINFO*, USER_INFO*> g_mapUser;
 
 // 작업자 스레드 함수
 DWORD WINAPI WorkerThread(LPVOID arg);
@@ -120,7 +122,7 @@ int main(int argc, char *argv[])
 		pInfo->len = 0;
 		pInfo->x = rand() % 600;
 		pInfo->y = rand() % 400;
-		g_mapUser.insert(make_pair(ptr, pInfo));
+		g_mapUser.insert(std::make_pair(ptr, pInfo));
 
 		PACKET_LOGIN_RET packet;
 		packet.header.wIndex = PACKET_INDEX_LOGIN_RET;
@@ -241,6 +243,7 @@ DWORD WINAPI WorkerThread(LPVOID arg)
 
 			while (true)
 			{
+				std::cout << std::this_thread::get_id() << std::endl;
 				if (!ProcessPacket(ptr, pUser, cbTransferred))
 				{
 					Sleep(100);
@@ -258,7 +261,7 @@ DWORD WINAPI WorkerThread(LPVOID arg)
 			DWORD flags = 0;
 			retval = WSARecv(ptr->sock, &ptr->wsabuf, 1,
 				&recvbytes, &flags, &ptr->overlapped, NULL);
-			if (retval == SOCKET_ERROR) 
+			if (retval == SOCKET_ERROR)
 			{
 				if (WSAGetLastError() != WSA_IO_PENDING) {
 					err_display("WSARecv()");
@@ -298,7 +301,7 @@ bool ProcessPacket(SOCKETINFO* ptr, USER_INFO* pUser, DWORD &len)
 		g_mapUser[ptr]->x = packet.data.wX;
 		g_mapUser[ptr]->y = packet.data.wY;
 
-		cout << g_mapUser[ptr]->index << " : " << g_mapUser[ptr]->x << "," << g_mapUser[ptr]->y << endl;
+		//std::cout << g_mapUser[ptr]->index << " : " << g_mapUser[ptr]->x << "," << g_mapUser[ptr]->y << std::endl;
 
 		for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++)
 		{
