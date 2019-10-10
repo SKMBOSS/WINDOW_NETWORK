@@ -7,6 +7,7 @@
 #include <map>
 #include "..\..\Common\FIND_HUMAN_PACKET_HEADER.h"
 #include <thread>
+#include <vector>
 
 #define SERVERPORT 9000
 #define BUFSIZE    1024
@@ -22,13 +23,6 @@ struct SOCKETINFO
 	WSABUF wsabuf;
 };
 
-class GAMEROOM_INFO
-{
-	int roomnumber;
-	int playerNum;
-	bool ready;
-};
-
 class USER_INFO
 {
 public:
@@ -40,8 +34,16 @@ public:
 	char nameLen;
 };
 
+class ROOM_INFO
+{
+public:
+	int playerNum = 0;
+	std::vector <SOCKET> vecUserSocket;
+};
+
 int g_iIndex = 0;
 std::map<SOCKETINFO*, USER_INFO*> g_mapUser;
+ROOM_INFO g_arrRoom[5];
 
 // 작업자 스레드 함수
 DWORD WINAPI WorkerThread(LPVOID arg);
@@ -103,7 +105,8 @@ int main(int argc, char *argv[])
 		// accept()
 		addrlen = sizeof(clientaddr);
 		client_sock = accept(listen_sock, (SOCKADDR *)&clientaddr, &addrlen);
-		if (client_sock == INVALID_SOCKET) {
+		if (client_sock == INVALID_SOCKET) 
+		{
 			err_display("accept()");
 			break;
 		}
@@ -254,7 +257,10 @@ bool ProcessPacket(SOCKETINFO* ptr, USER_INFO* pUser, DWORD &len)
 		}
 		g_mapUser[ptr]->name[packet.nameLen] = '\0';
 
-		g_mapUser[ptr]->roomNumber = 1004;//로비 입장
+		g_mapUser[ptr]->roomNumber = 0;//로비 입장
+
+		g_arrRoom[g_mapUser[ptr]->roomNumber].playerNum++;
+		g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.push_back(ptr->sock);
 		
 		send(ptr->sock, (const char*)&packet, header.wLen, 0);
 		
@@ -283,10 +289,10 @@ bool ProcessPacket(SOCKETINFO* ptr, USER_INFO* pUser, DWORD &len)
 		packet.name[g_mapUser[ptr]->nameLen] = '\0';
 
 		std::cout << g_mapUser[ptr]->name << " : send chatMsg" << std::endl;
-		for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++)
+		for (auto iter = g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.begin(); 
+			iter != g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.end(); iter++)
 		{
-			if (iter->second->roomNumber == g_mapUser[ptr]->roomNumber)
-				send(iter->first->sock, (const char*)&packet, header.wLen, 0);
+			send( (*iter) , (const char*)&packet, header.wLen, 0);
 		}
 	}
 	break;
