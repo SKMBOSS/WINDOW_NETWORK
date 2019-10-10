@@ -13,8 +13,6 @@ private:
 public:
 	static UserInfo* GetInstance();
 	SOCKET				m_socket;
-	map<int, Player*>	m_mapPlayer;
-	int					m_userIndex = 0;
 public:
 	void Release();
 private:

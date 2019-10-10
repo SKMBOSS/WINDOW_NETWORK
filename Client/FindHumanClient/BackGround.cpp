@@ -19,5 +19,5 @@ void BackGround::Init()
 
 void BackGround::Render()
 {
-	m_pBackGroundBitMap->Render(m_pos.x, m_pos.y);
+	m_pBackGroundBitMap->Render(900,900,m_pos.x, m_pos.y);
 }

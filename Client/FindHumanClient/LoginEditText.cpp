@@ -3,7 +3,6 @@
 #include "ResourceManager.h"
 #include "..\..\Common\FIND_HUMAN_PACKET_HEADER.h"
 #include "UserInfo.h"
-#include "Player.h"
 
 LoginEditText::LoginEditText()
 {
@@ -35,7 +34,7 @@ void LoginEditText::Update()
 			char getMsg[128];
 			GetDlgItemText(m_hWnd, ID_EDIT, getMsg, 128);
 			SendUserName(getMsg, lstrlen(getMsg));
-
+			DestroyWindow(m_hLoginEditTextWnd);
 			m_bKeyFirst = true;
 		}
 	}
@@ -50,7 +49,9 @@ void LoginEditText::Render()
 }
 
 void LoginEditText::Relaese()
-{}
+{
+	
+}
 
 
 void LoginEditText::SendUserName(char* msg, int len)
@@ -63,7 +64,6 @@ void LoginEditText::SendUserName(char* msg, int len)
 	for (int i = 0; i < len; i++)
 		packet.name[i] = msg[i];
 
-	packet.userIndex = USER_INFO->m_userIndex;
 	packet.nameLen = len;
 	send(USER_INFO->m_socket, (const char*)&packet, sizeof(packet), 0);
 }

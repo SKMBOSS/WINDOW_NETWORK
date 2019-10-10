@@ -141,12 +141,12 @@
   <ItemGroup>
     <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="BitMap.cpp" />
+    <ClCompile Include="Chat.cpp" />
     <ClCompile Include="FindHumanClient.cpp" />
     <ClCompile Include="FindHumanClientMain.cpp" />
     <ClCompile Include="Lobby.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="LoginEditText.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -156,12 +156,12 @@
     <ClInclude Include="..\..\Common\FIND_HUMAN_PACKET_HEADER.h" />
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="BitMap.h" />
+    <ClInclude Include="Chat.h" />
     <ClInclude Include="FindHumanClient.h" />
     <ClInclude Include="Lobby.h" />
     <ClInclude Include="Login.h" />
     <ClInclude Include="LoginEditText.h" />
     <ClInclude Include="Macro.h" />
-    <ClInclude Include="player.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />

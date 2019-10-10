@@ -16,7 +16,7 @@ LPCTSTR lpszClass = TEXT("FindHumanClient");
 #define WM_SOCKET (WM_USER+1)
 
 SOCKET g_sock;
-RECT rt = { 0,0,1100,1100 };
+RECT rt = { 0,0,900,900 };
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdParam, int nCmdShow)
 {
@@ -36,7 +36,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 	WndClass.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
 	RegisterClass(&WndClass);
 
-	//RECT rt = { 0,0,900,900 };
 	AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
 
 	hWnd = CreateWindow(lpszClass, lpszClass, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, CW_USEDEFAULT, CW_USEDEFAULT,

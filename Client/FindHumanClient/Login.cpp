@@ -2,7 +2,6 @@
 #include "..\..\Common\FIND_HUMAN_PACKET_HEADER.h"
 #include "Macro.h"
 #include "UserInfo.h"
-#include "player.h"
 #include "BackGround.h"
 #include "LoginEditText.h"
 #include "SceneManager.h"
@@ -40,6 +39,7 @@ void Login::Render()
 void Login::Release()
 {
 	SAFE_DELETE(m_pBackGround);
+
 	SAFE_DELETE(m_pLoginEditText);
 }
 
@@ -56,6 +56,7 @@ void Login::ProcessPacket(char* szBuf, int len)
 		PACKET_SEND_LOGIN_OK packet;
 		memcpy(&packet, szBuf, header.wLen);
 
+		Sleep(500);
 		SceneManager::GetInstance()->ChangeScene(LOBBY);
 
 	}

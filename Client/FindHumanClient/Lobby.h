@@ -3,12 +3,17 @@
 #include <vector>
 using namespace std;
 
+class BackGround;
+class Chat;
 class Lobby :
 	public Scene
 {
 private:
 	HWND			m_hWnd;
 	HINSTANCE		m_hInst;
+
+	Chat*			m_pChat;
+	BackGround*		m_pBackGround;
 
 public:
 	virtual void Init(HWND hWnd, HINSTANCE hInst);

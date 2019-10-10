@@ -9,6 +9,9 @@ enum RES_TYPE
 	//backGround
 	RES_BACKGROUND,
 	
+	//Chat
+	RES_CHAT_BAR,
+
 	RES_TYPE_END
 };
 

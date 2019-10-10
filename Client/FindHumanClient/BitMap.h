@@ -19,7 +19,7 @@ public:
 	}
 public:
 	void Init(HDC hdc, string path);
-	void Render(int x, int y);
+	void Render(int pX, int pY, int x, int y);
 	void RenderCheck(int x, int y);
 	void RenderText(int x, int y, string text);
 	//드로우추가하자

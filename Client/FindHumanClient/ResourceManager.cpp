@@ -45,6 +45,7 @@ void ResourceManager::InitResPath()
 
 	//backGround
 	resPath.push_back(backGround + "backGround.bmp");
+	resPath.push_back(chat + "chatBar.bmp");
 }
 
 void ResourceManager::InitBitMap(HDC hdc)

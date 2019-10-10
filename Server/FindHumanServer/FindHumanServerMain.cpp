@@ -128,29 +128,6 @@ int main(int argc, char *argv[])
 		pInfo->len = 0;
 		g_mapUser.insert(std::make_pair(ptr, pInfo));
 
-		PACKET_LOGIN_RET packet;
-		packet.header.wIndex = PACKET_INDEX_LOGIN;
-		packet.header.wLen = sizeof(packet);
-		packet.iIndex = pInfo->index;
-		send(ptr->sock, (const char*)&packet, packet.header.wLen, 0);
-
-		Sleep(500);
-
-		PACKET_USER_DATA user_packet;
-		user_packet.header.wIndex = PACKET_INDEX_USER_DATA;
-		user_packet.header.wLen = sizeof(PACKET_HEADER) + sizeof(WORD) + sizeof(USER_DATA) * g_mapUser.size();
-		user_packet.wCount = g_mapUser.size();
-		int i = 0;
-		for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++, i++)
-		{
-			user_packet.data[i].iIndex = iter->second->index;
-		}
-
-		for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++, i++)
-		{
-			send(iter->first->sock, (const char*)&user_packet, user_packet.header.wLen, 0);
-		}
-
 		// 비동기 입출력 시작
 		flags = 0;
 		retval = WSARecv(client_sock, &ptr->wsabuf, 1, &recvbytes,
@@ -199,6 +176,7 @@ DWORD WINAPI WorkerThread(LPVOID arg)
 					&temp1, FALSE, &temp2);
 				err_display("WSAGetOverlappedResult()");
 			}
+			g_mapUser.erase(ptr);
 			closesocket(ptr->sock);
 			printf("[TCP 서버] 클라이언트 종료: IP 주소=%s, 포트 번호=%d\n",
 				inet_ntoa(clientaddr.sin_addr), ntohs(clientaddr.sin_port));
@@ -277,25 +255,43 @@ bool ProcessPacket(SOCKETINFO* ptr, USER_INFO* pUser, DWORD &len)
 		g_mapUser[ptr]->name[packet.nameLen] = '\0';
 
 		g_mapUser[ptr]->roomNumber = 1004;//로비 입장
-		packet.roomNumber = 1004;
-
-		for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++)
-		{
-			send(iter->first->sock, (const char*)&packet, header.wLen, 0);
-		}
+		
+		send(ptr->sock, (const char*)&packet, header.wLen, 0);
+		
 	}
 	break;
-
 	case PACKET_INDEX_SEND_LOGIN_OK:
 	{
 		PACKET_SEND_LOGIN_OK packet;
 		memcpy(&packet, ptr->buf, header.wLen);
+		std::cout << "user : " << g_mapUser[ptr]->name <<" Login Ok" <<std::endl;
 
 		send(ptr->sock, (const char*)&packet, header.wLen, 0);
 		
 	}
 	break;
+	case PACKET_INDEX_SEND_CHAT:
+	{
+		PACKET_SEND_CHAT packet;
+		memcpy(&packet, pUser->szBuf, header.wLen);
+
+		packet.nameLen = g_mapUser[ptr]->nameLen;
+		for (int i = 0; i < g_mapUser[ptr]->nameLen; i++)
+		{
+			packet.name[i] = g_mapUser[ptr]->name[i];
+		}
+		packet.name[g_mapUser[ptr]->nameLen] = '\0';
+
+		std::cout << g_mapUser[ptr]->name << " : send chatMsg" << std::endl;
+		for (auto iter = g_mapUser.begin(); iter != g_mapUser.end(); iter++)
+		{
+			if (iter->second->roomNumber == g_mapUser[ptr]->roomNumber)
+				send(iter->first->sock, (const char*)&packet, header.wLen, 0);
+		}
 	}
+	break;
+	}
+
 
 	memcpy(&pUser->szBuf, &pUser->szBuf[header.wLen], pUser->len - header.wLen);
 	pUser->len -= header.wLen;

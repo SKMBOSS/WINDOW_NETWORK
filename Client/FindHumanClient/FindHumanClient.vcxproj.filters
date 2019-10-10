@@ -34,6 +34,9 @@
     <Filter Include="소스 파일\98_LoginInput">
       <UniqueIdentifier>{79988504-be8a-401b-9ca8-11c2283c4b88}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Chat">
+      <UniqueIdentifier>{aa1e0d32-269d-434b-8789-f41cc7488164}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BitMap.cpp">
@@ -60,9 +63,6 @@
     <ClCompile Include="UserInfo.cpp">
       <Filter>소스 파일\04_UserInfo</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>소스 파일\04_UserInfo</Filter>
-    </ClCompile>
     <ClCompile Include="Login.cpp">
       <Filter>소스 파일\01_Scene</Filter>
     </ClCompile>
@@ -71,6 +71,9 @@
     </ClCompile>
     <ClCompile Include="LoginEditText.cpp">
       <Filter>소스 파일\98_LoginInput</Filter>
+    </ClCompile>
+    <ClCompile Include="Chat.cpp">
+      <Filter>소스 파일\Chat</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -98,9 +101,6 @@
     <ClInclude Include="UserInfo.h">
       <Filter>소스 파일\04_UserInfo</Filter>
     </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>소스 파일\04_UserInfo</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Common\FIND_HUMAN_PACKET_HEADER.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -112,6 +112,9 @@
     </ClInclude>
     <ClInclude Include="LoginEditText.h">
       <Filter>소스 파일\98_LoginInput</Filter>
+    </ClInclude>
+    <ClInclude Include="Chat.h">
+      <Filter>소스 파일\Chat</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
