@@ -87,6 +87,9 @@
     <ClCompile Include="LobbyRoom.cpp">
       <Filter>소스 파일\Room</Filter>
     </ClCompile>
+    <ClCompile Include="MainGame.cpp">
+      <Filter>소스 파일\01_Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BitMap.h">
@@ -133,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="LobbyRoom.h">
       <Filter>소스 파일\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="MainGame.h">
+      <Filter>소스 파일\01_Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

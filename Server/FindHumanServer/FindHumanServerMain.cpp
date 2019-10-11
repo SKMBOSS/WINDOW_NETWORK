@@ -34,6 +34,13 @@ public:
 	char nameLen;
 };
 
+enum ROOM_STATE
+{
+	ROOM_WAITING,
+	ROOM_FULL,
+	ROOM_PLAYING,
+};
+
 class ROOM_INFO
 {
 public:
@@ -43,7 +50,7 @@ public:
 
 int g_iIndex = 0;
 std::map<SOCKETINFO*, USER_INFO*> g_mapUser;
-ROOM_INFO g_arrRoom[11];
+ROOM_INFO g_arrRoom[13];
 
 // 작업자 스레드 함수
 DWORD WINAPI WorkerThread(LPVOID arg);
@@ -53,7 +60,8 @@ bool ProcessPacket(SOCKETINFO* ptr, USER_INFO* pUser, DWORD &len);
 void err_quit(const char *msg);
 void err_display(const char *msg);
 
-void sendRoomExit(SOCKETINFO* ptr);
+void SendUpdateRoom(SOCKETINFO* ptr);
+void DeleteUserInCurrentRoom(SOCKETINFO* ptr);
 
 int main(int argc, char *argv[])
 {
@@ -182,18 +190,9 @@ DWORD WINAPI WorkerThread(LPVOID arg)
 				err_display("WSAGetOverlappedResult()");
 			}
 			//방에 있는 유저정보 삭제하고
-			for (auto iter = g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.begin();
-				iter != g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.end(); iter++)
-			{
-				if ((*iter)->sock == ptr->sock)
-				{
-					g_arrRoom[g_mapUser[ptr]->roomNumber].playerNum--;
-					g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.erase(iter);
-					break;
-				}
-			}
+			DeleteUserInCurrentRoom(ptr);
 			//방정보 보내주고
-			sendRoomExit(ptr);
+			SendUpdateRoom(ptr);
 			//서버 유저 정보 삭제하고
 			g_mapUser.erase(ptr);
 			//소켓닫고
@@ -332,7 +331,7 @@ bool ProcessPacket(SOCKETINFO* ptr, USER_INFO* pUser, DWORD &len)
 		packet.userNum = g_arrRoom[g_mapUser[ptr]->roomNumber].playerNum;
 		packet.header.wLen = sizeof(PACKET_HEADER) + (sizeof(int) *2) + (sizeof(char) * packet.len);
 
-		std::cout << "보냇다 : " <<packet.len << " ->";
+		std::cout<< g_mapUser[ptr]->roomNumber << " : " <<packet.len << " ->";
 		for (int i = 0; i < packet.len; i++)
 			std::cout << packet.szBuf[i];
 		std::cout << std::endl;
@@ -344,7 +343,43 @@ bool ProcessPacket(SOCKETINFO* ptr, USER_INFO* pUser, DWORD &len)
 		}
 	}
 	break;
+	case PACKET_INDEX_SEND_UPDATE_LOBBY_ROOM:
+	{
+		PACKET_SEND_UPDATE_LOBBY_ROOM packet;
+		packet.header.wIndex = PACKET_INDEX_SEND_UPDATE_LOBBY_ROOM;
+		packet.header.wLen = sizeof(packet);
+		for (int i = 1; i < 13; i++)
+		{
+			packet.arrUserNum[i-1] = g_arrRoom[i].playerNum;
+		}
+	
+		std::cout << "PACKET_INDEX_SEND_UPDATE_LOBBY_ROOM" << std::endl;
+		for (auto iter = g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.begin();
+			iter != g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.end(); iter++)
+		{
+			send((*iter)->sock, (const char*)&packet, packet.header.wLen, 0);
+		}
 	}
+	break;
+	case PACKET_INDEX_SEND_CAHNGE_ROOM:
+	{
+		PACKET_SEND_CAHNGE_ROOM packet;
+		memcpy(&packet, pUser->szBuf, header.wLen);
+
+		g_mapUser[ptr]->roomNumber = packet.roomNumber;
+		g_arrRoom[packet.roomNumber].playerNum++;
+		g_arrRoom[packet.roomNumber].vecUserSocket.push_back(ptr);
+
+		std::cout << g_mapUser[ptr]->name << " : go to" << packet.roomNumber << "번 방" << std::endl;
+		send(ptr->sock, (const char*)&packet, header.wLen, 0);
+
+		Sleep(500);
+		DeleteUserInCurrentRoom(ptr);
+		SendUpdateRoom(ptr);
+	}
+	}
+
+
 
 	memcpy(&pUser->szBuf, &pUser->szBuf[header.wLen], pUser->len - header.wLen);
 	pUser->len -= header.wLen;
@@ -379,7 +414,7 @@ void err_display(const char *msg)
 	LocalFree(lpMsgBuf);
 }
 
-void sendRoomExit(SOCKETINFO* ptr)
+void SendUpdateRoom(SOCKETINFO* ptr)
 {
 	PACKET_SEND_USER_VIEW packet;
 	packet.header.wIndex = PACKET_INDEX_SEND_USER_VIEW;
@@ -407,5 +442,19 @@ void sendRoomExit(SOCKETINFO* ptr)
 		iter != g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.end(); iter++)
 	{
 		send((*iter)->sock, (const char*)&packet, packet.header.wLen, 0);
+	}
+}
+
+void DeleteUserInCurrentRoom(SOCKETINFO* ptr)
+{
+	for (auto iter = g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.begin();
+		iter != g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.end(); iter++)
+	{
+		if ((*iter)->sock == ptr->sock)
+		{
+			g_arrRoom[g_mapUser[ptr]->roomNumber].playerNum--;
+			g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.erase(iter);
+			break;
+		}
 	}
 }

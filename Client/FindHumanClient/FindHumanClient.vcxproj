@@ -148,6 +148,7 @@
     <ClCompile Include="LobbyRoom.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="LoginEditText.cpp" />
+    <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="Login.h" />
     <ClInclude Include="LoginEditText.h" />
     <ClInclude Include="Macro.h" />
+    <ClInclude Include="MainGame.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />

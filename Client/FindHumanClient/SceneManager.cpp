@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "Lobby.h"
 #include "Login.h"
+#include "MainGame.h"
 #include "Macro.h"
 using namespace std;
 
@@ -28,7 +29,7 @@ void SceneManager::InitSceneContainer()
 {
 	sceneContainer.insert(make_pair(SCENE_STATE::LOGIN, new Login));
 	sceneContainer.insert(make_pair(SCENE_STATE::LOBBY, new Lobby));
-	//sceneContainer.insert(make_pair(SCENE_STATE::MAINGAME, new MainGame));
+	sceneContainer.insert(make_pair(SCENE_STATE::MAINGAME, new MainGame));
 }
 
 void SceneManager::ChangeScene(SCENE_STATE state)

@@ -17,7 +17,7 @@ private:
 	int			m_iThisNumber;
 	POINT		m_pos;
 
-	int			m_iUserNum = 0;
+	int			m_iUserNum = 1;
 
 	BitMap*		m_pRoomBitMap;
 	BitMap*		m_pRoomStateBitMap;
@@ -26,10 +26,13 @@ private:
 
 public:
 	void Init();
+	void Update(int x, int y);
 	void Render();
 	void ProcessPacket(char* szBuf, int len);
 public:
 	void InitRoom();
+	void UpdateRoom(int userNum);
+	void SelectRoom(int x, int y);
 public:
 	LobbyRoom();
 	~LobbyRoom();
