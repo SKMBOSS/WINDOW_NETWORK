@@ -112,7 +112,6 @@ void FindHumanClient::ProcessPacketBuf()
 	memcpy(&packetBuf, &packetBuf[header.wLen], myLen - header.wLen);
 	myLen -= header.wLen;
 
-
 	if (myLen >= sizeof(PACKET_HEADER))
 	{
 		ProcessPacketBuf();

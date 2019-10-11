@@ -42,6 +42,16 @@ void BitMap::RenderText(int x, int y, string text)
 	TextOut(m_hDC, x, y, text.c_str(), text.length());
 }
 
+void BitMap::RenderAlphaBlend(int pX, int pY, int x, int y, int alpha)
+{
+	BLENDFUNCTION bf;
+	ZeroMemory(&bf, sizeof(BLENDFUNCTION));  //멤버들을 모두 0으로...
+	bf.BlendOp = AC_SRC_OVER;
+	bf.SourceConstantAlpha = alpha; //0~255 값을 가지는 투명도
+
+	AlphaBlend(m_hDC, x, y, pX, pY, m_hMemDC, 0, 0, m_size.cx, m_size.cy,bf);
+}
+
 void BitMap::Release()
 {
 	SelectObject(m_hMemDC, m_hOldBitMap);

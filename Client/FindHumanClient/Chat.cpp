@@ -21,11 +21,12 @@ void Chat::Init(HWND hWnd, HINSTANCE hInst, int maxRenderText)
 	m_maxRenderText = maxRenderText;
 
 	m_hChatWnd = CreateWindow("edit", NULL, WS_CHILD | WS_VISIBLE | WS_BORDER |
-		ES_AUTOHSCROLL, 12, 875, 788, 25, hWnd, (HMENU)ID_EDIT, hInst, NULL);
+		ES_AUTOHSCROLL, 12, 875, 778, 25, hWnd, (HMENU)ID_EDIT, hInst, NULL);
 }
 
 void Chat::Update()
 {
+	LimitText(80);
 	//Å°´­¸²
 	if (GetKeyState(VK_RETURN) & 0x8000)
 	{
@@ -50,10 +51,10 @@ void Chat::Render()
 	BitMap* text = ResourceManager::GetInstance()->GetBitMap(RES_CHAT_BAR);
 	int msgPosY = 850;
 
-	text->Render(790, 300, 10, 575);
+	text->RenderAlphaBlend(780, 250, 10, 625, 125);
 	for (auto iter = m_deqRendrMsg.begin(); iter != m_deqRendrMsg.end(); ++iter)
 	{
-		text->RenderText(10, msgPosY, (*iter).data());
+		text->RenderText(15, msgPosY, (*iter).data());
 		msgPosY -= 15;
 	}
 }
@@ -111,3 +112,21 @@ void Chat::ProcessPacket(char* szBuf, int len)
 	}
 }
 
+void Chat::LimitText(int limitIndex)
+{
+	char getMsg[128];
+	GetDlgItemText(m_hWnd, ID_EDIT, getMsg, 128);
+
+	if (lstrlen(getMsg) > limitIndex)
+	{
+		char copyMsg[128];
+
+		for (int i = 0; i < limitIndex; i++)
+		{
+			copyMsg[i] = getMsg[i];
+		}
+		copyMsg[limitIndex] = '\0';
+
+		SetDlgItemText(m_hWnd, ID_EDIT, copyMsg);
+	}
+}

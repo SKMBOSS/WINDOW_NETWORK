@@ -42,10 +42,17 @@ void ResourceManager::InitResPath()
 	string basePath = "resource\\";
 	string backGround = basePath + "backGround\\";
 	string chat = basePath + "chat\\";
+	string userView = basePath + "userView\\";
+	string lobby = basePath + "lobby\\";
 
 	//backGround
 	resPath.push_back(backGround + "backGround.bmp");
 	resPath.push_back(chat + "chatBar.bmp");
+	resPath.push_back(userView + "userView.bmp");
+	resPath.push_back(lobby + "lobbyRoom.bmp");
+	resPath.push_back(lobby + "waitng.bmp");
+	resPath.push_back(lobby + "full.bmp");
+	resPath.push_back(lobby + "playing.bmp");
 }
 
 void ResourceManager::InitBitMap(HDC hdc)

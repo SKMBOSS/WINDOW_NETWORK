@@ -6,11 +6,20 @@ using namespace std;
 
 enum RES_TYPE
 {
-	//backGround
+	//BackGround
 	RES_BACKGROUND,
 	
 	//Chat
 	RES_CHAT_BAR,
+
+	//UserView
+	RES_USER_VIEW,
+
+	//LobbyRoom
+	RES_LOBBY_ROOM,
+	RES_WORD_WAITING,
+	RES_WORD_FULL,
+	RES_WORD_PLAYING,
 
 	RES_TYPE_END
 };
@@ -37,4 +46,3 @@ private:
 public:
 	~ResourceManager();
 };
-

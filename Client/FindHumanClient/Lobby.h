@@ -5,15 +5,21 @@ using namespace std;
 
 class BackGround;
 class Chat;
+class UserView;
+class LobbyRoom;
 class Lobby :
 	public Scene
 {
 private:
-	HWND			m_hWnd;
-	HINSTANCE		m_hInst;
+	HWND				m_hWnd;
+	HINSTANCE			m_hInst;
 
-	Chat*			m_pChat;
-	BackGround*		m_pBackGround;
+	BackGround*			m_pBackGround;
+	UserView*			m_pUserView;
+	Chat*				m_pChat;
+
+	vector<LobbyRoom*>	m_vecRoom;
+	
 
 public:
 	virtual void Init(HWND hWnd, HINSTANCE hInst);
@@ -21,6 +27,8 @@ public:
 	virtual void Render();
 	virtual void Release();
 	virtual void ProcessPacket(char* szBuf, int len);
+public:
+	void SendUserViewUpdate();
 public:
 	Lobby();
 	~Lobby();

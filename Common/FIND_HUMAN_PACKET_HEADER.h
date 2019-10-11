@@ -7,6 +7,7 @@ enum PACKET_INDEX
 	PACKET_INDEX_SEND_USERNAME = 1,
 	PACKET_INDEX_SEND_LOGIN_OK,
 	PACKET_INDEX_SEND_CHAT,
+	PACKET_INDEX_SEND_USER_VIEW,
 };
 
 struct PACKET_HEADER
@@ -37,5 +38,13 @@ struct PACKET_SEND_CHAT
 
 	int len;
 	char szBuf[128];
+};
+
+struct PACKET_SEND_USER_VIEW
+{
+	PACKET_HEADER header;
+	int userNum;
+	int len;
+	char szBuf[512];
 };
 #pragma pack()

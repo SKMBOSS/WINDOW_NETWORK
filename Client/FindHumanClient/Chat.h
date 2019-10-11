@@ -25,6 +25,7 @@ public:
 public:
 	void ProcessPacket(char* szBuf, int len);
 	void SendChatMsg(char *msg, int len);
+	void LimitText(int limitIndex);
 
 public:
 	Chat();
