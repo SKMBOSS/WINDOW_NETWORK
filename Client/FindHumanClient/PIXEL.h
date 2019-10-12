@@ -4,10 +4,9 @@
 class BitMap;
 class PIXEL
 {
-private:	
+public:	
 	BitMap*		m_pPixelBitmap;
-	POINT		m_pPos;
-
+	POINT		m_Pos;
 public:
 	void Init(int x, int y);
 	void Render();

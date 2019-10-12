@@ -32,6 +32,7 @@ class BitMap;
 class ResourceManager
 {
 private:
+	HDC m_hdc;
 	static ResourceManager* m_sThis;
 	BitMap* m_pBitMap[RES_TYPE_END];
 	vector<string> resPath;
@@ -45,6 +46,11 @@ private:
 public:
 	void Init(HDC hdc);
 	void Release();
+public:
+	inline HDC GetBackBufHdc()
+	{
+		return m_hdc;
+	}
 private:
 	ResourceManager();
 public:

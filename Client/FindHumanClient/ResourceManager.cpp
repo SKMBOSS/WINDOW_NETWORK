@@ -22,6 +22,7 @@ ResourceManager* ResourceManager::GetInstance()
 
 void ResourceManager::Init(HDC hdc)
 {
+	m_hdc = hdc;
 	InitResPath();
 	InitBitMap(hdc);
 }

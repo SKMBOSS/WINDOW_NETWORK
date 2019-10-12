@@ -32,7 +32,7 @@ void MainGame::Init(HWND hWnd, HINSTANCE hInst)
 	m_pChat->Init(hWnd, hInst, 16);
 
 	m_pPaintBoard = new PaintBoard;
-	m_pPaintBoard->Init();
+	m_pPaintBoard->Init(GetDC(hWnd));
 
 	SendUserViewUpdate();
 	m_pPaintBoard->Render();
