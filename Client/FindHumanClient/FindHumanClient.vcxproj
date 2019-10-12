@@ -149,6 +149,8 @@
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="LoginEditText.cpp" />
     <ClCompile Include="MainGame.cpp" />
+    <ClCompile Include="PaintBoard.cpp" />
+    <ClCompile Include="PIXEL.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -167,6 +169,8 @@
     <ClInclude Include="LoginEditText.h" />
     <ClInclude Include="Macro.h" />
     <ClInclude Include="MainGame.h" />
+    <ClInclude Include="PaintBoard.h" />
+    <ClInclude Include="PIXEL.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />

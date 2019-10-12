@@ -8,6 +8,9 @@ using namespace std;
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 void ProcessSocketMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
+void Update() { FindHumanClient::GetInstance()->Update(); };
+void Render() { FindHumanClient::GetInstance()->Render(); };
+
 HINSTANCE g_hInst;
 HWND hWnd;
 LPCTSTR lpszClass = TEXT("FindHumanClient");

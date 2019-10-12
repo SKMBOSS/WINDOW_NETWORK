@@ -17,7 +17,7 @@ private:
 	int			m_iThisNumber;
 	POINT		m_pos;
 
-	int			m_iUserNum = 1;
+	int			m_iUserNum =8;
 
 	BitMap*		m_pRoomBitMap;
 	BitMap*		m_pRoomStateBitMap;

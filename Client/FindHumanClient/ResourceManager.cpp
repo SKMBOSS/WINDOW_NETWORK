@@ -44,6 +44,7 @@ void ResourceManager::InitResPath()
 	string chat = basePath + "chat\\";
 	string userView = basePath + "userView\\";
 	string lobby = basePath + "lobby\\";
+	string paintBoard = basePath + "paintBoard\\";
 
 	//backGround
 	resPath.push_back(backGround + "backGround.bmp");
@@ -53,6 +54,8 @@ void ResourceManager::InitResPath()
 	resPath.push_back(lobby + "waitng.bmp");
 	resPath.push_back(lobby + "full.bmp");
 	resPath.push_back(lobby + "playing.bmp");
+	resPath.push_back(paintBoard + "paintBoard.bmp");
+	resPath.push_back(paintBoard + "blackBrush.bmp");
 }
 
 void ResourceManager::InitBitMap(HDC hdc)

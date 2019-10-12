@@ -366,20 +366,32 @@ bool ProcessPacket(SOCKETINFO* ptr, USER_INFO* pUser, DWORD &len)
 		PACKET_SEND_CAHNGE_ROOM packet;
 		memcpy(&packet, pUser->szBuf, header.wLen);
 
-		g_mapUser[ptr]->roomNumber = packet.roomNumber;
 		g_arrRoom[packet.roomNumber].playerNum++;
 		g_arrRoom[packet.roomNumber].vecUserSocket.push_back(ptr);
 
-		std::cout << g_mapUser[ptr]->name << " : go to" << packet.roomNumber << "번 방" << std::endl;
-		send(ptr->sock, (const char*)&packet, header.wLen, 0);
-
-		Sleep(500);
 		DeleteUserInCurrentRoom(ptr);
 		SendUpdateRoom(ptr);
-	}
-	}
 
+		g_mapUser[ptr]->roomNumber = packet.roomNumber;
+		
+		std::cout << g_mapUser[ptr]->name << " : go to" << packet.roomNumber << "번 방" << std::endl;
+		send(ptr->sock, (const char*)&packet, header.wLen, 0);
+		
+	}
+	break;
+	case PACKET_INDEX_SEND_PIXEL_POS:
+	{
+		PACKET_SEND_PIXEL_POS packet;
+		memcpy(&packet, pUser->szBuf, header.wLen);
 
+		for (auto iter = g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.begin();
+			iter != g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.end(); iter++)
+		{
+			send((*iter)->sock, (const char*)&packet, packet.header.wLen, 0);
+		}
+	}
+	break;
+	}
 
 	memcpy(&pUser->szBuf, &pUser->szBuf[header.wLen], pUser->len - header.wLen);
 	pUser->len -= header.wLen;

@@ -21,7 +21,8 @@ void LobbyRoom::Init()
 
 void LobbyRoom::Update(int x, int y)
 {
-	SelectRoom(x, y);
+	if(m_iUserNum < 8)
+		SelectRoom(x, y);
 }
 
 void LobbyRoom::Render()

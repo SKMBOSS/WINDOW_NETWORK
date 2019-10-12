@@ -43,6 +43,9 @@
     <Filter Include="소스 파일\Room">
       <UniqueIdentifier>{bab82498-a07c-48bd-a627-b0d18081f0f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\PaintBoard">
+      <UniqueIdentifier>{2826b38a-c55e-495d-a4a3-ec56677e959f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BitMap.cpp">
@@ -89,6 +92,12 @@
     </ClCompile>
     <ClCompile Include="MainGame.cpp">
       <Filter>소스 파일\01_Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="PaintBoard.cpp">
+      <Filter>소스 파일\PaintBoard</Filter>
+    </ClCompile>
+    <ClCompile Include="PIXEL.cpp">
+      <Filter>소스 파일\PaintBoard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +148,12 @@
     </ClInclude>
     <ClInclude Include="MainGame.h">
       <Filter>소스 파일\01_Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="PaintBoard.h">
+      <Filter>소스 파일\PaintBoard</Filter>
+    </ClInclude>
+    <ClInclude Include="PIXEL.h">
+      <Filter>소스 파일\PaintBoard</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
