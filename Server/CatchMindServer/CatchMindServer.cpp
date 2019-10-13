@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
 		// accept()
 		addrlen = sizeof(clientaddr);
 		client_sock = accept(listen_sock, (SOCKADDR *)&clientaddr, &addrlen);
-		if (client_sock == INVALID_SOCKET) 
+		if (client_sock == INVALID_SOCKET)
 		{
 			err_display("accept()");
 			break;
@@ -277,19 +277,19 @@ bool ProcessPacket(SOCKETINFO* ptr, USER_INFO* pUser, DWORD &len)
 
 		g_arrRoom[g_mapUser[ptr]->roomNumber].playerNum++;
 		g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.push_back(ptr);
-		
+
 		send(ptr->sock, (const char*)&packet, header.wLen, 0);
-		
+
 	}
 	break;
 	case PACKET_INDEX_SEND_LOGIN_OK:
 	{
 		PACKET_SEND_LOGIN_OK packet;
 		memcpy(&packet, ptr->buf, header.wLen);
-		std::cout << "user : " << g_mapUser[ptr]->name <<" Login Ok" <<std::endl;
+		std::cout << "user : " << g_mapUser[ptr]->name << " Login Ok" << std::endl;
 
 		send(ptr->sock, (const char*)&packet, header.wLen, 0);
-		
+
 	}
 	break;
 	case PACKET_INDEX_SEND_CHAT:
@@ -305,10 +305,10 @@ bool ProcessPacket(SOCKETINFO* ptr, USER_INFO* pUser, DWORD &len)
 		packet.name[g_mapUser[ptr]->nameLen] = '\0';
 
 		std::cout << g_mapUser[ptr]->name << " : send chatMsg" << std::endl;
-		for (auto iter = g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.begin(); 
+		for (auto iter = g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.begin();
 			iter != g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.end(); iter++)
 		{
-			send( (*iter)->sock , (const char*)&packet, header.wLen, 0);
+			send((*iter)->sock, (const char*)&packet, header.wLen, 0);
 		}
 	}
 	break;
@@ -329,9 +329,9 @@ bool ProcessPacket(SOCKETINFO* ptr, USER_INFO* pUser, DWORD &len)
 			packet.szBuf[totalLen++] = '\0';
 		}
 		packet.userNum = g_arrRoom[g_mapUser[ptr]->roomNumber].playerNum;
-		packet.header.wLen = sizeof(PACKET_HEADER) + (sizeof(int) *2) + (sizeof(char) * packet.len);
+		packet.header.wLen = sizeof(PACKET_HEADER) + (sizeof(int) * 2) + (sizeof(char) * packet.len);
 
-		std::cout<< g_mapUser[ptr]->roomNumber << " : " <<packet.len << " ->";
+		std::cout << g_mapUser[ptr]->roomNumber << " : " << packet.len << " ->";
 		for (int i = 0; i < packet.len; i++)
 			std::cout << packet.szBuf[i];
 		std::cout << std::endl;
@@ -350,9 +350,9 @@ bool ProcessPacket(SOCKETINFO* ptr, USER_INFO* pUser, DWORD &len)
 		packet.header.wLen = sizeof(packet);
 		for (int i = 1; i < 13; i++)
 		{
-			packet.arrUserNum[i-1] = g_arrRoom[i].playerNum;
+			packet.arrUserNum[i - 1] = g_arrRoom[i].playerNum;
 		}
-	
+
 		std::cout << "PACKET_INDEX_SEND_UPDATE_LOBBY_ROOM" << std::endl;
 		for (auto iter = g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.begin();
 			iter != g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.end(); iter++)
@@ -373,10 +373,10 @@ bool ProcessPacket(SOCKETINFO* ptr, USER_INFO* pUser, DWORD &len)
 		SendUpdateRoom(ptr);
 
 		g_mapUser[ptr]->roomNumber = packet.roomNumber;
-		
+
 		std::cout << g_mapUser[ptr]->name << " : go to" << packet.roomNumber << "¹ø ¹æ" << std::endl;
 		send(ptr->sock, (const char*)&packet, header.wLen, 0);
-		
+
 	}
 	break;
 	case PACKET_INDEX_SEND_PIXEL_POS:

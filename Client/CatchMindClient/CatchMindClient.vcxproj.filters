@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\00_FrameWork">
+      <UniqueIdentifier>{79fe7b74-5657-415e-b19d-f0784911a45b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01_Manager">
+      <UniqueIdentifier>{81962092-cae4-4263-ab6c-4cb0f16159f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02_BitMap">
+      <UniqueIdentifier>{c588c7f0-81a1-4116-884d-b9bdbd71f096}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\03_Scene">
+      <UniqueIdentifier>{d15363a1-0d4f-4751-ae77-e0ea155997fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\04_Object">
+      <UniqueIdentifier>{3219db52-01f7-4456-af5c-ae5ac1b45398}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\04_Object\00_Common">
+      <UniqueIdentifier>{82abce50-9eb9-48d9-8c5b-2c2695b9c58e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\04_Object\00_Common\BackGround">
+      <UniqueIdentifier>{e07eae25-10e7-4644-b501-35718fa4fd25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\04_Object\02_Lobby">
+      <UniqueIdentifier>{8305fb66-3ca1-4761-8b93-595171bc99d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\04_Object\01_Login">
+      <UniqueIdentifier>{36207716-a284-4521-9e14-cf98191f2430}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\04_Object\01_Login\LoginInput">
+      <UniqueIdentifier>{b6051970-11b2-4fd1-bb58-6b83af2cf035}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\04_Object\02_Lobby\Room">
+      <UniqueIdentifier>{baad67b3-43cc-48b0-b990-fa991e49ac32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\04_Object\00_Common\Chat">
+      <UniqueIdentifier>{3f279cdb-6539-4e91-aed8-66cad456795a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\04_Object\00_Common\UserView">
+      <UniqueIdentifier>{40ef5f7e-81d9-4722-9b41-63784c9aecfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\04_Object\03_MainGame">
+      <UniqueIdentifier>{87f1a2a5-b794-43ec-86f3-7aa5ca16e3ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\04_Object\03_MainGame\PaintBoard">
+      <UniqueIdentifier>{1c790a98-d5b6-4431-aa21-e34b48f8d778}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CatchMindClientMain.cpp">
+      <Filter>소스 파일\00_FrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="CatchMindClient.cpp">
+      <Filter>소스 파일\00_FrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>소스 파일\01_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="BitMap.cpp">
+      <Filter>소스 파일\02_BitMap</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>소스 파일\01_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Lobby.cpp">
+      <Filter>소스 파일\03_Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Login.cpp">
+      <Filter>소스 파일\03_Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="MainGame.cpp">
+      <Filter>소스 파일\03_Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>소스 파일\03_Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInfo.cpp">
+      <Filter>소스 파일\01_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="BackGround.cpp">
+      <Filter>소스 파일\04_Object\00_Common\BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginEditText.cpp">
+      <Filter>소스 파일\04_Object\01_Login\LoginInput</Filter>
+    </ClCompile>
+    <ClCompile Include="Chat.cpp">
+      <Filter>소스 파일\04_Object\00_Common\Chat</Filter>
+    </ClCompile>
+    <ClCompile Include="UserView.cpp">
+      <Filter>소스 파일\04_Object\00_Common\UserView</Filter>
+    </ClCompile>
+    <ClCompile Include="LobbyRoom.cpp">
+      <Filter>소스 파일\04_Object\02_Lobby\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="PaintBoard.cpp">
+      <Filter>소스 파일\04_Object\03_MainGame\PaintBoard</Filter>
+    </ClCompile>
+    <ClCompile Include="PIXEL.cpp">
+      <Filter>소스 파일\04_Object\03_MainGame\PaintBoard</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Macro.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CatchMindClient.h">
+      <Filter>소스 파일\00_FrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>소스 파일\01_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="BitMap.h">
+      <Filter>소스 파일\02_BitMap</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>소스 파일\01_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Lobby.h">
+      <Filter>소스 파일\03_Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Login.h">
+      <Filter>소스 파일\03_Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="MainGame.h">
+      <Filter>소스 파일\03_Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>소스 파일\03_Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInfo.h">
+      <Filter>소스 파일\01_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="BackGround.h">
+      <Filter>소스 파일\04_Object\00_Common\BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginEditText.h">
+      <Filter>소스 파일\04_Object\01_Login\LoginInput</Filter>
+    </ClInclude>
+    <ClInclude Include="Chat.h">
+      <Filter>소스 파일\04_Object\00_Common\Chat</Filter>
+    </ClInclude>
+    <ClInclude Include="UserView.h">
+      <Filter>소스 파일\04_Object\00_Common\UserView</Filter>
+    </ClInclude>
+    <ClInclude Include="LobbyRoom.h">
+      <Filter>소스 파일\04_Object\02_Lobby\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="PaintBoard.h">
+      <Filter>소스 파일\04_Object\03_MainGame\PaintBoard</Filter>
+    </ClInclude>
+    <ClInclude Include="PIXEL.h">
+      <Filter>소스 파일\04_Object\03_MainGame\PaintBoard</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
