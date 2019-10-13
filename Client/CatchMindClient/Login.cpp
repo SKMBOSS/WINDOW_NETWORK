@@ -5,6 +5,7 @@
 #include "BackGround.h"
 #include "LoginEditText.h"
 #include "SceneManager.h"
+#include "Logo.h"
 
 Login::Login()
 {
@@ -21,8 +22,10 @@ void Login::Init(HWND hWnd, HINSTANCE hInst)
 
 	m_pBackGround = new BackGround;
 	m_pLoginEditText = new LoginEditText;
+	m_pLogo = new Logo;
 
 	m_pBackGround->Init();
+	m_pLogo->Init();
 	m_pLoginEditText->Init(m_hWnd, m_hInst);
 }
 
@@ -34,12 +37,13 @@ void Login::Update(float fElapseTime)
 void Login::Render()
 {
 	m_pBackGround->Render();
+	m_pLogo->Render();
 }
 
 void Login::Release()
 {
 	SAFE_DELETE(m_pBackGround);
-
+	SAFE_DELETE(m_pLogo);
 	SAFE_DELETE(m_pLoginEditText);
 }
 

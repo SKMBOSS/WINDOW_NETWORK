@@ -49,6 +49,7 @@ void ResourceManager::InitResPath()
 
 	//backGround
 	resPath.push_back(backGround + "backGround.bmp");
+	resPath.push_back(backGround + "logo.bmp");
 	resPath.push_back(chat + "chatBar.bmp");
 	resPath.push_back(userView + "userView.bmp");
 	resPath.push_back(lobby + "lobbyRoom.bmp");

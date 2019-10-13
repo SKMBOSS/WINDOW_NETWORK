@@ -8,7 +8,7 @@ enum RES_TYPE
 {
 	//BackGround
 	RES_BACKGROUND,
-
+	RES_LOGO,
 	//Chat
 	RES_CHAT_BAR,
 

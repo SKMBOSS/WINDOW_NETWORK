@@ -58,6 +58,9 @@
     <Filter Include="소스 파일\04_Object\03_MainGame\PaintBoard">
       <UniqueIdentifier>{1c790a98-d5b6-4431-aa21-e34b48f8d778}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\04_Object\01_Login\Logo">
+      <UniqueIdentifier>{c68d8b73-e50d-489e-bebc-73b0baf28008}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CatchMindClientMain.cpp">
@@ -110,6 +113,9 @@
     </ClCompile>
     <ClCompile Include="SocketManager.cpp">
       <Filter>소스 파일\01_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Logo.cpp">
+      <Filter>소스 파일\04_Object\01_Login\Logo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="SocketManager.h">
       <Filter>소스 파일\01_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Logo.h">
+      <Filter>소스 파일\04_Object\01_Login\Logo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

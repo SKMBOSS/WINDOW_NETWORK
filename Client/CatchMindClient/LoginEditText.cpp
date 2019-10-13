@@ -19,7 +19,7 @@ void LoginEditText::Init(HWND hWnd, HINSTANCE hInst)
 	m_bKeyFirst = false;
 
 	m_hLoginEditTextWnd = CreateWindow("edit", NULL, WS_CHILD | WS_VISIBLE | WS_BORDER |
-		ES_AUTOHSCROLL, 465, 800, 200, 25, hWnd, (HMENU)ID_EDIT, hInst, NULL);
+		ES_AUTOHSCROLL, 365, 615, 200, 25, hWnd, (HMENU)ID_EDIT, hInst, NULL);
 }
 
 void LoginEditText::Update()

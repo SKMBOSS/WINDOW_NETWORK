@@ -3,6 +3,7 @@
 
 class LoginEditText;
 class BackGround;
+class Logo;
 class Login :
 	public Scene
 {
@@ -10,6 +11,7 @@ private:
 	HWND			m_hWnd;
 	HINSTANCE		m_hInst;
 	BackGround*		m_pBackGround;
+	Logo*			m_pLogo;
 	LoginEditText*	m_pLoginEditText;
 
 public:
