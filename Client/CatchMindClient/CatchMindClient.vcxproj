@@ -154,10 +154,11 @@
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="UserInfo.cpp" />
+    <ClCompile Include="SocketManager.cpp" />
     <ClCompile Include="UserView.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Common\CATCH_MIND_PACKET_HEADER.h" />
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="BitMap.h" />
     <ClInclude Include="CatchMindClient.h" />
@@ -173,7 +174,7 @@
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="UserInfo.h" />
+    <ClInclude Include="SocketManager.h" />
     <ClInclude Include="UserView.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

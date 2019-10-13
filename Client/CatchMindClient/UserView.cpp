@@ -1,8 +1,8 @@
 #include "UserView.h"
 #include "BitMap.h"
 #include "ResourceManager.h"
-#include "..\..\Common\FIND_HUMAN_PACKET_HEADER.h"
-#include "UserInfo.h"
+#include "..\..\Common\CATCH_MIND_PACKET_HEADER.h"
+#include "SocketManager.h"
 
 UserView::UserView()
 {

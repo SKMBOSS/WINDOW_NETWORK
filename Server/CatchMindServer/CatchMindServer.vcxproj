@@ -141,6 +141,9 @@
   <ItemGroup>
     <ClCompile Include="CatchMindServer.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Common\CATCH_MIND_PACKET_HEADER.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

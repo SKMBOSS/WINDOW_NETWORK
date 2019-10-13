@@ -87,9 +87,6 @@
     <ClCompile Include="Scene.cpp">
       <Filter>소스 파일\03_Scene</Filter>
     </ClCompile>
-    <ClCompile Include="UserInfo.cpp">
-      <Filter>소스 파일\01_Manager</Filter>
-    </ClCompile>
     <ClCompile Include="BackGround.cpp">
       <Filter>소스 파일\04_Object\00_Common\BackGround</Filter>
     </ClCompile>
@@ -110,6 +107,9 @@
     </ClCompile>
     <ClCompile Include="PIXEL.cpp">
       <Filter>소스 파일\04_Object\03_MainGame\PaintBoard</Filter>
+    </ClCompile>
+    <ClCompile Include="SocketManager.cpp">
+      <Filter>소스 파일\01_Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -140,9 +140,6 @@
     <ClInclude Include="Scene.h">
       <Filter>소스 파일\03_Scene</Filter>
     </ClInclude>
-    <ClInclude Include="UserInfo.h">
-      <Filter>소스 파일\01_Manager</Filter>
-    </ClInclude>
     <ClInclude Include="BackGround.h">
       <Filter>소스 파일\04_Object\00_Common\BackGround</Filter>
     </ClInclude>
@@ -163,6 +160,12 @@
     </ClInclude>
     <ClInclude Include="PIXEL.h">
       <Filter>소스 파일\04_Object\03_MainGame\PaintBoard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\CATCH_MIND_PACKET_HEADER.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SocketManager.h">
+      <Filter>소스 파일\01_Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

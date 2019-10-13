@@ -1,8 +1,8 @@
 #include "LobbyRoom.h"
 #include "BitMap.h"
 #include "ResourceManager.h"
-#include "UserInfo.h"
-#include "..\..\Common\FIND_HUMAN_PACKET_HEADER.h"
+#include "SocketManager.h"
+#include "..\..\Common\CATCH_MIND_PACKET_HEADER.h"
 
 int LobbyRoom::m_sRoomNumber = 0;
 
@@ -82,7 +82,7 @@ void LobbyRoom::SelectRoom(int x, int y)
 			packet.header.wLen = sizeof(packet);
 
 			packet.roomNumber = m_iThisNumber + 1;
-			send(USER_INFO->m_socket, (const char*)&packet, sizeof(packet), 0);
+			send(SOCKET_INFO->m_socket, (const char*)&packet, sizeof(packet), 0);
 		}
 		else
 		{

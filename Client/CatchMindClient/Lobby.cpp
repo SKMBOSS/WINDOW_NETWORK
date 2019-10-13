@@ -1,12 +1,12 @@
 #include "Lobby.h"
 #include "Macro.h"
-#include "..\..\Common\FIND_HUMAN_PACKET_HEADER.h"
+#include "..\..\Common\CATCH_MIND_PACKET_HEADER.h"
 #include "SceneManager.h"
 #include "BackGround.h"
 #include "Chat.h"
 #include "UserView.h"
 #include "LobbyRoom.h"
-#include "UserInfo.h"
+#include "SocketManager.h"
 
 Lobby::Lobby()
 {
@@ -137,7 +137,7 @@ void Lobby::SendUserViewUpdate()
 	packet.header.wIndex = PACKET_INDEX_SEND_USER_VIEW;
 	packet.header.wLen = sizeof(PACKET_HEADER);
 
-	send(USER_INFO->m_socket, (const char*)&packet, packet.header.wLen, 0);
+	send(SOCKET_INFO->m_socket, (const char*)&packet, packet.header.wLen, 0);
 }
 
 void Lobby::SendLobbyRoomUpdate()
@@ -146,5 +146,5 @@ void Lobby::SendLobbyRoomUpdate()
 	packet.header.wIndex = PACKET_INDEX_SEND_UPDATE_LOBBY_ROOM;
 	packet.header.wLen = sizeof(PACKET_HEADER);
 
-	send(USER_INFO->m_socket, (const char*)&packet, packet.header.wLen, 0);
+	send(SOCKET_INFO->m_socket, (const char*)&packet, packet.header.wLen, 0);
 }

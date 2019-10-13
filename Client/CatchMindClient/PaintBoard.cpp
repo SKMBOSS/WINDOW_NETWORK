@@ -3,8 +3,8 @@
 #include "BitMap.h"
 #include "ResourceManager.h"
 #include "PIXEL.h"
-#include "..\..\Common\FIND_HUMAN_PACKET_HEADER.h"
-#include "UserInfo.h"
+#include "..\..\Common\CATCH_MIND_PACKET_HEADER.h"
+#include "SocketManager.h"
 
 PaintBoard::PaintBoard()
 {
@@ -205,7 +205,7 @@ void PaintBoard::SendPixelPos(POINT newPos, POINT oldPos, int pixelWidth, COLORR
 	packet.pixelWidth = pixelWidth;
 	packet.color = color;
 
-	send(USER_INFO->m_socket, (const char*)&packet, packet.header.wLen, 0);
+	send(SOCKET_INFO->m_socket, (const char*)&packet, packet.header.wLen, 0);
 }
 
 void PaintBoard::SendAllDelete()
@@ -214,7 +214,7 @@ void PaintBoard::SendAllDelete()
 	packet.header.wIndex = PACKET_INDEX_SEND_ALL_DELETE;
 	packet.header.wLen = sizeof(packet);
 
-	send(USER_INFO->m_socket, (const char*)&packet, packet.header.wLen, 0);
+	send(SOCKET_INFO->m_socket, (const char*)&packet, packet.header.wLen, 0);
 }
 
 void PaintBoard::MakeAndPushPixel(POINT newPos, POINT oldPos, int pixelWidth, COLORREF color)

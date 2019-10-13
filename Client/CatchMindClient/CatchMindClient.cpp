@@ -1,8 +1,8 @@
 #include "CatchMindClient.h"
 #include "ResourceManager.h"
 #include "SceneManager.h"
-#include "..\..\Common\FIND_HUMAN_PACKET_HEADER.h"
-#include "UserInfo.h"
+#include "..\..\Common\CATCH_MIND_PACKET_HEADER.h"
+#include "SocketManager.h"
 #include "Macro.h"
 
 CatchMindClient* CatchMindClient::m_sThis = nullptr;
@@ -27,7 +27,7 @@ CatchMindClient* CatchMindClient::GetInstance()
 
 void CatchMindClient::Init(HWND hWnd, HINSTANCE hInst, SOCKET sock)
 {
-	USER_INFO->m_socket = sock;
+	SOCKET_INFO->m_socket = sock;
 	m_hWnd = hWnd;
 	m_hInst = hInst;
 	HDC hdc = GetDC(hWnd);
@@ -60,7 +60,7 @@ void CatchMindClient::Render()
 
 void CatchMindClient::Release()
 {
-	USER_INFO->Release();
+	SOCKET_INFO->Release();
 	SceneManager::GetInstance()->Release();
 	ResourceManager::GetInstance()->Release();
 
@@ -82,7 +82,7 @@ void CatchMindClient::ProcessPacket(char * szBuf, int len)
 
 void CatchMindClient::ProcessPacketBuf()
 {
-	//ÂªÀ½
+	//Âªï¿½
 	if (myLen < sizeof(PACKET_HEADER))
 	{
 		return;
@@ -125,7 +125,7 @@ void CatchMindClient::SendLoginOk()
 	packet.header.wIndex = PACKET_INDEX_SEND_LOGIN_OK;
 	packet.header.wLen = sizeof(packet);
 
-	send(USER_INFO->m_socket, (const char*)&packet, sizeof(packet), 0);
+	send(SOCKET_INFO->m_socket, (const char*)&packet, sizeof(packet), 0);
 }
 
 

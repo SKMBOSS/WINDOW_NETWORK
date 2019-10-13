@@ -1,8 +1,8 @@
 #include "LoginEditText.h"
 #include "BitMap.h"
 #include "ResourceManager.h"
-#include "..\..\Common\FIND_HUMAN_PACKET_HEADER.h"
-#include "UserInfo.h"
+#include "..\..\Common\CATCH_MIND_PACKET_HEADER.h"
+#include "SocketManager.h"
 
 LoginEditText::LoginEditText()
 {
@@ -65,7 +65,7 @@ void LoginEditText::SendUserName(char* msg, int len)
 		packet.name[i] = msg[i];
 
 	packet.nameLen = len;
-	send(USER_INFO->m_socket, (const char*)&packet, sizeof(packet), 0);
+	send(SOCKET_INFO->m_socket, (const char*)&packet, sizeof(packet), 0);
 }
 
 
