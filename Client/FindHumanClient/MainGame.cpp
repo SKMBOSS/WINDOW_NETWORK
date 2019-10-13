@@ -32,28 +32,15 @@ void MainGame::Init(HWND hWnd, HINSTANCE hInst)
 	m_pChat->Init(hWnd, hInst, 16);
 
 	m_pPaintBoard = new PaintBoard;
-	m_pPaintBoard->Init(GetDC(hWnd));
+	m_pPaintBoard->Init();
 
 	SendUserViewUpdate();
-	m_pPaintBoard->Render();
 }
 
 void MainGame::Update(float fElapseTime)
 {
 	m_pChat->Update();
-
-	if (GetKeyState(VK_LBUTTON) & 0x8000)
-	{
-		POINT pt;
-		RECT rc = { 20 , 60 , 760  , 500 };
-		GetCursorPos(&pt);
-		ScreenToClient(m_hWnd, &pt);
-
-		if (PtInRect(&rc, pt))
-		{
-			SendPixelPos(pt.x, pt.y);
-		}
-	}
+	m_pPaintBoard->Update(m_hWnd);
 }
 
 void MainGame::Render()
@@ -77,11 +64,12 @@ void MainGame::ProcessPacket(char* szBuf, int len)
 {
 	m_pUserView->ProcessPacket(szBuf, len);
 	m_pChat->ProcessPacket(szBuf, len);
+	m_pPaintBoard->ProcessPacket(szBuf, len);
 
 	PACKET_HEADER header;
 	memcpy(&header, szBuf, sizeof(header));
 
-	switch (header.wIndex)
+	/*switch (header.wIndex)
 	{
 	case PACKET_INDEX_SEND_PIXEL_POS:
 	{
@@ -91,7 +79,7 @@ void MainGame::ProcessPacket(char* szBuf, int len)
 		m_pPaintBoard->Update(packet.pos.x, packet.pos.y);
 	}
 	break;
-	}
+	}*/
 }
 
 void MainGame::SendUserViewUpdate()
@@ -99,18 +87,6 @@ void MainGame::SendUserViewUpdate()
 	PACKET_SEND_USER_VIEW packet;
 	packet.header.wIndex = PACKET_INDEX_SEND_USER_VIEW;
 	packet.header.wLen = sizeof(PACKET_HEADER);
-
-	send(USER_INFO->m_socket, (const char*)&packet, packet.header.wLen, 0);
-}
-
-void MainGame::SendPixelPos(int x, int y)
-{
-	PACKET_SEND_PIXEL_POS packet;
-	packet.header.wIndex = PACKET_INDEX_SEND_PIXEL_POS;
-	packet.header.wLen = sizeof(packet);
-
-	packet.pos.x = x;
-	packet.pos.y = y;
 
 	send(USER_INFO->m_socket, (const char*)&packet, packet.header.wLen, 0);
 }

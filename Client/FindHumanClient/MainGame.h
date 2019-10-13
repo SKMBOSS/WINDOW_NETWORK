@@ -27,7 +27,6 @@ public:
 	virtual void ProcessPacket(char* szBuf, int len);
 public:
 	void SendUserViewUpdate();
-	void SendPixelPos(int x, int y);
 public:
 	MainGame();
 	~MainGame();

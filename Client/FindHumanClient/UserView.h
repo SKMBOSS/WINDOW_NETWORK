@@ -12,9 +12,9 @@ private:
 	BitMap*			m_pUserView;
 	vector<int>		m_vecUser;
 
-	int			m_userNum;
+	int				m_userNum;
 	string			m_userName;
-	int			m_stringLen;
+	int				m_stringLen;
 public:
 	void Init();
 	void Render();

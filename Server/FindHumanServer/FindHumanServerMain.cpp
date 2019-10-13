@@ -384,6 +384,20 @@ bool ProcessPacket(SOCKETINFO* ptr, USER_INFO* pUser, DWORD &len)
 		PACKET_SEND_PIXEL_POS packet;
 		memcpy(&packet, pUser->szBuf, header.wLen);
 
+		//std::cout << "nx : " << packet.newPos.x << " ny : " << packet.newPos.y << " ox : " << packet.oldPos.x << " oy : " << packet.oldPos.y << std::endl;
+
+		for (auto iter = g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.begin();
+			iter != g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.end(); iter++)
+		{
+			send((*iter)->sock, (const char*)&packet, packet.header.wLen, 0);
+		}
+	}
+	break;
+	case PACKET_INDEX_SEND_ALL_DELETE:
+	{
+		PACKET_SEND_ALL_DELETE packet;
+		memcpy(&packet, pUser->szBuf, header.wLen);
+
 		for (auto iter = g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.begin();
 			iter != g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.end(); iter++)
 		{

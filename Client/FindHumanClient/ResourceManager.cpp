@@ -56,7 +56,8 @@ void ResourceManager::InitResPath()
 	resPath.push_back(lobby + "full.bmp");
 	resPath.push_back(lobby + "playing.bmp");
 	resPath.push_back(paintBoard + "paintBoard.bmp");
-	resPath.push_back(paintBoard + "blackBrush.bmp");
+	resPath.push_back(paintBoard + "palette.bmp");
+	resPath.push_back(paintBoard + "pixel.bmp");
 }
 
 void ResourceManager::InitBitMap(HDC hdc)
