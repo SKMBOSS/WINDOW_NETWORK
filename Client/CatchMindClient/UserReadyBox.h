@@ -5,19 +5,17 @@
 using namespace std;
 
 class BitMap;
-class UserView
+class UserReadyBox
 {
 private:
-	BitMap*			m_pUserView;
-	
-	int				m_userNum;
-	string			m_userName;
-	int				m_stringLen;
+	HDC		m_hdc;
+	int		m_userNum;
+	bool	m_bArruserReday[8];
 public:
 	void Init();
 	void Render();
 	void ProcessPacket(char* szBuf, int len);
 public:
-	UserView();
-	~UserView();
+	UserReadyBox();
+	~UserReadyBox();
 };

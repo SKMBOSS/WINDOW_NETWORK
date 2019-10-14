@@ -43,7 +43,6 @@ void Lobby::Init(HWND hWnd, HINSTANCE hInst)
 		(*iter)->Init();
 	}
 
-
 	SendLobbyRoomUpdate();
 	SendUserViewUpdate();
 }
@@ -115,7 +114,7 @@ void Lobby::ProcessPacket(char* szBuf, int len)
 		int i = 0;
 		for (auto iter = m_vecRoom.begin(); iter != m_vecRoom.end(); ++iter)
 		{
-			(*iter)->UpdateRoom(packet.arrUserNum[i]);
+			(*iter)->UpdateRoom(packet.arrUserNum[i], packet.playing[i]);
 			i++;
 		}
 	}

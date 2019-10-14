@@ -2,27 +2,21 @@
 #include <Windows.h>
 #define MAX_USER 8
 
-enum ROOM_STATE
-{
-	ROOM_WAITING,
-	ROOM_FULL,
-	ROOM_PLAYING,
-};
-
 class BitMap;
 class LobbyRoom
 {
 private:
 	static int	m_sRoomNumber;
 	int			m_iThisNumber;
-	POINT		m_pos;
+	
 
 	int			m_iUserNum = 8;
+	bool		m_bPlaying = false;
 
 	BitMap*		m_pRoomBitMap;
-	BitMap*		m_pRoomStateBitMap;
+	POINT		m_pos;
 
-	ROOM_STATE	m_eRoomState;
+	BitMap*		m_pRoomStateBitMap;
 
 public:
 	void Init();
@@ -31,7 +25,7 @@ public:
 	void ProcessPacket(char* szBuf, int len);
 public:
 	void InitRoom();
-	void UpdateRoom(int userNum);
+	void UpdateRoom(int userNum, bool playing);
 	void SelectRoom(int x, int y);
 public:
 	LobbyRoom();

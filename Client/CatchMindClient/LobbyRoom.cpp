@@ -30,6 +30,20 @@ void LobbyRoom::Render()
 	m_pRoomBitMap->Render(390, 100, m_pos.x + 10, m_pos.y);
 	m_pRoomBitMap->RenderText(m_pos.x + 136, m_pos.y + 24, (to_string)(m_iThisNumber + 1) + "번 방");
 	m_pRoomBitMap->RenderText(m_pos.x + 320, m_pos.y + 60, (to_string)(m_iUserNum)+"/" + (to_string)(MAX_USER));
+
+	if (m_bPlaying == false)
+	{
+		if(m_iUserNum>=8)
+			m_pRoomStateBitMap = ResourceManager::GetInstance()->GetBitMap(RES_WORD_FULL);
+		else
+			m_pRoomStateBitMap = ResourceManager::GetInstance()->GetBitMap(RES_WORD_WAITING);
+	}
+	else
+	{
+		m_pRoomStateBitMap = ResourceManager::GetInstance()->GetBitMap(RES_WORD_PLAYING);
+	}
+		
+	m_pRoomStateBitMap->Render(m_pRoomStateBitMap->GetSize().cx, m_pRoomStateBitMap->GetSize().cy, m_pos.x + 120, m_pos.y + 60);
 }
 
 void LobbyRoom::InitRoom()
@@ -39,6 +53,7 @@ void LobbyRoom::InitRoom()
 		m_sRoomNumber = 0;
 
 	m_pRoomBitMap = ResourceManager::GetInstance()->GetBitMap(RES_LOBBY_ROOM);
+	m_pRoomStateBitMap = ResourceManager::GetInstance()->GetBitMap(RES_WORD_WAITING);
 
 	m_pos.x = ((m_iThisNumber % 2) * 390);
 
@@ -62,9 +77,10 @@ void LobbyRoom::ProcessPacket(char* szBuf, int len)
 	memcpy(&header, szBuf, sizeof(header));
 }
 
-void LobbyRoom::UpdateRoom(int userNum)
+void LobbyRoom::UpdateRoom(int userNum, bool playing)
 {
 	m_iUserNum = userNum;
+	m_bPlaying = playing;
 }
 
 void LobbyRoom::SelectRoom(int x, int y)
@@ -76,6 +92,8 @@ void LobbyRoom::SelectRoom(int x, int y)
 	{
 		if (m_iUserNum < 9)
 		{
+			if (m_bPlaying == true)
+				return;
 			//여기수정해야함
 			PACKET_SEND_CAHNGE_ROOM packet;
 			packet.header.wIndex = PACKET_INDEX_SEND_CAHNGE_ROOM;

@@ -9,6 +9,7 @@ class StartButton;
 class UserView;
 class Chat;
 class PaintBoard;
+class UserReadyBox;
 class MainGame :
 	public Scene
 {
@@ -25,6 +26,8 @@ private:
 	bool				m_bStartButtonActive;
 
 	UserView*			m_pUserView;
+	UserReadyBox*		m_pUserReadyBox;
+
 	Chat*				m_pChat;
 	PaintBoard*			m_pPaintBoard;
 
@@ -36,6 +39,7 @@ public:
 	virtual void ProcessPacket(char* szBuf, int len);
 public:
 	void SendUserViewUpdate();
+	void SendUserReadyBoxUpdate();
 public:
 	MainGame();
 	~MainGame();

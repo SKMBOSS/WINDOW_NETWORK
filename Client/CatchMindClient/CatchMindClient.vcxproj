@@ -158,6 +158,7 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SocketManager.cpp" />
     <ClCompile Include="StartButton.cpp" />
+    <ClCompile Include="UserReadyBox.cpp" />
     <ClCompile Include="UserView.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +182,7 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SocketManager.h" />
     <ClInclude Include="StartButton.h" />
+    <ClInclude Include="UserReadyBox.h" />
     <ClInclude Include="UserView.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

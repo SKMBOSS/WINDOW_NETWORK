@@ -49,6 +49,7 @@ public:
 	std::vector <SOCKETINFO*> vecUserSocket;
 	SOCKETINFO* host = nullptr;
 	bool ready = false;
+	bool playing = false;
 };
 
 int g_iIndex = 0;
@@ -66,6 +67,7 @@ void err_display(const char *msg);
 void SendUpdateRoom(SOCKETINFO* ptr);
 void SendUpdateGameRoomButton(SOCKETINFO* ptr);
 void DeleteUserInCurrentRoom(SOCKETINFO* ptr);
+void SendUpdateUserReadyBox(SOCKETINFO* ptr);
 
 int main(int argc, char *argv[])
 {
@@ -356,8 +358,8 @@ bool ProcessPacket(SOCKETINFO* ptr, USER_INFO* pUser, DWORD &len)
 		for (int i = 1; i < 13; i++)
 		{
 			packet.arrUserNum[i - 1] = g_arrRoom[i].playerNum;
+			packet.playing[i - 1] = g_arrRoom[i].playing;
 		}
-
 		std::cout << "PACKET_INDEX_SEND_UPDATE_LOBBY_ROOM" << std::endl;
 		for (auto iter = g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.begin();
 			iter != g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.end(); iter++)
@@ -389,6 +391,7 @@ bool ProcessPacket(SOCKETINFO* ptr, USER_INFO* pUser, DWORD &len)
 		send(ptr->sock, (const char*)&packet, header.wLen, 0);
 
 		SendUpdateGameRoomButton(g_arrRoom[packet.roomNumber].host);
+		SendUpdateUserReadyBox(g_arrRoom[packet.roomNumber].host);
 
 	}
 	break;
@@ -430,10 +433,55 @@ bool ProcessPacket(SOCKETINFO* ptr, USER_INFO* pUser, DWORD &len)
 		else
 			g_mapUser[ptr]->ready = true;
 
+		for (auto iter = g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.begin();
+			iter != g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.end(); iter++)
+		{
+			send((*iter)->sock, (const char*)&packet, packet.header.wLen, 0);
+		}
+
 		SendUpdateGameRoomButton(ptr);
 	}
 	break;
+	case PACKET_INDEX_SEND_START_BUTTON_CLICK:
+	{
+		PACKET_SEND_START_BUTTON_CLICK packet;
+		memcpy(&packet, pUser->szBuf, header.wLen);
+
+		std::cout << "PACKET_INDEX_SEND_START_BUTTON_CLICK" << std::endl;
+
+		g_arrRoom[g_mapUser[ptr]->roomNumber].playing = true;
+
+		for (auto iter = g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.begin();
+			iter != g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.end(); iter++)
+		{
+			send((*iter)->sock, (const char*)&packet, packet.header.wLen, 0);
+		}
+
+
+		PACKET_SEND_UPDATE_LOBBY_ROOM secondPacket;
+		secondPacket.header.wIndex = PACKET_INDEX_SEND_UPDATE_LOBBY_ROOM;
+		secondPacket.header.wLen = sizeof(secondPacket);
+		for (int i = 1; i < 13; i++)
+		{
+			secondPacket.arrUserNum[i - 1] = g_arrRoom[i].playerNum;
+			secondPacket.playing[i - 1] = g_arrRoom[i].playing;
+		}
+
+		std::cout << "PACKET_INDEX_SEND_UPDATE_LOBBY_ROOM" << std::endl;
+		for (auto iter = g_arrRoom[0].vecUserSocket.begin();
+			iter != g_arrRoom[0].vecUserSocket.end(); iter++)
+		{
+			send((*iter)->sock, (const char*)&secondPacket, secondPacket.header.wLen, 0);
+		}
 	}
+	break;
+	case PACKET_INDEX_SEND_USER_READY_BOX:
+	{
+		SendUpdateUserReadyBox(ptr);
+	}
+	break;
+	}
+
 
 	memcpy(&pUser->szBuf, &pUser->szBuf[header.wLen], pUser->len - header.wLen);
 	pUser->len -= header.wLen;
@@ -504,6 +552,7 @@ void SendUpdateRoom(SOCKETINFO* ptr)
 	for (int i = 1; i < 13; i++)
 	{
 		secondPacket.arrUserNum[i - 1] = g_arrRoom[i].playerNum;
+		secondPacket.playing[i - 1] = g_arrRoom[i].playing;
 	}
 
 	std::cout << "PACKET_INDEX_SEND_UPDATE_LOBBY_ROOM" << std::endl;
@@ -553,6 +602,30 @@ void SendUpdateGameRoomButton(SOCKETINFO* ptr)
 	}
 }
 
+void SendUpdateUserReadyBox(SOCKETINFO* ptr)
+{
+	PACKET_SEND_USER_READY_BOX packet;
+	packet.header.wIndex = PACKET_INDEX_SEND_USER_READY_BOX;
+	packet.header.wLen = sizeof(packet);
+
+	packet.userNum = g_arrRoom[g_mapUser[ptr]->roomNumber].playerNum;
+
+	int userReadyIndex = 0;
+	for (auto iter = g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.begin();
+		iter != g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.end(); iter++)
+	{
+		packet.userReady[userReadyIndex++] = g_mapUser[(*iter)]->ready;
+	}
+
+	std::cout << "PACKET_INDEX_SEND_USER_READY_BOX" << std::endl;
+
+	for (auto iter = g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.begin();
+		iter != g_arrRoom[g_mapUser[ptr]->roomNumber].vecUserSocket.end(); iter++)
+	{
+		send((*iter)->sock, (const char*)&packet, packet.header.wLen, 0);
+	}
+}
+
 
 void DeleteUserInCurrentRoom(SOCKETINFO* ptr)
 {
@@ -581,6 +654,10 @@ void DeleteUserInCurrentRoom(SOCKETINFO* ptr)
 		}
 			
 	}
-	if (currentRoom != 0 && g_arrRoom[currentRoom].playerNum >0)
+	if (currentRoom != 0 && g_arrRoom[currentRoom].playerNum > 0)
+	{
 		SendUpdateGameRoomButton(g_arrRoom[currentRoom].host);
+		SendUpdateUserReadyBox(g_arrRoom[currentRoom].host);
+	}
+		
 }

@@ -10,6 +10,7 @@
 #include "PaintBoard.h"
 #include "ReadyButton.h"
 #include "StartButton.h"
+#include "UserReadyBox.h"
 
 MainGame::MainGame()
 {
@@ -31,10 +32,13 @@ void MainGame::Init(HWND hWnd, HINSTANCE hInst)
 	m_pReadyButton->Init(hWnd);
 
 	m_pStartButton = new StartButton;
-	m_pStartButton->Init();
+	m_pStartButton->Init(hWnd);
 
 	m_pUserView = new UserView;
 	m_pUserView->Init();
+
+	m_pUserReadyBox = new UserReadyBox;
+	m_pUserReadyBox->Init();
 
 	m_pChat = new Chat;
 	m_pChat->Init(hWnd, hInst, 16);
@@ -50,7 +54,12 @@ void MainGame::Init(HWND hWnd, HINSTANCE hInst)
 
 void MainGame::Update(float fElapseTime)
 {
-	m_pReadyButton->Update();
+	if (m_bReadyButtonActive)
+		m_pReadyButton->Update();
+
+	if (m_bStartButtonActive)
+		m_pStartButton->Update();
+
 	m_pChat->Update();
 	m_pPaintBoard->Update(m_hWnd);
 }
@@ -66,6 +75,10 @@ void MainGame::Render()
 		m_pStartButton->Render();
 
 	m_pUserView->Render();
+
+	if (m_bReadyButtonActive)
+		m_pUserReadyBox->Render();
+
 	m_pChat->Render();
 	m_pPaintBoard->Render();
 }
@@ -84,6 +97,7 @@ void MainGame::Release()
 void MainGame::ProcessPacket(char* szBuf, int len)
 {
 	m_pUserView->ProcessPacket(szBuf, len);
+	m_pUserReadyBox->ProcessPacket(szBuf, len);
 	m_pChat->ProcessPacket(szBuf, len);
 	m_pPaintBoard->ProcessPacket(szBuf, len);
 
@@ -92,6 +106,26 @@ void MainGame::ProcessPacket(char* szBuf, int len)
 
 	switch (header.wIndex)
 	{
+	case PACKET_INDEX_SEND_READY_BUTTON_CLICK:
+	{
+		PACKET_SEND_READY_BUTTON_CLICK packet;
+		memcpy(&packet, szBuf, header.wLen);
+
+		SendUserReadyBoxUpdate();
+	}
+	break;
+	case PACKET_INDEX_SEND_START_BUTTON_CLICK:
+	{
+		PACKET_SEND_START_BUTTON_CLICK packet;
+		memcpy(&packet, szBuf, header.wLen);
+
+		m_bReadyButtonActive = false;
+		m_bStartButtonActive = false;
+
+		m_pPaintBoard->SendAllDelete();
+	}
+	break;
+
 	case PACKET_INDEX_SEND_GAME_READY_TRUE:
 	{
 		PACKET_SEND_GAME_READY_TRUE packet;
@@ -115,6 +149,15 @@ void MainGame::SendUserViewUpdate()
 {
 	PACKET_SEND_USER_VIEW packet;
 	packet.header.wIndex = PACKET_INDEX_SEND_USER_VIEW;
+	packet.header.wLen = sizeof(PACKET_HEADER);
+
+	send(SOCKET_INFO->m_socket, (const char*)&packet, packet.header.wLen, 0);
+}
+
+void MainGame::SendUserReadyBoxUpdate()
+{
+	PACKET_SEND_USER_READY_BOX packet;
+	packet.header.wIndex = PACKET_INDEX_SEND_USER_READY_BOX;
 	packet.header.wLen = sizeof(PACKET_HEADER);
 
 	send(SOCKET_INFO->m_socket, (const char*)&packet, packet.header.wLen, 0);
