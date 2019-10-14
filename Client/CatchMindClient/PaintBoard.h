@@ -35,6 +35,8 @@ private:
 	int					m_pixelWidth;
 	COLORREF			m_color;
 
+	bool				m_bKeyFirst;
+
 public:
 	void Init();
 	void Update(HWND hWnd);

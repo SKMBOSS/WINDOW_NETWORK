@@ -152,10 +152,12 @@
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="PaintBoard.cpp" />
     <ClCompile Include="PIXEL.cpp" />
+    <ClCompile Include="ReadyButton.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SocketManager.cpp" />
+    <ClCompile Include="StartButton.cpp" />
     <ClCompile Include="UserView.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -173,10 +175,12 @@
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="PaintBoard.h" />
     <ClInclude Include="PIXEL.h" />
+    <ClInclude Include="ReadyButton.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SocketManager.h" />
+    <ClInclude Include="StartButton.h" />
     <ClInclude Include="UserView.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

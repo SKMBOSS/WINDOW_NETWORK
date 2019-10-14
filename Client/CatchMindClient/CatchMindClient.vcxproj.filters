@@ -61,6 +61,9 @@
     <Filter Include="소스 파일\04_Object\01_Login\Logo">
       <UniqueIdentifier>{c68d8b73-e50d-489e-bebc-73b0baf28008}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\04_Object\03_MainGame\Button">
+      <UniqueIdentifier>{49c30404-6bd8-4a79-bf03-d3eee7ff06e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CatchMindClientMain.cpp">
@@ -116,6 +119,12 @@
     </ClCompile>
     <ClCompile Include="Logo.cpp">
       <Filter>소스 파일\04_Object\01_Login\Logo</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadyButton.cpp">
+      <Filter>소스 파일\04_Object\03_MainGame\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="StartButton.cpp">
+      <Filter>소스 파일\04_Object\03_MainGame\Button</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +184,12 @@
     </ClInclude>
     <ClInclude Include="Logo.h">
       <Filter>소스 파일\04_Object\01_Login\Logo</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadyButton.h">
+      <Filter>소스 파일\04_Object\03_MainGame\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="StartButton.h">
+      <Filter>소스 파일\04_Object\03_MainGame\Button</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

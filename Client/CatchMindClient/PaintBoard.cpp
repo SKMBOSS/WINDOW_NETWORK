@@ -37,6 +37,8 @@ void PaintBoard::Init()
 	m_color = RGB(0, 0, 0);
 	m_pixelWidth = 9;
 	m_ePaintBoardState = PB_WAITING;
+
+	m_bKeyFirst = false;
 }
 
 void PaintBoard::Update(HWND hWnd)
@@ -68,12 +70,13 @@ void PaintBoard::Update(HWND hWnd)
 			}
 		}
 
-		else if (PtInRect(&rcPalette, pt))
+		else if (PtInRect(&rcPalette, pt) && m_bKeyFirst==false)
 		{
 			m_color = GetPixel(m_hdc, pt.x, pt.y);
+			m_bKeyFirst = true;
 		}
 
-		else if (PtInRect(&rcPenWidthBoxAndAllDleteBox, pt))
+		else if (PtInRect(&rcPenWidthBoxAndAllDleteBox, pt) && m_bKeyFirst == false)
 		{
 			RECT box;
 			box.top = rcPenWidthBoxAndAllDleteBox.top;
@@ -116,10 +119,12 @@ void PaintBoard::Update(HWND hWnd)
 					box.right += 40;
 				}
 			}
+			m_bKeyFirst = true;
 		}
 	}
 	else
 	{
+		m_bKeyFirst = false;
 		if (m_ePaintBoardState == PB_PAINTING)
 		{
 			m_ePaintBoardState = PB_WAITING;

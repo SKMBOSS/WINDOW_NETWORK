@@ -8,6 +8,8 @@
 #include "LobbyRoom.h"
 #include "SocketManager.h"
 #include "PaintBoard.h"
+#include "ReadyButton.h"
+#include "StartButton.h"
 
 MainGame::MainGame()
 {
@@ -25,6 +27,12 @@ void MainGame::Init(HWND hWnd, HINSTANCE hInst)
 	m_pBackGround = new BackGround;
 	m_pBackGround->Init();
 
+	m_pReadyButton = new ReadyButton;
+	m_pReadyButton->Init(hWnd);
+
+	m_pStartButton = new StartButton;
+	m_pStartButton->Init();
+
 	m_pUserView = new UserView;
 	m_pUserView->Init();
 
@@ -34,11 +42,15 @@ void MainGame::Init(HWND hWnd, HINSTANCE hInst)
 	m_pPaintBoard = new PaintBoard;
 	m_pPaintBoard->Init();
 
+	m_bReadyButtonActive = true;
+	m_bStartButtonActive = false;
+
 	SendUserViewUpdate();
 }
 
 void MainGame::Update(float fElapseTime)
 {
+	m_pReadyButton->Update();
 	m_pChat->Update();
 	m_pPaintBoard->Update(m_hWnd);
 }
@@ -46,6 +58,13 @@ void MainGame::Update(float fElapseTime)
 void MainGame::Render()
 {
 	m_pBackGround->Render();
+
+	if (m_bReadyButtonActive)
+		m_pReadyButton->Render();
+
+	if (m_bStartButtonActive)
+		m_pStartButton->Render();
+
 	m_pUserView->Render();
 	m_pChat->Render();
 	m_pPaintBoard->Render();
@@ -57,6 +76,8 @@ void MainGame::Release()
 	SAFE_DELETE(m_pPaintBoard);
 	SAFE_DELETE(m_pChat);
 	SAFE_DELETE(m_pUserView);
+	SAFE_DELETE(m_pStartButton);
+	SAFE_DELETE(m_pReadyButton);
 	SAFE_DELETE(m_pBackGround);
 }
 
@@ -69,17 +90,25 @@ void MainGame::ProcessPacket(char* szBuf, int len)
 	PACKET_HEADER header;
 	memcpy(&header, szBuf, sizeof(header));
 
-	/*switch (header.wIndex)
+	switch (header.wIndex)
 	{
-	case PACKET_INDEX_SEND_PIXEL_POS:
+	case PACKET_INDEX_SEND_GAME_READY_TRUE:
 	{
-		PACKET_SEND_PIXEL_POS packet;
+		PACKET_SEND_GAME_READY_TRUE packet;
 		memcpy(&packet, szBuf, header.wLen);
 
-		m_pPaintBoard->Update(packet.pos.x, packet.pos.y);
+		m_bStartButtonActive = true;
 	}
 	break;
-	}*/
+	case PACKET_INDEX_SEND_GAME_READY_FALSE:
+	{
+		PACKET_SEND_GAME_READY_FALSE packet;
+		memcpy(&packet, szBuf, header.wLen);
+
+		m_bStartButtonActive = false;
+	}
+	break;
+	}
 }
 
 void MainGame::SendUserViewUpdate()
