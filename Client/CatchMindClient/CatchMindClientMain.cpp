@@ -3,6 +3,7 @@
 
 #include <windows.h>
 #include "CatchMindClient.h"
+#include <crtdbg.h>
 using namespace std;
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -20,6 +21,10 @@ RECT rt = { 0,0,900,900 };
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdParam, int nCmdShow)
 {
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	_CrtDumpMemoryLeaks();
+	//_CrtSetBreakAlloc(11613);
+
 	MSG Message;
 	WNDCLASS WndClass;
 	g_hInst = hInstance;

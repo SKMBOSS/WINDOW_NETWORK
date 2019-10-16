@@ -127,7 +127,7 @@
       <Filter>소스 파일\04_Object\03_MainGame\Button</Filter>
     </ClCompile>
     <ClCompile Include="UserReadyBox.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\04_Object\00_Common\UserView</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -195,7 +195,7 @@
       <Filter>소스 파일\04_Object\03_MainGame\Button</Filter>
     </ClInclude>
     <ClInclude Include="UserReadyBox.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\04_Object\00_Common\UserView</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

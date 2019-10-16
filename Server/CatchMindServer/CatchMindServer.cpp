@@ -8,6 +8,7 @@
 #include "..\..\Common\CATCH_MIND_PACKET_HEADER.h"
 #include <thread>
 #include <vector>
+//#include <crtdbg.h>
 
 #define SERVERPORT 9000
 #define BUFSIZE    1024
@@ -71,6 +72,9 @@ void SendUpdateUserReadyBox(SOCKETINFO* ptr);
 
 int main(int argc, char *argv[])
 {
+	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	//_CrtDumpMemoryLeaks();
+
 	int retval;
 
 	// 윈속 초기화
