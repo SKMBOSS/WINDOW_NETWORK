@@ -31,6 +31,6 @@ public:
 	void SendLobbyRoomUpdate();
 public:
 	Lobby();
-	~Lobby();
+	virtual ~Lobby();
 };
 

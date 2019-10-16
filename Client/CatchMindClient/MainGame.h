@@ -42,6 +42,6 @@ public:
 	void SendUserReadyBoxUpdate();
 public:
 	MainGame();
-	~MainGame();
+	virtual ~MainGame();
 };
 

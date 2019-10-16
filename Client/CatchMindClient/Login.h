@@ -22,6 +22,6 @@ public:
 	virtual void ProcessPacket(char* szBuf, int len);
 public:
 	Login();
-	~Login();
+	virtual ~Login();
 };
 

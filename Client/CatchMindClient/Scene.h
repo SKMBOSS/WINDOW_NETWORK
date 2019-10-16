@@ -11,5 +11,5 @@ public:
 	virtual void ProcessPacket(char* szBuf, int len) = 0;
 public:
 	Scene();
-	~Scene();
+	virtual ~Scene();
 };
