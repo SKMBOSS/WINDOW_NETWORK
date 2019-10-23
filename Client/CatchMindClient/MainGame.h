@@ -29,7 +29,11 @@ private:
 	UserReadyBox*		m_pUserReadyBox;
 
 	Chat*				m_pChat;
+	bool				m_bChatting;
+
 	PaintBoard*			m_pPaintBoard;
+	bool				m_bPaingting;
+
 
 public:
 	virtual void Init(HWND hWnd, HINSTANCE hInst);

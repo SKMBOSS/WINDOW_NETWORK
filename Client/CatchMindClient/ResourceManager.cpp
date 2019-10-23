@@ -47,6 +47,7 @@ void ResourceManager::InitResPath()
 	string lobby = basePath + "lobby\\";
 	string paintBoard = basePath + "paintBoard\\";
 	string button = basePath + "button\\";
+	string gameObject = basePath + "gameObject\\";
 
 	//backGround
 	resPath.push_back(backGround + "backGround.bmp");
@@ -62,6 +63,7 @@ void ResourceManager::InitResPath()
 	resPath.push_back(paintBoard + "pixel.bmp");
 	resPath.push_back(button + "button_ready.bmp");
 	resPath.push_back(button + "button_start.bmp");
+	resPath.push_back(gameObject + "answerBox.bmp");
 }
 
 void ResourceManager::InitBitMap(HDC hdc)

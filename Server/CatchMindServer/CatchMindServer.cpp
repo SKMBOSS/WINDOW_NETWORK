@@ -461,7 +461,6 @@ bool ProcessPacket(SOCKETINFO* ptr, USER_INFO* pUser, DWORD &len)
 			send((*iter)->sock, (const char*)&packet, packet.header.wLen, 0);
 		}
 
-
 		PACKET_SEND_UPDATE_LOBBY_ROOM secondPacket;
 		secondPacket.header.wIndex = PACKET_INDEX_SEND_UPDATE_LOBBY_ROOM;
 		secondPacket.header.wLen = sizeof(secondPacket);
@@ -477,6 +476,13 @@ bool ProcessPacket(SOCKETINFO* ptr, USER_INFO* pUser, DWORD &len)
 		{
 			send((*iter)->sock, (const char*)&secondPacket, secondPacket.header.wLen, 0);
 		}
+
+		PACKET_SEND_HOST_PAINTING hostPacket;
+		hostPacket.header.wIndex = PACKET_INDEX_SEND_HOST_PAINTING;
+		hostPacket.header.wLen = sizeof(hostPacket);
+
+		send(g_arrRoom[g_mapUser[ptr]->roomNumber].host->sock, (const char*)&hostPacket, hostPacket.header.wLen, 0);
+
 	}
 	break;
 	case PACKET_INDEX_SEND_USER_READY_BOX:

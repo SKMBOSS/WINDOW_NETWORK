@@ -30,6 +30,9 @@ enum RES_TYPE
 	RES_BUTTON_READY,
 	RES_BUTTON_START,
 
+	//gameObject
+	RES_ANSWER_BOX,
+
 	RES_TYPE_END
 
 };

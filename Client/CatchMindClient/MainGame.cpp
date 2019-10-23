@@ -48,6 +48,8 @@ void MainGame::Init(HWND hWnd, HINSTANCE hInst)
 
 	m_bReadyButtonActive = true;
 	m_bStartButtonActive = false;
+	m_bChatting = true;
+	m_bPaingting = true;
 
 	SendUserViewUpdate();
 }
@@ -60,8 +62,16 @@ void MainGame::Update(float fElapseTime)
 	if (m_bStartButtonActive)
 		m_pStartButton->Update();
 
-	m_pChat->Update();
-	m_pPaintBoard->Update(m_hWnd);
+	if (m_bChatting)
+	{
+		m_pChat->Update();
+	}
+	
+	if (m_bPaingting)
+	{
+		m_pPaintBoard->Update(m_hWnd);
+	}
+	
 }
 
 void MainGame::Render()
@@ -121,8 +131,10 @@ void MainGame::ProcessPacket(char* szBuf, int len)
 
 		m_bReadyButtonActive = false;
 		m_bStartButtonActive = false;
+		m_bPaingting = false;
 
 		m_pPaintBoard->SendAllDelete();
+
 	}
 	break;
 
@@ -140,6 +152,14 @@ void MainGame::ProcessPacket(char* szBuf, int len)
 		memcpy(&packet, szBuf, header.wLen);
 
 		m_bStartButtonActive = false;
+	}
+	break;
+	case PACKET_INDEX_SEND_HOST_PAINTING:
+	{
+		PACKET_SEND_HOST_PAINTING packet;
+		memcpy(&packet, szBuf, header.wLen);
+
+		m_bPaingting = true;
 	}
 	break;
 	}
