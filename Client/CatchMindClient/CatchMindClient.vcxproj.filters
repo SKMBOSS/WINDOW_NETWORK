@@ -64,6 +64,9 @@
     <Filter Include="소스 파일\04_Object\03_MainGame\Button">
       <UniqueIdentifier>{49c30404-6bd8-4a79-bf03-d3eee7ff06e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\04_Object\03_MainGame\AnswerBox">
+      <UniqueIdentifier>{0390540e-f372-44dd-bc17-0ea4cd7aa464}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CatchMindClientMain.cpp">
@@ -128,6 +131,9 @@
     </ClCompile>
     <ClCompile Include="UserReadyBox.cpp">
       <Filter>소스 파일\04_Object\00_Common\UserView</Filter>
+    </ClCompile>
+    <ClCompile Include="AnswerBox.cpp">
+      <Filter>소스 파일\04_Object\03_MainGame\AnswerBox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -196,6 +202,9 @@
     </ClInclude>
     <ClInclude Include="UserReadyBox.h">
       <Filter>소스 파일\04_Object\00_Common\UserView</Filter>
+    </ClInclude>
+    <ClInclude Include="AnswerBox.h">
+      <Filter>소스 파일\04_Object\03_MainGame\AnswerBox</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

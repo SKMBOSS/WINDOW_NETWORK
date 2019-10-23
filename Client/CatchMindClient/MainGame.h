@@ -10,6 +10,7 @@ class UserView;
 class Chat;
 class PaintBoard;
 class UserReadyBox;
+class AnswerBox;
 class MainGame :
 	public Scene
 {
@@ -33,6 +34,9 @@ private:
 
 	PaintBoard*			m_pPaintBoard;
 	bool				m_bPaingting;
+
+	AnswerBox*			m_pAnswerBox;
+	bool				m_bAnswerBoxActive;
 
 
 public:

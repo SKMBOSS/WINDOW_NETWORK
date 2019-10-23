@@ -11,6 +11,7 @@
 #include "ReadyButton.h"
 #include "StartButton.h"
 #include "UserReadyBox.h"
+#include "AnswerBox.h"
 
 MainGame::MainGame()
 {
@@ -46,10 +47,14 @@ void MainGame::Init(HWND hWnd, HINSTANCE hInst)
 	m_pPaintBoard = new PaintBoard;
 	m_pPaintBoard->Init();
 
+	m_pAnswerBox = new AnswerBox;
+	m_pAnswerBox->Init();
+
 	m_bReadyButtonActive = true;
 	m_bStartButtonActive = false;
 	m_bChatting = true;
 	m_bPaingting = true;
+	m_bAnswerBoxActive = false;
 
 	SendUserViewUpdate();
 }
@@ -91,6 +96,9 @@ void MainGame::Render()
 
 	m_pChat->Render();
 	m_pPaintBoard->Render();
+
+	if (m_bAnswerBoxActive)
+		m_pAnswerBox->Render();
 }
 
 void MainGame::Release()
@@ -102,6 +110,7 @@ void MainGame::Release()
 	SAFE_DELETE(m_pStartButton);
 	SAFE_DELETE(m_pReadyButton);
 	SAFE_DELETE(m_pBackGround);
+	SAFE_DELETE(m_pAnswerBox);
 }
 
 void MainGame::ProcessPacket(char* szBuf, int len)
@@ -110,6 +119,7 @@ void MainGame::ProcessPacket(char* szBuf, int len)
 	m_pUserReadyBox->ProcessPacket(szBuf, len);
 	m_pChat->ProcessPacket(szBuf, len);
 	m_pPaintBoard->ProcessPacket(szBuf, len);
+	m_pAnswerBox->ProcessPacket(szBuf, len);
 
 	PACKET_HEADER header;
 	memcpy(&header, szBuf, sizeof(header));
@@ -159,7 +169,9 @@ void MainGame::ProcessPacket(char* szBuf, int len)
 		PACKET_SEND_HOST_PAINTING packet;
 		memcpy(&packet, szBuf, header.wLen);
 
+		m_bAnswerBoxActive = true;
 		m_bPaingting = true;
+		m_bChatting = false;
 	}
 	break;
 	}
